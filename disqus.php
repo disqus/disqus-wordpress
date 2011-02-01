@@ -8,7 +8,7 @@ Version: 2.63
 Author URI: http://disqus.com/
 */
 
-require_once(dirname(__FILE__) . '/lib/wpapi.php');
+require_once(dirname(__FILE__) . '/lib/wp-api.php');
 
 if (defined('DISQUS_LOCAL')) { // DISQUS defines this for local development purposes
     define('DISQUS_DOMAIN',         'dev.disqus.org:8000');

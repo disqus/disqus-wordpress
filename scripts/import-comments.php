@@ -6,7 +6,7 @@
  * ``php import-comments.php``
  */
 
-require_once(dirname(__FILE__) . '/wp-cli.php');
+require_once(dirname(__FILE__) . '/../lib/wp-cli.php');
 require_once(dirname(__FILE__) . '/../disqus.php');
 
 $forum_url = get_option('disqus_forum_url');

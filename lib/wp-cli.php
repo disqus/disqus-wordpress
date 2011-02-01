@@ -35,6 +35,7 @@ if (isset($_ENV['WORDPRESS_PATH'])) {
         }
     }
 }
+
 if (!defined('WORDPRESS_PATH')) {
     print_line("Unable to determine wordpress path. Please set it using WORDPRESS_PATH.");
     die();

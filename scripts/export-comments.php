@@ -6,7 +6,7 @@
  * ``php export-comments.php``
  */
 
-require_once(dirname(__FILE__) . '/wp-cli.php');
+require_once(dirname(__FILE__) . '/../lib/wp-cli.php');
 require_once(dirname(__FILE__) . '/../disqus.php');
 require_once(dirname(__FILE__) . '/../export.php');
 
