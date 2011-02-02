@@ -17,9 +17,9 @@ if (defined('DISQUS_LOCAL')) { // DISQUS defines this for local development purp
     define('DISQUS_DOMAIN',         'disqus.com');
     define('DISQUS_IMPORTER_URL',   'http://import.disqus.com/');
 }
-define('DISQUS_URL',                'http://' + DISQUS_DOMAIN + '/');
-define('DISQUS_MEDIA_URL',          'http://' + DISQUS_DOMAIN + 'media/');
-define('DISQUS_API_URL',            DISQUS_URL . 'api/');
+define('DISQUS_URL',                'http://' . DISQUS_DOMAIN . '/');
+define('DISQUS_MEDIA_URL',          'http://' . DISQUS_DOMAIN . '/media/');
+define('DISQUS_API_URL',            'http://' . DISQUS_DOMAIN . '/api/');
 define('DISQUS_RSS_PATH',           '/latest.rss');
 define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
