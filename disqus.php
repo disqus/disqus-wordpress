@@ -4,7 +4,7 @@ Plugin Name: Disqus Comment System
 Plugin URI: http://disqus.com/
 Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your DISQUS Comment System.
 Author: Disqus <team@disqus.com>
-Version: 2.63
+Version: 2.64
 Author URI: http://disqus.com/
 */
 
@@ -25,13 +25,15 @@ define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
     define('DISQUS_DEBUG',          false);
 }
-define('DISQUS_VERSION',            '2.63');
+define('DISQUS_VERSION',            '2.64');
 
 /**
  * Returns an array of all option identifiers used by DISQUS.
  */
 function dsq_options() {
     return array(
+        # render disqus in the embed
+        'disqus_active',
         'disqus_public_key',
         'disqus_secret_key',
         'disqus_forum_url',
@@ -120,6 +122,9 @@ function dsq_is_installed() {
 
 function dsq_can_replace() {
     global $id, $post;
+
+    if (get_option('disqus_active') != '1'){ return false; }
+
     $replace = get_option('disqus_replace');
 
     if ( is_feed() )                       { return false; }
@@ -282,6 +287,16 @@ function dsq_sync_comments($comments) {
                     $commentdata['comment_parent'] = $parent_id;
                 }
             }
+
+            // due to a race condition we need to test again for coment existance
+            if ($wpdb->get_row($wpdb->prepare( "SELECT comment_id FROM $wpdb->commentmeta WHERE meta_key = 'dsq_post_id' AND meta_value = %s LIMIT 1", $comment->id))) {
+                // already exists
+                if (DISQUS_DEBUG) {
+                    echo "skipped {$comment->id}: comment already exists (second check)\n";
+                }
+                continue;
+            }
+
             $commentdata['comment_ID'] = wp_insert_comment($commentdata);
             if (DISQUS_DEBUG) {
                 echo "inserted {$comment->id}: id is {$commentdata[comment_ID]}\n";
@@ -713,7 +728,7 @@ function dsq_comments_text($comment_text) {
 }
 
 function dsq_bloginfo_url($url) {
-    if ( get_feed_link('comments_rss2') == $url ) {
+    if ( get_feed_link('comments_rss2') == $url && dsq_can_replace() ) {
         return 'http://' . strtolower(get_option('disqus_forum_url')) . '.' . DISQUS_DOMAIN . DISQUS_RSS_PATH;
     } else {
         return $url;
@@ -964,7 +979,7 @@ function dsq_warning() {
         dsq_manage_dialog('You must <a href="edit-comments.php?page=disqus">configure the plugin</a> to enable Disqus Comments.', true);
     }
 
-    if ( !dsq_is_installed() && $_GET['page'] == 'disqus' && !$_GET['step'] && !$_POST['uninstall'] ) {
+    if ( !dsq_is_installed() && $_GET['page'] != 'disqus' && !$_GET['step'] && !$_POST['uninstall'] ) {
         dsq_manage_dialog('Disqus Comments has not yet been configured. (<a href="edit-comments.php?page=disqus">Click here to configure</a>)');
     }
 }
@@ -1016,7 +1031,7 @@ function dsq_add_query_posts($posts) {
 
 // check to see if the posts in the loop match the original request or an explicit request, if so output the JS
 function dsq_loop_end($query) {
-    if ( get_option('disqus_cc_fix') == '1' || !count($query->posts) || is_single() || is_page() || is_feed() ) {
+    if ( get_option('disqus_cc_fix') == '1' || !count($query->posts) || is_single() || is_page() || is_feed() || !dsq_can_replace() ) {
         return;
     }
     global $DSQ_QUERY_POST_IDS;
@@ -1067,7 +1082,8 @@ function dsq_output_loop_comment_js($post_ids = null) {
 }
 
 function dsq_output_footer_comment_js() {
-    if (get_option('disqus_cc_fix') == '1') {
+    if (!dsq_can_replace()) return;
+    if (get_option('disqus_cc_fix') != '1') return;
 ?>
     <script type="text/javascript">
     // <![CDATA[
@@ -1092,7 +1108,6 @@ function dsq_output_footer_comment_js() {
     //]]>
     </script>
 <?php
-    }
 }
 add_action('wp_footer', 'dsq_output_footer_comment_js');
 
@@ -1327,6 +1342,12 @@ function dsq_install($allow_database_install=true) {
     }
 
     if (version_compare($version, DISQUS_VERSION, '=')) return;
+
+    if ($version == '0') {
+        update_option('disqus_active', 1);
+    } else {
+        add_option('disqus_active', 0);
+    }
 
     update_option('disqus_version', DISQUS_VERSION);
 }

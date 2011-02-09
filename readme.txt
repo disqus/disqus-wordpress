@@ -62,6 +62,11 @@ you should remove it, and the new plugin should be stored in 'disqus'.
 
 == Changes ==
 
+2.64
+
+* Added an option to disable Disqus without deactivating the plugin.
+* Added a second check for comment sync to prevent stampede race conditions in WP cron.
+
 2.63
 
 * Added command line script to import comments from DISQUS (scripts/import-comments.php).

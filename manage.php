@@ -74,6 +74,11 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
     dsq_manage_dialog('Your settings have been changed.');
 }
 
+// handle disqus_active
+if (isset($_GET['active'])) {
+    update_option('disqus_active', $_GET['active']);
+}
+
 $dsq_user_api_key = isset($_POST['dsq_user_api_key']) ? $_POST['dsq_user_api_key'] : null;
 
 // Get installation step process (or 0 if we're already installed).
@@ -95,7 +100,7 @@ if ( 3 == $step && isset($_POST['dsq_forum']) && isset($_POST['dsq_user_api_key'
         update_option('disqus_user_api_key', $_POST['dsq_user_api_key']);
         update_option('disqus_replace', 'all');
     }
-    
+
     if (!empty($_POST['disqus_partner_key'])) {
         $partner_key = trim(stripslashes($_POST['disqus_partner_key']));
         if (!empty($partner_key)) {
@@ -110,7 +115,7 @@ if ( 2 == $step && isset($_POST['dsq_username']) && isset($_POST['dsq_password']
         $step = 1;
         dsq_manage_dialog($dsq_api->get_last_error(), true);
     }
-    
+
     if ( $step == 2 ) {
         $dsq_sites = $dsq_api->get_forum_list($dsq_user_api_key);
         if ( $dsq_sites < 0 ) {
@@ -133,7 +138,7 @@ $show_advanced = $_GET['t'] == 'adv';
     </ul>
 
     <div id="dsq-main" class="dsq-content">
-<?php
+    <?php
 switch ( $step ) {
 case 3:
 ?>
@@ -219,7 +224,7 @@ case 0:
             <h2><?php echo dsq_i('Comments'); ?></h2>
             <iframe src="<?php if ($url) {
                 echo 'http://'.$url.'.'.DISQUS_DOMAIN.'/admin/moderate/';
-            } else { 
+            } else {
                 echo DISQUS_URL.'admin/moderate/';
             } ?>?template=wordpress" style="width: 100%; height: 800px"></iframe>
         </div>
@@ -242,7 +247,15 @@ case 0:
     <!-- Advanced options -->
     <div id="dsq-advanced" class="dsq-content dsq-advanced"<?php if (!$show_advanced) echo ' style="display:none;"'; ?>>
         <h2><?php echo dsq_i('Advanced Options'); ?></h2>
-        <?php echo dsq_i('Version: %s', esc_html(DISQUS_VERSION)); ?>
+        <p><?php echo dsq_i('Version: %s', esc_html(DISQUS_VERSION)); ?></p>
+        <?php
+        if (get_option('disqus_active') != 1) {
+            // disqus is not active
+            echo '<p class="status">Disqus comments are currently disabled. (<a href="?page=disqus&amp;active=1">Enable</a>)</p>';
+        } else {
+            echo '<p class="status">Disqus comments are currently enabled. (<a href="?page=disqus&amp;active=0">Disable</a>)</p>';
+        }
+        ?>
         <form method="POST">
         <?php wp_nonce_field('dsq-advanced'); ?>
         <h3>Configuration</h3>
@@ -311,7 +324,7 @@ case 0:
                     <?php echo dsq_i('NOTE: Your WordPress comments will never be lost.'); ?>
                 </td>
             </tr>
-            
+
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Comment Counts'); ?></th>
                 <td>
@@ -320,7 +333,7 @@ case 0:
                     <br /><?php echo dsq_i('NOTE: Check this if you have problems with the comment count displays including: not showing on permalinks, broken featured image carousels, or longer-than-usual homepage load times (<a href="%s" onclick="window.open(this.href); return false">more info</a>).', 'http://disqus.com/help/wordpress'); ?>
                 </td>
             </tr>
-            
+
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Comment Sync'); ?></th>
                 <td>
@@ -329,7 +342,7 @@ case 0:
                     <br /><?php echo dsq_i('NOTE: If you have problems with WP cron taking too long and large numbers of comments you may wish to disable the automated sync cron. Keep in mind that this means comments will not automatically get synced to your local Wordpress database.'); ?>
                 </td>
             </tr>
-            
+
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Server Side Rendering'); ?></th>
                 <td>
@@ -344,7 +357,7 @@ case 0:
             <input name="submit" type="submit" value="Save" class="button-primary button" tabindex="4">
         </p>
         </form>
-        
+
         <h3>Import / Export</h3>
 
         <table class="form-table">
@@ -370,7 +383,7 @@ case 0:
         </table>
 
         <h3>Uninstall</h3>
-        
+
         <table class="form-table">
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Uninstall Disqus Comments'); ?></th>
@@ -386,16 +399,17 @@ case 0:
         <br/>
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
         <p><?php echo dsq_i('Having problems with the plugin? <a href="%s">Drop us a line</a> and include the following details and we\'ll do what we can.', 'mailto:help+wp@disqus.com'); ?></p>
-        <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?> 
-Version: <?php echo $wp_version; ?> 
-Active Theme: <?php $theme = get_theme(get_current_theme()); echo $theme['Name'].' '.$theme['Version']; ?> 
-URLOpen Method: <?php echo dsq_url_method(); ?> 
+        <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?>
+Version: <?php echo $wp_version; ?>
+Active Theme: <?php $theme = get_theme(get_current_theme()); echo $theme['Name'].' '.$theme['Version']; ?>
+URLOpen Method: <?php echo dsq_url_method(); ?>
 
-Plugin Version: <?php echo DISQUS_VERSION; ?> 
+Plugin Version: <?php echo DISQUS_VERSION; ?>
 
 Settings:
 
-dsq_is_installed: <?php echo dsq_is_installed(); ?> 
+dsq_is_installed: <?php echo dsq_is_installed(); ?>
+
 <?php foreach (dsq_options() as $opt) {
     echo $opt.': '.get_option($opt)."\n";
 } ?>
