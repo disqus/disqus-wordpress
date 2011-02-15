@@ -128,7 +128,7 @@ if ( 2 == $step && isset($_POST['dsq_username']) && isset($_POST['dsq_password']
     }
 }
 
-$show_advanced = $_GET['t'] == 'adv';
+$show_advanced = (isset($_GET['t']) && $_GET['t'] == 'adv');
 
 ?>
 <div class="wrap" id="dsq-wrap">

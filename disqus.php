@@ -835,7 +835,7 @@ function dsq_manage() {
         dsq_install();
     }
 
-    if (dsq_does_need_update() && !$_POST['uninstall']) {
+    if (dsq_does_need_update() && isset($_POST['uninstall'])) {
         include_once(dirname(__FILE__) . '/upgrade.php');
     } else {
         include_once(dirname(__FILE__) . '/manage.php');
@@ -975,11 +975,12 @@ dsq_import_comments = function(wipe) {
 add_action('admin_head', 'dsq_admin_head');
 
 function dsq_warning() {
-    if ( !get_option('disqus_forum_url') && !isset($_POST['forum_url']) && $_GET['page'] != 'disqus' ) {
+    $page = (isset($_GET['page']) ? $_GET['page'] : null);
+    if ( !get_option('disqus_forum_url') && !isset($_POST['forum_url']) && $page != 'disqus' ) {
         dsq_manage_dialog('You must <a href="edit-comments.php?page=disqus">configure the plugin</a> to enable Disqus Comments.', true);
     }
 
-    if ( !dsq_is_installed() && $_GET['page'] != 'disqus' && !$_GET['step'] && !$_POST['uninstall'] ) {
+    if ( !dsq_is_installed() && $page != 'disqus' && !empty($_GET['step']) && !isset($_POST['uninstall']) ) {
         dsq_manage_dialog('Disqus Comments has not yet been configured. (<a href="edit-comments.php?page=disqus">Click here to configure</a>)');
     }
 }
@@ -1362,7 +1363,7 @@ function dsq_install_database($version=0) {
         $wpdb->query("CREATE INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta` (meta_key, meta_value(11));");
     }
 }
-function dsq_uninstall_database() {
+function dsq_uninstall_database($version=0) {
     if (version_compare($version, '2.49', '>=')) {
         $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta` (meta_key, meta_value(11));");
     }
