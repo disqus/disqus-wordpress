@@ -2,7 +2,7 @@
 /**
  * Helper script for setting up the WP command line environment
  */
-# error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
 
 function print_line() {
     print(call_user_func_array('sprintf', func_get_args())."\n");
