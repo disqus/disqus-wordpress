@@ -8,6 +8,12 @@ Version: 2.64
 Author URI: http://disqus.com/
 */
 
+/*.
+    require_module 'standard';
+    require_module 'pcre';
+    require_module 'mysql';
+.*/
+
 require_once(dirname(__FILE__) . '/lib/wp-api.php');
 
 if (defined('DISQUS_LOCAL')) { // DISQUS defines this for local development purposes
@@ -29,6 +35,7 @@ define('DISQUS_VERSION',            '2.64');
 
 /**
  * Returns an array of all option identifiers used by DISQUS.
+ * @return array[int]string
  */
 function dsq_options() {
     return array(
@@ -52,6 +59,10 @@ function dsq_options() {
     );
 }
 
+/**
+ * @param string $file
+ * @return string
+ */
 function dsq_plugin_basename($file) {
     $file = dirname($file);
 
@@ -96,7 +107,7 @@ $dsq_api = new DisqusWordPressAPI(get_option('disqus_forum_url'), get_option('di
 /**
  * DISQUS currently unsupported dev toggle to output comments for this query.
  *
- * @global    bool    $dsq_comments_for_query
+ * @global    bool    $DSQ_QUERY_COMMENTS
  * @since    ?
  */
 $DSQ_QUERY_COMMENTS = false;
@@ -115,11 +126,15 @@ $DSQ_QUERY_POST_IDS = array();
 
 /**
  * Tests if required options are configured to display the Disqus embed.
+ * @return bool
  */
 function dsq_is_installed() {
     return get_option('disqus_forum_url') && get_option('disqus_api_key');
 }
 
+/**
+ * @return bool
+ */
 function dsq_can_replace() {
     global $id, $post;
 
