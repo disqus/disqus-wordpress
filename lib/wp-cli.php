@@ -5,7 +5,9 @@
 error_reporting(E_ALL | E_STRICT);
 
 function print_line() {
-    print(call_user_func_array('sprintf', func_get_args())."\n");
+    $args = func_get_args();
+    $result = call_user_func_array('sprintf', $args);
+    print("{$result}\n");
 }
 
 define('DOING_AJAX', true);
