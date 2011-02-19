@@ -744,7 +744,7 @@ function dsq_comments_text($comment_text) {
     global $post;
 
     if ( dsq_can_replace() ) {
-        return '<span class="dsq-postid" rel="'.htmlspecialchars(dsq_identifier_for_post($post)).'">View Comments</span>';
+        return '<span class="dsq-postid" rel="'.htmlspecialchars(dsq_identifier_for_post($post)).'">'.$comment_text.'</span>';
     } else {
         return $comment_text;
     }
