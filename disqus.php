@@ -230,10 +230,18 @@ function dsq_sync_comments($comments) {
             }
             continue;
         }
-        if ($wpdb->get_row($wpdb->prepare( "SELECT comment_id FROM $wpdb->commentmeta WHERE meta_key = 'dsq_post_id' AND meta_value = %s LIMIT 1", $comment->id))) {
+        $results = $wpdb->get_results($wpdb->prepare("SELECT comment_id FROM $wpdb->commentmeta WHERE meta_key = 'dsq_post_id' AND meta_value = %s LIMIT 1", $comment->id));
+        if (count($results)) {
             // already exists
             if (DISQUS_DEBUG) {
                 echo "skipped {$comment->id}: comment already exists\n";
+            }
+            if (count($results) > 1) {
+                // clean up duplicates -- fixes an issue where a race condition allowed comments to be synced multiple times
+                $results = array_slice($results, 1);
+                foreach ($results as $result) {
+                    $wpdb->prepare("DELETE FROM $wpdb->commentmeta WHERE comment_id = %s LIMIT 1", $result);
+                }
             }
             continue;
         }
