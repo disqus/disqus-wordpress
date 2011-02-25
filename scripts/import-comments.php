@@ -36,6 +36,7 @@ while ($imported) {
     if ($result === false) {
         print_line('---------------------------------------------------------');
         print_line('There was an error communicating with DISQUS!');
+        print_line(var_export($dsq_api->get_last_error()));
         print_line('---------------------------------------------------------');
         die();
         break;
