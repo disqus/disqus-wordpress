@@ -730,14 +730,11 @@ function dsq_comments_template($value) {
 }
 
 // Mark entries in index to replace comments link.
+// As of WordPress 3.1 this is required to return a numerical value
 function dsq_comments_number($count) {
     global $post;
 
-    if ( dsq_can_replace() ) {
-        return '<span class="dsq-postid" rel="'.htmlspecialchars(dsq_identifier_for_post($post)).'">'.$count.'</span>';
-    } else {
-        return $count;
-    }
+    return $count;
 }
 
 function dsq_comments_text($comment_text) {
