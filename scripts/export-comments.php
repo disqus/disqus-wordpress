@@ -79,7 +79,7 @@ while ($post_id < $max_post_id) {
         if (!($response['group_id'] > 0)) {
             print_line('---------------------------------------------------------');
             print_line('There was an error communicating with DISQUS!');
-            print_line(var_export($dsq_api->get_last_error()));
+            print_line($dsq_api->get_last_error());
             print_line('---------------------------------------------------------');
         }
         $group_id = $response['group_id'];
