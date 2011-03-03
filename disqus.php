@@ -158,7 +158,7 @@ function dsq_can_replace() {
                 // Yuck, this causes a DB query for each post.  This can be
                 // replaced with a lighter query, but this is still not optimal.
                 $comments = get_approved_comments($post->ID);
-                foreach ( $comments as $comment ) {
+                foreach ( $comments as &$comment ) {
                     if ( $comment->comment_type != 'trackback' && $comment->comment_type != 'pingback' ) {
                         $num_comments++;
                     }
@@ -188,7 +188,7 @@ function dsq_manage_dialog($message, $error = false) {
         . '</strong></p></div>';
 }
 
-function dsq_sync_comments($comments) {
+function dsq_sync_comments(&$comments) {
     global $wpdb;
 
     // user MUST be logged out during this process
@@ -196,27 +196,29 @@ function dsq_sync_comments($comments) {
 
     // we need the thread_ids so we can map them to posts
     $thread_map = array();
-    foreach ( $comments as $comment ) {
+    foreach ( $comments as &$comment ) {
         $thread_map[$comment->thread->id] = null;
     }
     $thread_ids = "'" . implode("', '", array_keys($thread_map)) . "'";
 
     $results = $wpdb->get_results( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = 'dsq_thread_id' AND meta_value IN ({$thread_ids}) LIMIT 1");
-    foreach ( $results as $result ) {
+    foreach ( $results as &$result ) {
         $thread_map[$result->meta_value] = $result->post_id;
     }
+    unset($result);
 
-    foreach ( $comments as $comment ) {
+    foreach ( $comments as &$comment ) {
         $ts = strtotime($comment->created_at);
         if (!$thread_map[$comment->thread->id] && !empty($comment->thread->identifier)) {
             // legacy threads dont already have their meta stored
-            foreach ( $comment->thread->identifier as $identifier ) {
+            foreach ( $comment->thread->identifier as &$identifier ) {
                 // we know identifier starts with post_ID
                 if ($post_ID = (int)substr($identifier, 0, strpos($identifier, ' '))) {
                     $thread_map[$comment->thread->id] = $post_ID;
                     update_post_meta($post_ID, 'dsq_thread_id', $comment->thread->id);
                 }
             }
+            unset($identifier);
         }
         if (!$thread_map[$comment->thread->id]) {
             // shouldn't ever happen, but we can't be certain
@@ -239,7 +241,7 @@ function dsq_sync_comments($comments) {
             if (count($results) > 1) {
                 // clean up duplicates -- fixes an issue where a race condition allowed comments to be synced multiple times
                 $results = array_slice($results, 1);
-                foreach ($results as $result) {
+                foreach ($results as &$result) {
                     $wpdb->prepare("DELETE FROM $wpdb->commentmeta WHERE comment_id = %s LIMIT 1", $result);
                 }
             }
@@ -251,10 +253,11 @@ function dsq_sync_comments($comments) {
         // first lets check by the id we have stored
         if ($comment->meta) {
             $meta = explode(';', $comment->meta);
-            foreach ($meta as $value) {
+            foreach ($meta as &$value) {
                 $value = explode('=', $value);
                 $meta[$value[0]] = $value[1];
             }
+            unset($value);
             if ($meta['wp_id']) {
                 $commentdata = $wpdb->get_row($wpdb->prepare( "SELECT comment_ID, comment_parent FROM $wpdb->comments WHERE comment_ID = %s LIMIT 1", $meta['wp_id']), ARRAY_A);
             }
@@ -267,8 +270,6 @@ function dsq_sync_comments($comments) {
             }
             continue;
         }
-
-
 
         // and follow up using legacy Disqus agent
         if (!$commentdata) {
@@ -339,6 +340,7 @@ function dsq_sync_comments($comments) {
         update_comment_meta($comment_id, 'dsq_parent_post_id', $comment->parent_post);
         update_comment_meta($comment_id, 'dsq_post_id', $comment->id);
     }
+    unset($comment);
 
     if( isset($_POST['dsq_api_key']) && $_POST['dsq_api_key'] == get_option('disqus_api_key') ) {
         if( isset($_GET['dsq_sync_action']) && isset($_GET['dsq_sync_comment_id']) ) {
@@ -535,20 +537,23 @@ function dsq_sync_forum($last_comment_id=false) {
 
     // Sync comments with database.
     dsq_sync_comments($dsq_response);
+    $total = 0;
     if ($dsq_response) {
-        foreach ($dsq_response as $comment) {
+        foreach ($dsq_response as &$comment) {
+            $total += 1;
             if ($comment->id > $last_comment_id) $last_comment_id = $comment->id;
         }
         if ($last_comment_id > get_option('disqus_last_comment_id')) {
             update_option('disqus_last_comment_id', $last_comment_id);
         }
     }
-    return array(count($dsq_response), $last_comment_id);
+    unset($comment);
+    return array($total, $last_comment_id);
 }
 
 add_action('dsq_sync_forum', 'dsq_sync_forum');
 
-function dsq_update_permalink($post) {
+function dsq_update_permalink(&$post) {
     global $dsq_api;
 
     $response = $dsq_api->api->update_thread(null, array(
@@ -790,7 +795,7 @@ function dsq_add_pages() {
 add_action('admin_menu', 'dsq_add_pages', 10);
 
 // a little jQuery goodness to get comments menu working as desired
-function sdq_menu_admin_head() {
+function dsq_menu_admin_head() {
 ?>
 <script type="text/javascript">
 jQuery(function($) {
@@ -801,7 +806,7 @@ jQuery(function($) {
 </script>
 <?php
 }
-add_action('admin_head', 'sdq_menu_admin_head');
+add_action('admin_head', 'dsq_menu_admin_head');
 
 // only active on dashboard
 function dsq_dash_comment_counts() {
@@ -1043,7 +1048,7 @@ add_action('the_posts', 'dsq_maybe_add_post_ids');
 function dsq_add_query_posts($posts) {
     global $DSQ_QUERY_POST_IDS;
     if (count($posts)) {
-        foreach ($posts as $post) {
+        foreach ($posts as &$post) {
             $post_ids[] = intval($post->ID);
         }
         $DSQ_QUERY_POST_IDS[md5(serialize($post_ids))] = $post_ids;
@@ -1056,7 +1061,7 @@ function dsq_loop_end($query) {
         return;
     }
     global $DSQ_QUERY_POST_IDS;
-    foreach ($query->posts as $post) {
+    foreach ($query->posts as &$post) {
         $loop_ids[] = intval($post->ID);
     }
     $posts_key = md5(serialize($loop_ids));

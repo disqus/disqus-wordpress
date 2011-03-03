@@ -73,7 +73,7 @@ class DisqusWordPressAPI {
         return $response;
     }
 
-    function import_wordpress_comments($wxr, $timestamp, $eof=true) {
+    function import_wordpress_comments(&$wxr, $timestamp, $eof=true) {
         $http = new WP_Http();
         $response = $http->request(
             DISQUS_IMPORTER_URL . 'api/import-wordpress-comments/',
