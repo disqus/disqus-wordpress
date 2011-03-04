@@ -144,6 +144,7 @@ function dsq_can_replace() {
 
     if ( is_feed() )                       { return false; }
     if ( 'draft' == $post->post_status )   { return false; }
+    if ( 'closed' == $post->comment_status ) { return false; }
     if ( !get_option('disqus_forum_url') ) { return false; }
     else if ( 'all' == $replace )          { return true; }
 
