@@ -52,4 +52,17 @@ $_SERVER = array(
     "REQUEST_METHOD" => "GET"
 );
 require_once(WORDPRESS_PATH . '/wp-config.php');
+
+// swap out the object cache due to memory constraints
+
+global $wp_object_cache;
+
+class DummyWP_Object_Cache extends WP_Object_Cache {
+    function set($id, $data, $group = 'default', $expire = '') {
+        return;
+    }
+}
+
+$wp_object_cache = new DummyWP_Object_Cache();
+
 ?>
