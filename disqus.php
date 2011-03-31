@@ -696,22 +696,6 @@ function esc_attr( $text ) {
  *  Filters/Actions
  */
 
-function dsq_get_style() {
-    global $post;
-
-    if ( !( is_singular() && ( have_comments() || 'open' == $post->comment_status ) ) ) {
-        return;
-    }
-
-    if ( !dsq_is_installed() || !dsq_can_replace() ) {
-        return;
-    }
-
-    echo "<link rel=\"stylesheet\" href=\"" . DISQUS_URL ."stylesheets/" .  strtolower(get_option('disqus_forum_url')) . "/disqus.css?v=2.0\" type=\"text/css\" media=\"screen\" />";
-}
-
-add_action('wp_head','dsq_get_style');
-
 // ugly global hack for comments closing
 $EMBED = false;
 function dsq_comments_template($value) {
