@@ -196,22 +196,22 @@ function dsq_sync_comments(&$comments) {
 
     // we need the thread_ids so we can map them to posts
     $thread_map = array();
-    foreach ( $comments as &$comment ) {
+    foreach ( $comments as $comment ) {
         $thread_map[$comment->thread->id] = null;
     }
     $thread_ids = "'" . implode("', '", array_keys($thread_map)) . "'";
 
     $results = $wpdb->get_results( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = 'dsq_thread_id' AND meta_value IN ({$thread_ids}) LIMIT 1");
-    foreach ( $results as &$result ) {
+    foreach ( $results as $result ) {
         $thread_map[$result->meta_value] = $result->post_id;
     }
     unset($result);
 
-    foreach ( $comments as &$comment ) {
+    foreach ( $comments as $comment ) {
         $ts = strtotime($comment->created_at);
         if (!$thread_map[$comment->thread->id] && !empty($comment->thread->identifier)) {
             // legacy threads dont already have their meta stored
-            foreach ( $comment->thread->identifier as &$identifier ) {
+            foreach ( $comment->thread->identifier as $identifier ) {
                 // we know identifier starts with post_ID
                 if ($post_ID = (int)substr($identifier, 0, strpos($identifier, ' '))) {
                     $thread_map[$comment->thread->id] = $post_ID;
@@ -241,7 +241,7 @@ function dsq_sync_comments(&$comments) {
             if (count($results) > 1) {
                 // clean up duplicates -- fixes an issue where a race condition allowed comments to be synced multiple times
                 $results = array_slice($results, 1);
-                foreach ($results as &$result) {
+                foreach ($results as $result) {
                     $wpdb->prepare("DELETE FROM $wpdb->commentmeta WHERE comment_id = %s LIMIT 1", $result);
                 }
             }
@@ -253,7 +253,7 @@ function dsq_sync_comments(&$comments) {
         // first lets check by the id we have stored
         if ($comment->meta) {
             $meta = explode(';', $comment->meta);
-            foreach ($meta as &$value) {
+            foreach ($meta as $value) {
                 $value = explode('=', $value);
                 $meta[$value[0]] = $value[1];
             }
@@ -539,7 +539,7 @@ function dsq_sync_forum($last_comment_id=false) {
     dsq_sync_comments($dsq_response);
     $total = 0;
     if ($dsq_response) {
-        foreach ($dsq_response as &$comment) {
+        foreach ($dsq_response as $comment) {
             $total += 1;
             if ($comment->id > $last_comment_id) $last_comment_id = $comment->id;
         }
@@ -1014,13 +1014,13 @@ function dsq_parse_query($query) {
 add_action('parse_request', 'dsq_parse_query');
 
 // track the original request post_ids, only run once
-function dsq_add_request_post_ids($posts) {
+function dsq_add_request_post_ids(&$posts) {
     dsq_add_query_posts($posts);
     remove_action('the_posts', 'dsq_log_request_post_ids', 999);
     return $posts;
 }
 
-function dsq_maybe_add_post_ids($posts) {
+function dsq_maybe_add_post_ids(&$posts) {
     global $DSQ_QUERY_COMMENTS;
     if ($DSQ_QUERY_COMMENTS) {
         dsq_add_query_posts($posts);
@@ -1029,10 +1029,10 @@ function dsq_maybe_add_post_ids($posts) {
 }
 add_action('the_posts', 'dsq_maybe_add_post_ids');
 
-function dsq_add_query_posts($posts) {
+function dsq_add_query_posts(&$posts) {
     global $DSQ_QUERY_POST_IDS;
     if (count($posts)) {
-        foreach ($posts as &$post) {
+        foreach ($posts as $post) {
             $post_ids[] = intval($post->ID);
         }
         $DSQ_QUERY_POST_IDS[md5(serialize($post_ids))] = $post_ids;
@@ -1045,7 +1045,7 @@ function dsq_loop_end($query) {
         return;
     }
     global $DSQ_QUERY_POST_IDS;
-    foreach ($query->posts as &$post) {
+    foreach ($query->posts as $post) {
         $loop_ids[] = intval($post->ID);
     }
     $posts_key = md5(serialize($loop_ids));
