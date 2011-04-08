@@ -158,7 +158,7 @@ function dsq_can_replace() {
                 // Yuck, this causes a DB query for each post.  This can be
                 // replaced with a lighter query, but this is still not optimal.
                 $comments = get_approved_comments($post->ID);
-                foreach ( $comments as &$comment ) {
+                foreach ( $comments as $comment ) {
                     if ( $comment->comment_type != 'trackback' && $comment->comment_type != 'pingback' ) {
                         $num_comments++;
                     }
