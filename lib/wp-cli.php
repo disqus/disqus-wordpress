@@ -4,6 +4,10 @@
  */
 error_reporting(E_ALL | E_STRICT);
 
+if (!isset($argv)) {
+    $argv = array();
+}
+
 function print_line() {
     $args = func_get_args();
     $result = call_user_func_array('sprintf', $args);
