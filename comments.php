@@ -36,7 +36,7 @@ if (DISQUS_DEBUG) {
 
 <script type="text/javascript">
 /* <![CDATA[ */
-    var disqus_url = '<?php echo get_permalink(); ?> ';
+    var disqus_url = '<?php echo get_permalink(); ?>';
     var disqus_identifier = '<?php echo dsq_identifier_for_post($post); ?>';
     var disqus_container_id = 'disqus_thread';
     var disqus_domain = '<?php echo DISQUS_DOMAIN; ?>';
