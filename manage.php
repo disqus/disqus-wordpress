@@ -76,7 +76,7 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
 
 // handle disqus_active
 if (isset($_GET['active'])) {
-    update_option('disqus_active', ($_GET['active'] == '1' ? '1' : '0');
+    update_option('disqus_active', ($_GET['active'] == '1' ? '1' : '0'));
 }
 
 $dsq_user_api_key = isset($_POST['dsq_user_api_key']) ? $_POST['dsq_user_api_key'] : null;
