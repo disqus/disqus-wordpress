@@ -400,6 +400,7 @@ case 0:
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
         <p><?php echo dsq_i('Having problems with the plugin? <a href="%s">Drop us a line</a> and include the following details and we\'ll do what we can.', 'mailto:help+wp@disqus.com'); ?></p>
         <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?> 
+PHP Version: <?php echo phpversion(); ?> 
 Version: <?php echo $wp_version; ?> 
 Active Theme: <?php $theme = get_theme(get_current_theme()); echo $theme['Name'].' '.$theme['Version']; ?> 
 URLOpen Method: <?php echo dsq_url_method(); ?> 
