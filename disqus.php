@@ -1014,13 +1014,13 @@ function dsq_parse_query($query) {
 add_action('parse_request', 'dsq_parse_query');
 
 // track the original request post_ids, only run once
-function dsq_add_request_post_ids(&$posts) {
+function dsq_add_request_post_ids($posts) {
     dsq_add_query_posts($posts);
     remove_action('the_posts', 'dsq_log_request_post_ids', 999);
     return $posts;
 }
 
-function dsq_maybe_add_post_ids(&$posts) {
+function dsq_maybe_add_post_ids($posts) {
     global $DSQ_QUERY_COMMENTS;
     if ($DSQ_QUERY_COMMENTS) {
         dsq_add_query_posts($posts);
