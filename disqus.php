@@ -1357,7 +1357,7 @@ function dsq_install($allow_database_install=true) {
     if ($version == '0') {
         add_option('disqus_active', 0);
     } else {
-        update_option('disqus_active', 1);
+        add_option('disqus_active', 1);
     }
 
     update_option('disqus_version', DISQUS_VERSION);
