@@ -34,8 +34,6 @@ if (DISQUS_DEBUG) {
     <?php endif; ?>
 </div>
 
-<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-
 <script type="text/javascript">
 /* <![CDATA[ */
     var disqus_url = '<?php echo get_permalink(); ?> ';
