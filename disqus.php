@@ -188,7 +188,7 @@ function dsq_manage_dialog($message, $error = false) {
         . '</strong></p></div>';
 }
 
-function dsq_sync_comments(&$comments) {
+function dsq_sync_comments($comments) {
     global $wpdb;
 
     // user MUST be logged out during this process
@@ -553,7 +553,7 @@ function dsq_sync_forum($last_comment_id=false) {
 
 add_action('dsq_sync_forum', 'dsq_sync_forum');
 
-function dsq_update_permalink(&$post) {
+function dsq_update_permalink($post) {
     global $dsq_api;
 
     $response = $dsq_api->api->update_thread(null, array(
@@ -1029,7 +1029,7 @@ function dsq_maybe_add_post_ids($posts) {
 }
 add_action('the_posts', 'dsq_maybe_add_post_ids');
 
-function dsq_add_query_posts(&$posts) {
+function dsq_add_query_posts($posts) {
     global $DSQ_QUERY_POST_IDS;
     if (count($posts)) {
         foreach ($posts as $post) {
