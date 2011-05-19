@@ -1353,10 +1353,11 @@ function dsq_install($allow_database_install=true) {
 
     if (version_compare($version, DISQUS_VERSION, '=')) return;
 
+    // if this is a new install, we should not set disqus active
     if ($version == '0') {
-        update_option('disqus_active', 1);
-    } else {
         add_option('disqus_active', 0);
+    } else {
+        update_option('disqus_active', 1);
     }
 
     update_option('disqus_version', DISQUS_VERSION);
