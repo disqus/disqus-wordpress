@@ -249,7 +249,7 @@ case 0:
         <h2><?php echo dsq_i('Advanced Options'); ?></h2>
         <p><?php echo dsq_i('Version: %s', esc_html(DISQUS_VERSION)); ?></p>
         <?php
-        if (get_option('disqus_active') != 1) {
+        if (get_option('disqus_active') === '0') {
             // disqus is not active
             echo '<p class="status">Disqus comments are currently disabled. (<a href="?page=disqus&amp;active=1">Enable</a>)</p>';
         } else {

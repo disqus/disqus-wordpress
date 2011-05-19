@@ -138,7 +138,7 @@ function dsq_is_installed() {
 function dsq_can_replace() {
     global $id, $post;
 
-    if (get_option('disqus_active') != '1'){ return false; }
+    if (get_option('disqus_active') === '1'){ return false; }
 
     $replace = get_option('disqus_replace');
 
