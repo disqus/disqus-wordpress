@@ -783,9 +783,9 @@ function dsq_menu_admin_head() {
 ?>
 <script type="text/javascript">
 jQuery(function($) {
-// fix menu
-     var mc = $('#menu-comments');
-    mc.find('a.wp-has-submenu').attr('href', 'edit-comments.php?page=disqus').end().find('.wp-submenu  li:has(a[href=edit-comments.php?page=disqus])').prependTo(mc.find('.wp-submenu ul'));
+    // fix menu
+    var mc = $('#menu-comments');
+    mc.find('a.wp-has-submenu').attr('href', 'edit-comments.php?page=disqus').end().find('.wp-submenu  li:has(a[href="edit-comments.php?page=disqus"])').prependTo(mc.find('.wp-submenu ul'));
 });
 </script>
 <?php
@@ -828,8 +828,8 @@ function dsq_dash_comment_counts() {
 <script type="text/javascript">
 jQuery(function($) {
     $('#dashboard_right_now').find('.b-comments a').html('<?php echo $stats->total_comments; ?>').end().find('.b_approved a').html('<?php echo $stats->approved; ?>').end().find('.b-waiting a').html('<?php echo $stats->moderated; ?>').end().find('.b-spam a').html('<?php echo $stats->spam; ?>').end().find('.inside').slideDown();
-     $('#dashboard_recent_comments div.trackback').remove();
-     $('#dashboard_right_now .inside table td.last a, #dashboard_recent_comments .inside .textright a.button').attr('href', 'edit-comments.php?page=disqus');
+    $('#dashboard_recent_comments div.trackback').remove();
+    $('#dashboard_right_now .inside table td.last a, #dashboard_recent_comments .inside .textright a.button').attr('href', 'edit-comments.php?page=disqus');
 });
 </script>
 <?php
