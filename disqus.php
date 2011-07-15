@@ -385,7 +385,7 @@ function dsq_request_handler() {
                     header("HTTP/1.0 400 Bad Request");
                     die();
                 }
-                // schedule the event for 30 seconds from now in case they
+                // schedule the event for 5 minutes from now in case they
                 // happen to make a quick post
                 if (DISQUS_DEBUG) {
                     dsq_sync_post($post_id);
@@ -397,8 +397,9 @@ function dsq_request_handler() {
                         die('// synced '.$comments.' comments');
                     }
                 } else {
-                    wp_schedule_single_event(time(), 'dsq_sync_post', array($post_id));
-                    wp_schedule_single_event(time(), 'dsq_sync_forum');
+                    $ts = time() + 300;
+                    wp_schedule_single_event($ts, 'dsq_sync_post', array($post_id));
+                    wp_schedule_single_event($ts, 'dsq_sync_forum');
                     die('// sync scheduled');
                 }
             break;
