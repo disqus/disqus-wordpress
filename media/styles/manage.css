@@ -28,7 +28,7 @@ select.disqus-replace {
 }
 
 .dsq-content h2 {
-	background: url(../media/images/logo.png) no-repeat;
+	background: url(../../media/images/logo.png) no-repeat;
 	line-height: 41px;
 	margin: 15px 0 10px;
 	padding: 0 0 0 150px;
