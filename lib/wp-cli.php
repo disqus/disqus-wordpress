@@ -4,6 +4,13 @@
  */
 error_reporting(E_ALL | E_STRICT);
 
+var_dump($_SERVER);
+
+if (php_sapi_name() != 'cli') {
+    // Don't execute for web requests
+    return;
+}
+
 if (!isset($argv)) {
     $argv = array();
 }

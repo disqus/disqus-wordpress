@@ -65,6 +65,7 @@ you should remove it, and the new plugin should be stored in 'disqus'.
 2.67
 
 * Bumped synchronization timer delays to 5 minutes.
+* wp-cli.php now requires php_sapi_name to be set to 'cli' for execution.
 
 2.66
 
