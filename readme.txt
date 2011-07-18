@@ -43,7 +43,7 @@ The Disqus for WordPress plugin seamlessly integrates using the Disqus API and b
    of WordPress
 
   * Maintain the directory structure of the archive (all extracted files
-    should exist in 'wp-content/plugins/disqus/'
+    should exist in 'wp-content/plugins/disqus-comment-system/'
 
 2. From your blog administration, click on Comments to change settings
    (WordPress 2.0 users can find the settings under Options > Disqus.)
@@ -51,14 +51,6 @@ The Disqus for WordPress plugin seamlessly integrates using the Disqus API and b
 = More documentation =
 
 Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
-
-== Upgrading ==
-
-(If you were using legacy mode you will need to re-install the plugin completely)
-
-Replace the old plugin with the new plugin (the plugin must stay in
-the disqus directory). If the old plugin directory was 'disqus-comment-system'
-you should remove it, and the new plugin should be stored in 'disqus'.
 
 == Changes ==
 
