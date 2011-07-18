@@ -286,7 +286,7 @@ function dsq_sync_comments($comments) {
             }
             $commentdata = array(
                 'comment_post_ID' => $thread_map[$comment->thread->id],
-                'comment_date' => $comment->created_at,
+                'comment_date' => date('Y-m-d\TH:i:s', strtotime($comment->created_at) + (get_option('gmt_offset') * 3600)),
                 'comment_date_gmt' => $comment->created_at,
                 'comment_content' => apply_filters('pre_comment_content', $comment->message),
                 'comment_approved' => $approved,
