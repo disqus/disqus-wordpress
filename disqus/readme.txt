@@ -59,7 +59,9 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Bumped synchronization timer delays to 5 minutes.
 * wp-cli.php now requires php_sapi_name to be set to 'cli' for execution.
 * Fixed a bug with imported comments not storing the correct relative date.
-
+* Added a lock for dsq_sync_forum, which can be overriden in the command line script
+  with the --force tag.
+ 
 2.66
 
 * Fixed issue with jQuery usage which conflicted with updated jQuery version.

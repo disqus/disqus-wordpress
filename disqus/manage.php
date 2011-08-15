@@ -375,8 +375,12 @@ case 0:
                 <th scope="row" valign="top"><?php echo dsq_i('Sync Disqus with WordPress'); ?></th>
                 <td>
                     <div id="dsq_import">
-                        <p class="status"><a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a> <label><input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/> <?php echo dsq_i('Remove all imported Disqus comments before syncing.'); ?></label><br/><br/>
-                        <?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?></p>
+                        <div class="status">
+                            <p><?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?></p>
+                            <label><input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/> <?php echo dsq_i('Remove all imported Disqus comments before syncing.'); ?></label><br/>
+                            <label><input type="checkbox" id="dsq_import_force" name="dsq_import_force" value="1"/> <?php echo dsq_i('Force the sync task even if it\'s already in progress.'); ?></label><br/>
+                            <p><a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a></p>
+                        </div>
                     </div>
                 </td>
             </tr>

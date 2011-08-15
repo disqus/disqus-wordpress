@@ -26,13 +26,14 @@ if (in_array('--reset', $argv)) {
 } else {
     $last_comment_id = get_option('disqus_last_comment_id');
 }
+$force = (in_array('--force', $argv));
 $total = 0;
 $global_start = microtime();
 
 while ($imported) {
     print_line('  Importing chunk starting at comment id %d', $last_comment_id);
     $start = microtime();
-    $result = dsq_sync_forum($last_comment_id);
+    $result = dsq_sync_forum($last_comment_id, $force);
     if ($result === false) {
         print_line('---------------------------------------------------------');
         print_line('There was an error communicating with DISQUS!');
