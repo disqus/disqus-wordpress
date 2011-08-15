@@ -61,7 +61,9 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Fixed a bug with imported comments not storing the correct relative date.
 * Added a lock for dsq_sync_forum, which can be overriden in the command line script
   with the --force tag.
- 
+* dsq_sync_forum will now handle all pending post metadata updates (formerly a separate
+  cron task, dsq_sync_post).
+
 2.66
 
 * Fixed issue with jQuery usage which conflicted with updated jQuery version.

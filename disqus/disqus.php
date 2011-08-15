@@ -39,6 +39,8 @@ define('DISQUS_VERSION',            '2.67');
  */
 function dsq_options() {
     return array(
+        '_disqus_sync_lock',
+        '_disqus_sync_post_ids',
         # render disqus in the embed
         'disqus_active',
         'disqus_public_key',
@@ -387,6 +389,12 @@ function dsq_request_handler() {
                 }
                 // schedule the event for 5 minutes from now in case they
                 // happen to make a quick post
+                $post_ids = dsq_get_pending_post_ids();
+                if (!in_array($post_id, $post_ids)) {
+                    $post_ids[] = $post_id;
+                    update_option('_disqus_sync_post_ids', $post_ids);
+                }
+
                 if (DISQUS_DEBUG) {
                     dsq_sync_post($post_id);
                     $response = dsq_sync_forum();
@@ -398,7 +406,6 @@ function dsq_request_handler() {
                     }
                 } else {
                     $ts = time() + 300;
-                    wp_schedule_single_event($ts, 'dsq_sync_post', array($post_id));
                     wp_schedule_single_event($ts, 'dsq_sync_forum');
                     die('// sync scheduled');
                 }
@@ -506,6 +513,14 @@ function dsq_request_handler() {
 
 add_action('init', 'dsq_request_handler');
 
+function dsq_get_pending_post_ids() {
+    $post_ids = get_option('_disqus_sync_post_ids');
+    if (empty($post_ids)) {
+        return array();
+    }
+    return (array)$post_ids;
+}
+
 function dsq_sync_post($post_id) {
     global $dsq_api, $wpdb;
 
@@ -514,8 +529,6 @@ function dsq_sync_post($post_id) {
     // Call update_thread to ensure our permalink is up to date
     dsq_update_permalink($post);
 }
-
-add_action('dsq_sync_post', 'dsq_sync_post');
 
 function dsq_sync_forum($last_comment_id=false, $force=false) {
     global $dsq_api, $wpdb;
@@ -532,6 +545,13 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
         return false;
     } else {
         update_option('_disqus_sync_lock', time());
+    }
+    
+    // sync all pending posts
+    $post_ids = dsq_get_pending_post_ids();
+    delete_option('_disqus_sync_post_ids');
+    foreach ($post_ids as $post_id) {
+        dsq_sync_post($post_id);
     }
 
     if ($last_comment_id === false) {
