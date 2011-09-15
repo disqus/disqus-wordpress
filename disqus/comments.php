@@ -5,7 +5,7 @@ if (DISQUS_DEBUG) {
 ?>
 
 <div id="disqus_thread">
-    <?php if (!get_option('disqus_disable_ssr')): ?>
+    <?php if (!get_option('disqus_disable_ssr') && !empty($comments)): ?>
         <?php
         // if (is_file(TEMPLATEPATH . '/comments.php')) {
         //     include(TEMPLATEPATH . '/comments.php');
