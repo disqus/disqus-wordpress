@@ -54,6 +54,11 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 == Changes ==
 
+2.68
+
+* Removed debugging information from web requests in CLI scripts (thanks
+  Ryan Dewhurst for the report).
+
 2.67
 
 * Bumped synchronization timer delays to 5 minutes.
