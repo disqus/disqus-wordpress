@@ -539,8 +539,8 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
         $sync_time = (int)get_option('_disqus_sync_lock');
     }
     
-    // lock expires after 1 day
-    if ($sync_time && $sync_time > time() - 86400) {
+    // lock expires after 1 hour
+    if ($sync_time && $sync_time > time() - 60*60) {
         $dsq_api->api->last_error = 'Sync already in progress (lock found)';
         return false;
     } else {
