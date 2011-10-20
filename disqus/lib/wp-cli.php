@@ -72,6 +72,9 @@ class DummyWP_Object_Cache extends WP_Object_Cache {
     }
 }
 
+// HACK: kill all output buffers (some plugins, like Hyper Cache, use theses)
+while (@ob_end_flush());
+
 $wp_object_cache = new DummyWP_Object_Cache();
 
 ?>
