@@ -516,9 +516,11 @@ function dsq_add_pending_post_id($post_id) {
 }
 
 function dsq_get_pending_post_ids() {
+    global $wpdb;
+
     $results = $wpdb->get_results( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'dsq_needs_sync");
     $post_ids = array();
-    foreach ( $results as $result ) {
+    foreach ($results as $result) {
         $post_ids[] = $result->post_id;
     }
     return $post_ids;
