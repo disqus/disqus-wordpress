@@ -4,7 +4,7 @@ Plugin Name: Disqus Comment System
 Plugin URI: http://disqus.com/
 Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your DISQUS Comment System.
 Author: Disqus <team@disqus.com>
-Version: 2.67
+Version: 2.68
 Author URI: http://disqus.com/
 */
 
@@ -550,8 +550,8 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
         $sync_time = (int)get_option('_disqus_sync_lock');
     }
 
-    // lock expires after 1 day
-    if ($sync_time && $sync_time > time() - 86400) {
+    // lock expires after 1 hour
+    if ($sync_time && $sync_time > time() - 60*60) {
         $dsq_api->api->last_error = 'Sync already in progress (lock found)';
         return false;
     } else {

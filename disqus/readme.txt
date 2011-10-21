@@ -2,7 +2,7 @@
 Contributors: disqus, alexkingorg, crowdfavorite
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 2.8
-Tested up to: 3.1.2
+Tested up to: 3.2.1
 Stable tag: 2.67
 
 The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus.
@@ -53,6 +53,12 @@ The Disqus for WordPress plugin seamlessly integrates using the Disqus API and b
 Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 == Changes ==
+
+2.68
+
+* Removed debugging information from web requests in CLI scripts (thanks
+  Ryan Dewhurst for the report).
+* Reduced sync lock time to 1 hour.
 
 2.67
 
