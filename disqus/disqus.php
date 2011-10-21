@@ -218,6 +218,9 @@ function dsq_sync_comments($comments) {
                 if ($post_ID = (int)substr($identifier, 0, strpos($identifier, ' '))) {
                     $thread_map[$comment->thread->id] = $post_ID;
                     update_post_meta($post_ID, 'dsq_thread_id', $comment->thread->id);
+                    if (DISQUS_DEBUG) {
+                        echo "updated post {$post_ID}: dsq_thread_id set to {$comment->thread->id}\n";
+                    }
                 }
             }
             unset($identifier);
@@ -389,14 +392,9 @@ function dsq_request_handler() {
                 }
                 // schedule the event for 5 minutes from now in case they
                 // happen to make a quick post
-                $post_ids = dsq_get_pending_post_ids();
-                if (!in_array($post_id, $post_ids)) {
-                    $post_ids[] = $post_id;
-                    update_option('_disqus_sync_post_ids', $post_ids);
-                }
+                dsq_add_pending_post_id($post_id);
 
                 if (DISQUS_DEBUG) {
-                    dsq_sync_post($post_id);
                     $response = dsq_sync_forum();
                     if (!$response) {
                         die('// error: '.$dsq_api->get_last_error());
@@ -513,13 +511,26 @@ function dsq_request_handler() {
 
 add_action('init', 'dsq_request_handler');
 
-function dsq_get_pending_post_ids() {
-    $post_ids = get_option('_disqus_sync_post_ids');
-    if (empty($post_ids)) {
-        return array();
-    }
-    return (array)$post_ids;
+function dsq_add_pending_post_id($post_id) {
+    update_post_meta($post_id, 'dsq_needs_sync', '1');
 }
+
+function dsq_get_pending_post_ids() {
+    $results = $wpdb->get_results( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'dsq_needs_sync");
+    $post_ids = array();
+    foreach ( $results as $result ) {
+        $post_ids[] = $result->post_id;
+    }
+    return $post_ids;
+}
+
+function dsq_clear_pending_post_ids($post_ids) {
+    global $wpdb;
+
+    $post_ids_query = "'" . implode("', '", $post_ids) . "'";
+    $wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key = 'dsq_needs_sync' AND post_id IN ({$post_ids_query})");
+}
+
 
 function dsq_sync_post($post_id) {
     global $dsq_api, $wpdb;
@@ -538,7 +549,7 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
     } else {
         $sync_time = (int)get_option('_disqus_sync_lock');
     }
-    
+
     // lock expires after 1 day
     if ($sync_time && $sync_time > time() - 86400) {
         $dsq_api->api->last_error = 'Sync already in progress (lock found)';
@@ -546,10 +557,11 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
     } else {
         update_option('_disqus_sync_lock', time());
     }
-    
+
     // sync all pending posts
     $post_ids = dsq_get_pending_post_ids();
-    delete_option('_disqus_sync_post_ids');
+    dsq_clear_pending_post_ids($post_ids);
+
     foreach ($post_ids as $post_id) {
         dsq_sync_post($post_id);
     }
@@ -593,6 +605,10 @@ add_action('dsq_sync_forum', 'dsq_sync_forum');
 
 function dsq_update_permalink($post) {
     global $dsq_api;
+
+    if (DISQUS_DEBUG) {
+        echo "updating post on disqus: {$post->ID}\n";
+    }
 
     $response = $dsq_api->api->update_thread(null, array(
         'thread_identifier'    => dsq_identifier_for_post($post),
