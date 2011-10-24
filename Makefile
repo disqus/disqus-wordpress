@@ -13,4 +13,4 @@ zip:
 
 	$(sed "s/Stable tag: .+$$/Stable tag: ${VERSION}/" "${README_FILENAME}")
 
-	zip -r "${PWD}/disqus-wordpress-${VERSION}.zip" *
+	zip -r "${PWD}/disqus-wordpress-${VERSION}.zip" * -x "*.git*"
