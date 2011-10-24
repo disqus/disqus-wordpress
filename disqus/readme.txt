@@ -59,6 +59,8 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Removed debugging information from web requests in CLI scripts (thanks
   Ryan Dewhurst for the report).
 * Reduced sync lock time to 1 hour.
+* Fixed an issue which was not allowing pending posts (for sync) to clear.
+* Fixed an issue with CLI scripts when used with certain caching plugins.
 
 2.67
 
