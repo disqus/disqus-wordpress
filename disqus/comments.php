@@ -5,32 +5,39 @@ if (DISQUS_DEBUG) {
 ?>
 
 <div id="disqus_thread">
-    <?php if (!get_option('disqus_disable_ssr') && !empty($comments)): ?>
+    <?php if (!get_option('disqus_disable_ssr') && have_comments()): ?>
         <?php
         // if (is_file(TEMPLATEPATH . '/comments.php')) {
         //     include(TEMPLATEPATH . '/comments.php');
         // }
         ?>
         <div id="dsq-content">
+
+<?php if (get_comment_pages_count() > 1 && get_option('page_comments')): // Are there comments to navigate through? ?>
+            <div class="navigation">
+                <div class="nav-previous"><?php previous_comments_link(dsq_i( '<span class="meta-nav">&larr;</span> Older Comments')); ?></div>
+                <div class="nav-next"><?php next_comments_link(dsq_i('Newer Comments <span class="meta-nav">&rarr;</span>')); ?></div>
+            </div> <!-- .navigation -->
+<?php endif; // check for comment navigation ?>
+
             <ul id="dsq-comments">
-    <?php foreach ($comments as $comment) : ?>
-                <li id="dsq-comment-<?php echo comment_ID(); ?>">
-                    <div id="dsq-comment-header-<?php echo comment_ID(); ?>" class="dsq-comment-header">
-                        <cite id="dsq-cite-<?php echo comment_ID(); ?>">
-    <?php if(comment_author_url()) : ?>
-                            <a id="dsq-author-user-<?php echo comment_ID(); ?>" href="<?php echo comment_author_url(); ?>" target="_blank" rel="nofollow"><?php echo comment_author(); ?></a>
-    <?php else : ?>
-                            <span id="dsq-author-user-<?php echo comment_ID(); ?>"><?php echo comment_author(); ?></span>
-    <?php endif; ?>
-                        </cite>
-                    </div>
-                    <div id="dsq-comment-body-<?php echo comment_ID(); ?>" class="dsq-comment-body">
-                        <div id="dsq-comment-message-<?php echo comment_ID(); ?>" class="dsq-comment-message"><?php echo wp_filter_kses(comment_text()); ?></div>
-                    </div>
-                </li>
-    <?php endforeach; ?>
+                <?php
+                    /* Loop through and list the comments. Tell wp_list_comments()
+                     * to use dsq_comment() to format the comments.
+                     */
+                    wp_list_comments(array('callback' => 'dsq_comment'));
+                ?>
             </ul>
+
+<?php if (get_comment_pages_count() > 1 && get_option('page_comments')): // Are there comments to navigate through? ?>
+            <div class="navigation">
+                <div class="nav-previous"><?php previous_comments_link(dsq_i( '<span class="meta-nav">&larr;</span> Older Comments')); ?></div>
+                <div class="nav-next"><?php next_comments_link(dsq_i( 'Newer Comments <span class="meta-nav">&rarr;</span>')); ?></div>
+            </div><!-- .navigation -->
+<?php endif; // check for comment navigation ?>
+
         </div>
+
     <?php endif; ?>
 </div>
 
@@ -48,7 +55,7 @@ if (DISQUS_DEBUG) {
     var disqus_config = function () {
         var config = this; // Access to the config object
 
-        /* 
+        /*
            All currently supported events:
             * preData — fires just before we request for initial data
             * preInit - fires after we get initial data but before we load any dependencies

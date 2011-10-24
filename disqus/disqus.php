@@ -776,6 +776,39 @@ function dsq_comments_template($value) {
     return dirname(__FILE__) . '/comments.php';
 }
 
+function dsq_comment( $comment, $args, $depth ) {
+    $GLOBALS['comment'] = $comment;
+    switch ($comment->comment_type):
+        case '' :
+    ?>
+    <li <?php comment_class(); ?> id="dsq-comment-<?php echo comment_ID(); ?>">
+        <div id="dsq-comment-header-<?php echo comment_ID(); ?>" class="dsq-comment-header">
+            <cite id="dsq-cite-<?php echo comment_ID(); ?>">
+<?php if(comment_author_url()) : ?>
+                <a id="dsq-author-user-<?php echo comment_ID(); ?>" href="<?php echo comment_author_url(); ?>" target="_blank" rel="nofollow"><?php echo comment_author(); ?></a>
+<?php else : ?>
+                <span id="dsq-author-user-<?php echo comment_ID(); ?>"><?php echo comment_author(); ?></span>
+<?php endif; ?>
+            </cite>
+        </div>
+        <div id="dsq-comment-body-<?php echo comment_ID(); ?>" class="dsq-comment-body">
+            <div id="dsq-comment-message-<?php echo comment_ID(); ?>" class="dsq-comment-message"><?php echo wp_filter_kses(comment_text()); ?></div>
+        </div>
+    </li>
+
+    <?php
+            break;
+        case 'pingback'  :
+        case 'trackback' :
+    ?>
+    <li class="post pingback">
+        <p><?php echo dsq_i('Pingback:'); ?> <?php comment_author_link(); ?><?php edit_comment_link(dsq_i('(Edit)'), ' '); ?></p>
+    </li>
+    <?php
+            break;
+    endswitch;
+}
+
 // Mark entries in index to replace comments link.
 // As of WordPress 3.1 this is required to return a numerical value
 function dsq_comments_number($count) {
@@ -805,7 +838,7 @@ function dsq_bloginfo_url($url) {
 function dsq_plugin_action_links($links, $file) {
     $plugin_file = basename(__FILE__);
     if (basename($file) == $plugin_file) {
-        $settings_link = '<a href="edit-comments.php?page=disqus#adv">'.__('Settings', 'disqus-comment-system').'</a>';
+        $settings_link = '<a href="edit-comments.php?page=disqus#adv">'.dsq_i('Settings').'</a>';
         array_unshift($links, $settings_link);
     }
     return $links;
