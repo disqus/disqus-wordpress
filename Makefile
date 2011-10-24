@@ -9,8 +9,8 @@ zip:
 
 	cp -r disqus ${OUT}
 
-	cd ${OUT}
+	ls ${OUT}
 
-	$(sed "s/Stable tag: .+$$/Stable tag: ${VERSION}/" "${README_FILENAME}")
+	# $(sed "s/Stable tag: .+$$/Stable tag: ${VERSION}/" "${README_FILENAME}")
 
-	zip -r "${PWD}/disqus-wordpress-${VERSION}.zip" * -x "*.git*"
+	zip -r "${PWD}/disqus-wordpress-${VERSION}.zip" disqus -x "*.git*"
