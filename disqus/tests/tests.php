@@ -3,12 +3,11 @@
 require_once(dirname(__FILE__) . '/../lib/wp-cli.php');
 require_once(dirname(__FILE__) . '/../disqus.php');
 
-require_once('PHPUnit/Framework.php');
+require_once('PHPUnit/Autoload.php');
 
 if (!defined('DISQUS_TEST_DATABASE')) {
     define('DISQUS_TEST_DATABASE', sprintf('%s_test', DB_NAME));
 }
-
 class DisqusPluginTest extends PHPUnit_Framework_TestCase {
     /**
      * Sets up our database and fixtures.
@@ -32,8 +31,12 @@ class DisqusPluginTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    public function test_dsq_add_pending_post_id() {
+    public function test_pending_posts_api() {
         dsq_add_pending_post_id(1);
+        $this->assertEquals(dsq_get_pending_post_ids(), array(1));
+
+        dsq_clear_pending_post_ids(array(1));
+        $this->assertEquals(dsq_get_pending_post_ids(), array());
     }
 
     // /**

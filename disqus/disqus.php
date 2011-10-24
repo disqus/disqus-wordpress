@@ -512,13 +512,13 @@ function dsq_request_handler() {
 add_action('init', 'dsq_request_handler');
 
 function dsq_add_pending_post_id($post_id) {
-    update_post_meta($post_id, 'dsq_needs_sync', '1');
+    update_post_meta($post_id, 'dsq_needs_sync', '1', $unique=true);
 }
 
 function dsq_get_pending_post_ids() {
     global $wpdb;
 
-    $results = $wpdb->get_results( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'dsq_needs_sync");
+    $results = $wpdb->get_results( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = 'dsq_needs_sync'");
     $post_ids = array();
     foreach ($results as $result) {
         $post_ids[] = $result->post_id;
@@ -531,6 +531,8 @@ function dsq_clear_pending_post_ids($post_ids) {
 
     $post_ids_query = "'" . implode("', '", $post_ids) . "'";
     $wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key = 'dsq_needs_sync' AND post_id IN ({$post_ids_query})");
+
+    update_meta_cache('dsq_needs_sync', $post_ids);
 }
 
 

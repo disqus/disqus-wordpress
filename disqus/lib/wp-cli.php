@@ -22,7 +22,7 @@ function print_line() {
 define('DOING_AJAX', true);
 define('WP_USE_THEMES', false);
 if (isset($_ENV['WORDPRESS_PATH'])) {
-    define('WORDPRESS_PATH', $_ENV['WORDPRESS_PATH']);
+    define('ABSPATH', $_ENV['WORDPRESS_PATH']);
 } else {
     if (substr($_SERVER['SCRIPT_FILENAME'], 0, 1) != '/') {
         $script_path = $_SERVER['PWD'] . $_SERVER['SCRIPT_FILENAME'];
@@ -41,13 +41,13 @@ if (isset($_ENV['WORDPRESS_PATH'])) {
 
     foreach ($paths as $path) {
         if (is_file($path.'/wp-config.php')) {
-            define('WORDPRESS_PATH', $path);
+            define('ABSPATH', $path);
             break;
         }
     }
 }
 
-if (!defined('WORDPRESS_PATH')) {
+if (!defined('ABSPATH')) {
     print_line("Unable to determine wordpress path. Please set it using WORDPRESS_PATH.");
     die();
 }
@@ -60,7 +60,7 @@ $_SERVER = array(
     "REQUEST_URI" => "/",
     "REQUEST_METHOD" => "GET"
 );
-require_once(WORDPRESS_PATH . '/wp-config.php');
+require_once(ABSPATH . '/wp-config.php');
 
 // swap out the object cache due to memory constraints
 
