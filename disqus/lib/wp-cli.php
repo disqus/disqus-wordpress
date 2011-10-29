@@ -41,7 +41,7 @@ if (isset($_ENV['WORDPRESS_PATH'])) {
 
     foreach ($paths as $path) {
         if (is_file($path.'/wp-config.php')) {
-            define('ABSPATH', $path);
+            define('ABSPATH', $path + '/');
             break;
         }
     }
@@ -60,7 +60,7 @@ $_SERVER = array(
     "REQUEST_URI" => "/",
     "REQUEST_METHOD" => "GET"
 );
-require_once(ABSPATH . '/wp-config.php');
+require_once(ABSPATH . 'wp-config.php');
 
 // swap out the object cache due to memory constraints
 
