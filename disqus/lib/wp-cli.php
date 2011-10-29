@@ -41,7 +41,7 @@ if (isset($_ENV['WORDPRESS_PATH'])) {
 
     foreach ($paths as $path) {
         if (is_file($path.'/wp-config.php')) {
-            define('ABSPATH', $path + '/');
+            define('ABSPATH', $path . '/');
             break;
         }
     }
