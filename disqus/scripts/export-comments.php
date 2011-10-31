@@ -34,7 +34,7 @@ $global_start = microtime();
 
 $max_post_id = $wpdb->get_var($wpdb->prepare("
     SELECT MAX(ID)
-    FROM $wpdb->posts 
+    FROM $wpdb->posts
     WHERE post_type != 'revision'
     AND post_status = 'publish'
     AND comment_count > 0
@@ -45,10 +45,10 @@ print_line('Max post id is %d', $max_post_id);
 
 while ($post_id < $max_post_id) {
     $start = microtime();
-    
+
     $post = $wpdb->get_results($wpdb->prepare("
-        SELECT * 
-        FROM $wpdb->posts 
+        SELECT *
+        FROM $wpdb->posts
         WHERE post_type != 'revision'
         AND post_status = 'publish'
         AND comment_count > 0
@@ -64,7 +64,7 @@ while ($post_id < $max_post_id) {
     $response = null;
     $query = $wpdb->get_results( $wpdb->prepare("SELECT COUNT(*) as total FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_agent NOT LIKE 'Disqus/%%' LIMIT ".EXPORT_CHUNK_SIZE, $post_id) );
     $total_comments = $query[0]->total;
-    
+
     $comments = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_agent NOT LIKE 'Disqus/%%' LIMIT ".EXPORT_CHUNK_SIZE, $post_id) );
     $group_id = null;
     $at = 0;
@@ -87,8 +87,11 @@ while ($post_id < $max_post_id) {
         $total_exported += count($comments);
         $at += EXPORT_CHUNK_SIZE;
         $comments = $wpdb->get_results( $wpdb->prepare("SELECT * FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_agent NOT LIKE 'Disqus/%%' LIMIT ".EXPORT_CHUNK_SIZE." OFFSET {$at}", $post->ID) );
+        // assuming the cache is the internal, reset it's value to empty to avoid
+        // large memory consumption
+        $wp_object_cache->cache = array();
     }
-    
+
     $time = abs(microtime() - $start);
     print_line('    Done! (took %.2fs)', $time);
 }

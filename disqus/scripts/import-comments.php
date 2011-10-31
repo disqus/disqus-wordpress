@@ -50,6 +50,9 @@ while ($imported) {
     $new_memory_usage = memory_get_peak_usage();
     print_line('    %d comments imported (took %.2fs, memory increased by %db)', $imported, $time, ($new_memory_usage - $memory_usage));
     $memory_usage = $new_memory_usage;
+    // assuming the cache is the internal, reset it's value to empty to avoid
+    // large memory consump
+    $wp_object_cache->cache = array();
 }
 $total_time = abs(microtime() - $global_start);
 print_line('---------------------------------------------------------');

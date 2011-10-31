@@ -70,11 +70,19 @@ class DummyWP_Object_Cache extends WP_Object_Cache {
     function set($id, $data, $group = 'default', $expire = '') {
         return;
     }
+    function delete($id, $group = 'default', $force = false) {
+        return;
+    }
+    function add($id, $data, $group = 'default', $expire = '') {
+        return;
+    }
 }
 
 // HACK: kill all output buffers (some plugins, like Hyper Cache, use theses)
 while (@ob_end_flush());
 
-$wp_object_cache = new DummyWP_Object_Cache();
+// We cant simply replace the object cache incase set/add do something that
+// matters to the webserver
+// $wp_object_cache = new DummyWP_Object_Cache();
 
 ?>
