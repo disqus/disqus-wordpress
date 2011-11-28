@@ -1049,7 +1049,7 @@ dsq_import_comments = function(wipe, force) {
                     status.html(response.msg).attr('rel', response.last_comment_id);
                     switch (response.status) {
                         case 'partial':
-                            dsq_import_comments();
+                            dsq_import_comments(false, force);
                             break;
                         case 'complete':
                             status.removeClass('dsq-importing').addClass('dsq-imported');
