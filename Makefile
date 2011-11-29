@@ -4,7 +4,11 @@ PWD=`pwd`
 VERSION=$(shell awk '/Version: (.+)$$/ {print $$2}' "${SCRIPT_FILENAME}")
 OUT=$(shell mktemp -d -t disqus-wordpress)
 
-zip:
+
+update:
+	git submodule foreach git pull origin master
+
+zip: update
 	@echo "Generating package in $(OUT)"
 
 	cp -r disqus ${OUT}
