@@ -32,6 +32,7 @@ if (!defined('DISQUS_DEBUG')) {
     define('DISQUS_DEBUG',          false);
 }
 define('DISQUS_VERSION',            '2.68');
+define('DISQUS_SYNC_TIMEOUT',       30);
 
 /**
  * Returns an array of all option identifiers used by DISQUS.
@@ -545,6 +546,8 @@ function dsq_sync_post($post_id) {
 
 function dsq_sync_forum($last_comment_id=false, $force=false) {
     global $dsq_api, $wpdb;
+
+    set_time_limit(DISQUS_SYNC_TIMEOUT);
 
     if ($force) {
         $sync_time = null;
