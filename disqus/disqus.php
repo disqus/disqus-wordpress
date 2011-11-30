@@ -472,15 +472,13 @@ function dsq_request_handler() {
                     if (!isset($_GET['last_comment_id'])) $last_comment_id = false;
                     else $last_comment_id = $_GET['last_comment_id'];
 
-                    $force = ($_GET['force'] == '1');
-
                     if ($_GET['wipe'] == '1') {
                         $wpdb->query("DELETE FROM `".$wpdb->prefix."commentmeta` WHERE meta_key IN ('dsq_post_id', 'dsq_parent_post_id')");
                         $wpdb->query("DELETE FROM `".$wpdb->prefix."comments` WHERE comment_agent LIKE 'Disqus/%%'");
                     }
 
                     ob_start();
-                    $response = dsq_sync_forum($last_comment_id, $force);
+                    $response = dsq_sync_forum($last_comment_id, true);
                     $debug = ob_get_clean();
                     if (!$response) {
                         $status = 'error';
@@ -1024,14 +1022,13 @@ dsq_fire_import = function() {
     var $ = jQuery;
     $('#dsq_import a.button, #dsq_import_retry').unbind().click(function() {
         var wipe = $('#dsq_import_wipe').is(':checked');
-        var force = $('#dsq_import_force').is(':checked');
         $('#dsq_import').html('<p class="status"></p>');
         $('#dsq_import .status').removeClass('dsq-import-fail').addClass('dsq-importing').html('Processing...');
-        dsq_import_comments(wipe, force);
+        dsq_import_comments(wipe);
         return false;
     });
 }
-dsq_import_comments = function(wipe, force) {
+dsq_import_comments = function(wipe) {
     var $ = jQuery;
     var status = $('#dsq_import .status');
     var last_comment_id = status.attr('rel') || '0';
@@ -1040,8 +1037,7 @@ dsq_import_comments = function(wipe, force) {
         {
             cf_action: 'import_comments',
             last_comment_id: last_comment_id,
-            wipe: (wipe ? 1 : 0),
-            force: (force ? 1 : 0)
+            wipe: (wipe ? 1 : 0)
         },
         function(response) {
             switch (response.result) {
@@ -1049,7 +1045,7 @@ dsq_import_comments = function(wipe, force) {
                     status.html(response.msg).attr('rel', response.last_comment_id);
                     switch (response.status) {
                         case 'partial':
-                            dsq_import_comments(false, force);
+                            dsq_import_comments(false);
                             break;
                         case 'complete':
                             status.removeClass('dsq-importing').addClass('dsq-imported');
