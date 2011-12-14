@@ -303,12 +303,12 @@ function dsq_sync_comments($comments) {
                 $commentdata['comment_author'] = $comment->anonymous_author->name;
                 $commentdata['comment_author_email'] = $comment->anonymous_author->email;
                 $commentdata['comment_author_url'] = $comment->anonymous_author->url;
-                $commentdata['comment_author_IP'] = $comment->anonymous_author->ip_address;
+                $commentdata['comment_author_IP'] = $comment->ip_address;
             } else {
                 $commentdata['comment_author'] = $comment->author->display_name;
                 $commentdata['comment_author_email'] = $comment->author->email;
                 $commentdata['comment_author_url'] = $comment->author->url;
-                $commentdata['comment_author_IP'] = $comment->author->ip_address;
+                $commentdata['comment_author_IP'] = $comment->ip_address;
             }
             $commentdata = wp_filter_comment($commentdata);
             if ($comment->parent_post) {
