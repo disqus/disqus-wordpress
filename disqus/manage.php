@@ -3,7 +3,7 @@ global $dsq_api;
 
 require(ABSPATH . 'wp-includes/version.php');
 
-if ( !current_user_can('manage_options') ) {
+if ( !current_user_can('moderate_comments') ) {
     die();
 }
 
