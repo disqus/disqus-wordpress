@@ -305,7 +305,11 @@ function dsq_sync_comments($comments) {
                 $commentdata['comment_author_url'] = $comment->anonymous_author->url;
                 $commentdata['comment_author_IP'] = $comment->ip_address;
             } else {
-                $commentdata['comment_author'] = $comment->author->display_name;
+                if isset($comment->author->display_name) {
+                    $commentdata['comment_author'] = $comment->author->display_name;
+                } else {
+                    $commentdata['comment_author'] = $comment->author->username;
+                }
                 $commentdata['comment_author_email'] = $comment->author->email;
                 $commentdata['comment_author_url'] = $comment->author->url;
                 $commentdata['comment_author_IP'] = $comment->ip_address;
