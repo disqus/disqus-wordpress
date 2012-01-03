@@ -1471,7 +1471,7 @@ function dsq_install_database($version=0) {
 }
 function dsq_uninstall_database($version=0) {
     if (version_compare($version, '2.49', '>=')) {
-        $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta` (meta_key, meta_value(11));");
+        $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta`;");
     }
 }
 ?>
