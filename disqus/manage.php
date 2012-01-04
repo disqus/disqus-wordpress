@@ -393,8 +393,8 @@ case 0:
                 <td>
                     <form action="?page=disqus" method="POST">
                         <?php wp_nonce_field('dsq-uninstall'); ?>
-                        <p>This will remove all Disqus specific settings, but it will leave your comments unaffected.</p>
-                        <input type="submit" value="Uninstall" name="uninstall" onclick="return confirm('<?php echo dsq_i('Are you sure you want to uninstall Disqus?'); ?>')" class="button" />
+                        <p><input type="submit" value="Uninstall" name="uninstall" onclick="return confirm('<?php echo dsq_i('Are you sure you want to uninstall Disqus?'); ?>')" class="button" /> This will remove all Disqus specific settings, but it will leave your comments unaffected.</p>
+                        NOTE: If you have problems with uninstallation taking too long you may wish to manually drop the <code>disqus_dupecheck</code> index from your <code>commentmeta</code> table.
                     </form>
                 </td>
             </tr>
