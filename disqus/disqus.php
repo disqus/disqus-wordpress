@@ -1164,7 +1164,6 @@ function dsq_output_loop_comment_js($post_ids = null) {
     <script type="text/javascript">
     // <![CDATA[
         var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
-        var disqus_domain = '<?php echo DISQUS_DOMAIN; ?>';
         (function () {
             var nodes = document.getElementsByTagName('span');
             for (var i = 0, url; i < nodes.length; i++) {
@@ -1178,7 +1177,7 @@ function dsq_output_loop_comment_js($post_ids = null) {
             }
             var s = document.createElement('script'); s.async = true;
             s.type = 'text/javascript';
-            s.src = 'http://' + disqus_domain + '/forums/' + disqus_shortname + '/count.js';
+            s.src = 'http://<?php echo DISQUS_DOMAIN; ?>/forums/' + disqus_shortname + '/count.js';
             (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
         }());
     //]]>
@@ -1194,7 +1193,6 @@ function dsq_output_footer_comment_js() {
     <script type="text/javascript">
     // <![CDATA[
         var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
-        var disqus_domain = '<?php echo DISQUS_DOMAIN; ?>';
         (function () {
             var nodes = document.getElementsByTagName('span');
             for (var i = 0, url; i < nodes.length; i++) {
@@ -1208,7 +1206,7 @@ function dsq_output_footer_comment_js() {
             }
             var s = document.createElement('script'); s.async = true;
             s.type = 'text/javascript';
-            s.src = 'http://' + disqus_domain + '/forums/' + disqus_shortname + '/count.js';
+            s.src = 'http://<?php echo DISQUS_DOMAIN; ?>/forums/' + disqus_shortname + '/count.js';
             (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
         }());
     //]]>
