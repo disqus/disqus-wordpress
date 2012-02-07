@@ -82,6 +82,9 @@ if (DISQUS_DEBUG) {
             }
         }
         ?>
+        if (typeof disqus_custom_config !== "undefined") {
+          disqus_custom_config(config);
+        }
     };
     var facebookXdReceiverPath = '<?php echo DSQ_PLUGIN_URL . '/xd_receiver.htm' ?>';
 /* ]]> */
