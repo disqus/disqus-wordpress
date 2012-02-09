@@ -94,7 +94,7 @@ if ( 3 == $step && isset($_POST['dsq_forum']) && isset($_POST['dsq_user_api_key'
     $api_key = $dsq_api->get_forum_api_key($_POST['dsq_user_api_key'], $dsq_forum_id);
     if ( !$api_key || $api_key < 0 ) {
         update_option('disqus_replace', 'replace');
-        dsq_manage_dialog(dsq_i('There was an error completing the installation of Disqus. If you are still having issues, refer to the <a href="http://disqus.com/help/wordpress">WordPress help page</a>.'), true);
+        dsq_manage_dialog(dsq_i('There was an error completing the installation of Disqus. If you are still having issues, refer to the <a href="http://docs.disqus.com/help/87/">WordPress help page</a>.'), true);
     } else {
         update_option('disqus_api_key', $api_key);
         update_option('disqus_user_api_key', $_POST['dsq_user_api_key']);
@@ -123,7 +123,7 @@ if ( 2 == $step && isset($_POST['dsq_username']) && isset($_POST['dsq_password']
             dsq_manage_dialog($dsq_api->get_last_error(), true);
         } else if ( !$dsq_sites ) {
             $step = 1;
-            dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'http://disqus.com/comments/register/'), true);
+            dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'http://disqus.com/admin/register/'), true);
         }
     }
 }
@@ -196,7 +196,7 @@ case 1:
                     <th scope="row" valign="top"><?php echo dsq_i('Username'); ?></th>
                     <td>
                         <input id="dsq-username" name="dsq_username" tabindex="1" type="text" />
-                        <a href="http://disqus.com/profile/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
+                        <a href="http://disqus.com/profile/signup/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
                     </td>
                 </tr>
                 <tr>
@@ -292,7 +292,7 @@ case 0:
                 <td>
                     <input type="text" name="disqus_partner_key" value="<?php echo esc_attr($dsq_partner_key); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Advanced: Used for single sign-on (SSO) integration. (<a href="%s" onclick="window.open(this.href); return false">more info on SSO</a>)', 'http://disqus.com/help/sso'); ?>
+                    <?php echo dsq_i('Advanced: Used for single sign-on (SSO) integration. (<a href="%s" onclick="window.open(this.href); return false">more info on SSO</a>)', 'http://docs.disqus.com/developers/sso/'); ?>
                 </td>
             </tr>
             <?php } ?>
@@ -330,7 +330,7 @@ case 0:
                 <td>
                     <input type="checkbox" id="disqus_comment_count" name="disqus_cc_fix" <?php if($dsq_cc_fix){echo 'checked="checked"';}?> >
                     <label for="disqus_comment_count"><?php echo dsq_i('Output JavaScript in footer'); ?></label>
-                    <br /><?php echo dsq_i('NOTE: Check this if you have problems with the comment count displays including: not showing on permalinks, broken featured image carousels, or longer-than-usual homepage load times (<a href="%s" onclick="window.open(this.href); return false">more info</a>).', 'http://disqus.com/help/wordpress'); ?>
+                    <br /><?php echo dsq_i('NOTE: Check this if you have problems with the comment count displays including: not showing on permalinks, broken featured image carousels, or longer-than-usual homepage load times (<a href="%s" onclick="window.open(this.href); return false">more info</a>).', 'http://docs.disqus.com/help/87/'); ?>
                 </td>
             </tr>
 
@@ -401,7 +401,7 @@ case 0:
         </table>
         <br/>
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
-        <p><?php echo dsq_i('Having problems with the plugin? <a href="%s">Drop us a line</a> and include the following details and we\'ll do what we can.', 'mailto:help+wp@disqus.com'); ?></p>
+        <p><?php echo dsq_i('Having problems with the plugin? Check out our <a href="%s" onclick="window.open(this.href); return false">WordPress Troubleshooting</a> documentation. You can also <a href="%s">drop us a line</a> including the following details and we\'ll do what we can.', 'http://docs.disqus.com/help/87/', 'mailto:help+wp@disqus.com'); ?></p>
         <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?>
 PHP Version: <?php echo phpversion(); ?>
 Version: <?php echo $wp_version; ?>
