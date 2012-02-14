@@ -121,7 +121,14 @@ if (DISQUS_DEBUG) {
 (function() {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = 'http://' + disqus_shortname + '.' + disqus_domain + '/embed.js?pname=wordpress&pver=<?php echo DISQUS_VERSION; ?>';
+    <?php
+    if (is_ssl()) {
+        $connection_type = "https";
+    } else {
+        $connection_type = "http";
+    }
+    ?>
+    dsq.src = '<?php echo $connection_type; ?>' + '://' + disqus_shortname + '.' + disqus_domain + '/embed.js?pname=wordpress&pver=<?php echo DISQUS_VERSION; ?>';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();
 /* ]]> */
