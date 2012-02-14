@@ -122,7 +122,7 @@ if (DISQUS_DEBUG) {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript';
     dsq.async = true;
     <?php
-    if(isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS'])) {
+    if (is_ssl()) {
         $connection_type = "https";
     } else {
         $connection_type = "http";
