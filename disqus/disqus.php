@@ -1178,12 +1178,12 @@ function dsq_output_loop_comment_js($post_ids = null) {
             var s = document.createElement('script'); s.async = true;
             s.type = 'text/javascript';
             <?php
-    	    if (is_ssl()) {
-            	$connection_type = "https";
-    	    } else {
-            	$connection_type = "http";
-    	    }
-    	    ?>
+            if (is_ssl()) {
+                $connection_type = "https";
+            } else {
+                $connection_type = "http";
+            }
+            ?>
             s.src = '<?php echo $connection_type; ?>' + '://' + '<?php echo DISQUS_DOMAIN; ?>/forums/' + disqus_shortname + '/count.js';
             (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
         }());
