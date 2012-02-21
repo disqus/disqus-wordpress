@@ -226,7 +226,7 @@ case 0:
                 echo 'http://'.$url.'.'.DISQUS_DOMAIN.'/admin/moderate/';
             } else {
                 echo DISQUS_URL.'admin/moderate/';
-            } ?>?template=wordpress" style="width: 100%; height: 80%"></iframe>
+            } ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
         </div>
 <?php } ?>
     </div>
