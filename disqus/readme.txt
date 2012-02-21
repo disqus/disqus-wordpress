@@ -54,6 +54,10 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 == Changes ==
 
+2.72
+
+* Load count.js via SSL when page is accessed via HTTPS
+
 2.71
 
 * Fixed issue where embed wasn't using SSL if page was loaded via HTTPS
