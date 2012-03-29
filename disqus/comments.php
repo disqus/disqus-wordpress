@@ -55,6 +55,10 @@ if (DISQUS_DEBUG) {
     var disqus_config = function () {
         var config = this; // Access to the config object
 
+		<?php if (defined("ICL_LANGUAGE_CODE")): //if WPML is active ?>
+			config.language = "<?php echo ICL_LANGUAGE_CODE; ?>";
+		<?php endif; ?>
+
         /*
            All currently supported events:
             * preData — fires just before we request for initial data
