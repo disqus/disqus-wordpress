@@ -41,7 +41,7 @@ function dsq_export_wxr_cdata($str) {
 
     // $str = ent2ncr(esc_html($str));
 
-    $str = "<![CDATA[$str" . ( ( substr($str, -1) == ']' ) ? ' ' : '') . "]]>";
+    $str = '<![CDATA[' . str_replace( ']]>', ']]]]><![CDATA[>', $str ) . ']]>';
 
     return $str;
 }
