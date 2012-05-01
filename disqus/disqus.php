@@ -1496,7 +1496,7 @@ function dsq_uninstall_database($version=0) {
 * @param int $comment_post_ID
 * @return int
 */
-function my_pre_comment_on_post($comment_post_ID) {
+function dsq_pre_comment_on_post($comment_post_ID) {
     if (dsq_can_replace()) {
         wp_die( __('Sorry, the built-in commenting system is disabled because Disqus is active.') );
     }
