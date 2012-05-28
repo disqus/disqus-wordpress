@@ -128,7 +128,7 @@ if (DISQUS_DEBUG) {
         $connection_type = "http";
     }
     ?>
-    dsq.src = '<?php echo $connection_type; ?>' + '://' + disqus_shortname + '.' + disqus_domain + '/embed.js?pname=wordpress&pver=<?php echo DISQUS_VERSION; ?>';
+    dsq.src = '<?php echo $connection_type; ?>' + '://' + disqus_shortname + '.' + '<?php echo DISQUS_DOMAIN; ?>' + '/embed.js?pname=wordpress&pver=<?php echo DISQUS_VERSION; ?>';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();
 /* ]]> */
