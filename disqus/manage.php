@@ -421,8 +421,12 @@ dsq_is_installed: <?php echo dsq_is_installed(); ?>
 Plugins:
 
 <?php
-foreach (get_plugins() as $plugin) {
-    echo $plugin['Name'].' '.$plugin['Version']."\n";
+foreach (get_plugins() as $key => $plugin) {
+    $isactive = "";
+    if (is_plugin_active($key)) {
+        $isactive = "(active)";
+    }
+    echo $plugin['Name'].' '.$plugin['Version'].' '.$isactive."\n";
 }
 ?></textarea><br/>
     </div>
