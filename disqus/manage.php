@@ -330,7 +330,7 @@ case 0:
                     <?php } ?>
                     <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Allows users to log in to Disqus via WordPress. (<a href="%s">Example screenshot</a>.)','http://dl.dropbox.com/u/15229959/Screenshots/pv5x4mr0u4sv.png'); ?>
+                    <?php echo dsq_i('Allows users to log in to Disqus via WordPress. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-button.png'); ?>
                     <?php echo dsq_i('<br />Dimensions: 89x21 for non-Disqus 2012 sites. Disqus 2012 sites, see <a href="%s">our SSO button template</a>.','http://help.disqus.com/customer/portal/articles/236206#button-style-template'); ?>
                 </td>
             </tr>
@@ -343,7 +343,7 @@ case 0:
                     <?php } ?>
                     <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2"> 
                     <br />
-                    <?php echo dsq_i('Adds an icon to the log-in modal. Not necessary for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','http://dl.dropbox.com/u/15229959/Screenshots/cn~~8utcrcto.png'); ?>
+                    <?php echo dsq_i('Adds an icon to the log-in modal. Not necessary for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-icon.png'); ?>
                     <?php echo dsq_i('<br />Dimensions: 16x16.'); ?>
                 </td>
             </tr>
