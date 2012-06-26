@@ -56,6 +56,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 2.73
 
+* Output user website if set in SSO payload
 * Fixed issue where disqus_dupecheck won't properly uninstall
 * Load second count.js (output-in-footer version) reference via SSL too
 
