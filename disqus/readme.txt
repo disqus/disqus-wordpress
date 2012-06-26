@@ -1,5 +1,5 @@
 === Disqus Comment System ===
-Contributors: disqus, alexkingorg, crowdfavorite
+Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 2.8
 Tested up to: 3.3.1
@@ -56,6 +56,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 2.73
 
+* Added Single Sign-On log-in button and icon to options (only for sites using SSO)
 * Fixed issue where disqus_dupecheck won't properly uninstall
 * Load second count.js (output-in-footer version) reference via SSL too
 

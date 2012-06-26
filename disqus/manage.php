@@ -71,6 +71,13 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
     update_option('disqus_disable_ssr', isset($_POST['disqus_disable_ssr']));
     update_option('disqus_public_key', $_POST['disqus_public_key']);
     update_option('disqus_secret_key', $_POST['disqus_secret_key']);
+    // Handle any SSO button and icon uploads
+    if(isset($_FILES['disqus_sso_button'])) {
+        dsq_image_upload_handler('disqus_sso_button');
+    }
+    if(isset($_FILES['disqus_sso_icon'])) {
+        dsq_image_upload_handler('disqus_sso_icon');
+    }
     dsq_manage_dialog('Your settings have been changed.');
 }
 
@@ -240,9 +247,10 @@ case 0:
     $dsq_cc_fix = get_option('disqus_cc_fix');
     $dsq_manual_sync = get_option('disqus_manual_sync');
     $dsq_disable_ssr = get_option('disqus_disable_ssr');
-
     $dsq_public_key = get_option('disqus_public_key');
     $dsq_secret_key = get_option('disqus_secret_key');
+    $dsq_sso_button = get_option('disqus_sso_button');
+    $dsq_sso_icon = get_option('disqus_sso_icon');
 ?>
     <!-- Advanced options -->
     <div id="dsq-advanced" class="dsq-content dsq-advanced"<?php if (!$show_advanced) echo ' style="display:none;"'; ?>>
@@ -256,7 +264,7 @@ case 0:
             echo '<p class="status">Disqus comments are currently enabled. (<a href="?page=disqus&amp;active=0">Disable</a>)</p>';
         }
         ?>
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
         <?php wp_nonce_field('dsq-advanced'); ?>
         <h3>Configuration</h3>
         <table class="form-table">
@@ -310,6 +318,33 @@ case 0:
                     <input type="text" name="disqus_secret_key" value="<?php echo esc_attr($dsq_secret_key); ?>" tabindex="2">
                     <br />
                     <?php echo dsq_i('Advanced: Used for single sign-on (SSO) integration. (<a href="%s" onclick="window.open(this.href); return false">more info on SSO</a>)', 'http://docs.disqus.com/developers/sso/'); ?>
+                </td>
+            </tr>
+
+            <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('Custom Log-in Button'); ?></th>
+                <td>
+                    <?php if (!empty($dsq_sso_button)) { ?>
+                    <img src="<?php echo esc_attr($dsq_sso_button); ?>" alt="<?php echo esc_attr($dsq_sso_button); ?>" />
+                    <br />
+                    <?php } ?>
+                    <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
+                    <br />
+                    <?php echo dsq_i('Allows users to log in to Disqus via WordPress. (<a href="%s">Example screenshot</a>.)','http://dl.dropbox.com/u/15229959/Screenshots/pv5x4mr0u4sv.png'); ?>
+                    <?php echo dsq_i('<br />Dimensions: 89x21 for non-Disqus 2012 sites. Disqus 2012 sites, see <a href="%s">our SSO button template</a>.','http://help.disqus.com/customer/portal/articles/236206#button-style-template'); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('Custom Log-in Icon<br>'); ?></th>
+                <td>
+                    <?php if (!empty($dsq_sso_icon)) { ?>
+                    <img src="<?php echo esc_attr($dsq_sso_icon); ?>" alt="<?php echo esc_attr($dsq_sso_icon); ?>" />
+                    <br />
+                    <?php } ?>
+                    <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2"> 
+                    <br />
+                    <?php echo dsq_i('Adds an icon to the log-in modal. Not necessary for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','http://dl.dropbox.com/u/15229959/Screenshots/cn~~8utcrcto.png'); ?>
+                    <?php echo dsq_i('<br />Dimensions: 16x16.'); ?>
                 </td>
             </tr>
 

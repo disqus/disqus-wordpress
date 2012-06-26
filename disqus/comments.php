@@ -81,6 +81,7 @@ if (DISQUS_DEBUG) {
                 echo "this.page.{$k} = '{$v}';\n";
             }
         }
+        echo dsq_sso_login();
         ?>
     };
     var facebookXdReceiverPath = '<?php echo DSQ_PLUGIN_URL . '/xd_receiver.htm' ?>';

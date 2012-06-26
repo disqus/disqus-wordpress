@@ -44,14 +44,17 @@ function dsq_options() {
         '_disqus_sync_post_ids',
         # render disqus in the embed
         'disqus_active',
-        'disqus_public_key',
-        'disqus_secret_key',
         'disqus_forum_url',
         'disqus_api_key',
         'disqus_user_api_key',
-        'disqus_partner_key',
         'disqus_replace',
         'disqus_cc_fix',
+        # SSO features
+        'disqus_partner_key',
+        'disqus_public_key',
+        'disqus_secret_key',
+        'disqus_sso_button',
+        'disqus_sso_icon',
         # disables automatic sync via cron
         'disqus_manual_sync',
         # disables server side rendering
@@ -513,6 +516,31 @@ function dsq_request_handler() {
 }
 
 add_action('init', 'dsq_request_handler');
+
+/**
+ * @param string $option_name
+ */
+function dsq_image_upload_handler($option_name) {
+    // If the upload field has a file in it
+    if(isset($_FILES[$option_name]) && ($_FILES[$option_name]['size'] > 0)) {
+        // Get the type of the uploaded file. This is returned as "type/extension"
+        $arr_file_type = wp_check_filetype(basename($_FILES[$option_name]['name']));
+        $uploaded_file_type = $arr_file_type['type'];
+        // Set an array containing a list of acceptable formats
+        $allowed_file_types = array('image/jpg','image/jpeg','image/gif','image/png','image/x-icon');
+        // If the uploaded file is the right format
+        if(in_array($uploaded_file_type, $allowed_file_types)) {
+            // Options array for the wp_handle_upload function. 'test_upload' => false
+            $upload_overrides = array( 'test_form' => false ); 
+            // Handle the upload using WP's wp_handle_upload function. Takes the posted file and an options array
+            $uploaded_file = wp_handle_upload($_FILES[$option_name], $upload_overrides);
+            // If the wp_handle_upload call returned a local path for the image
+            if(isset($uploaded_file['url'])) {
+                update_option($option_name, $uploaded_file['url']);
+            }
+        }
+    }
+}
 
 function dsq_add_pending_post_id($post_id) {
     update_post_meta($post_id, 'dsq_needs_sync', '1', $unique=true);
@@ -1396,8 +1424,26 @@ function dsq_sso() {
     }
 }
 
+function dsq_sso_login() {
+    global $current_site;
+    $sitename = get_bloginfo('name');
+    $siteurl = site_url();
+    $button = get_option('disqus_sso_button');
+    $icon = get_option('disqus_sso_icon');
+    $sso_login_str = 'this.sso = {
+          name: "'.$sitename.'",
+          button: "'.$button.'",
+          icon: "'.$icon.'",
+          url: "'.$siteurl.'/wp-login.php",
+          logout: "'.$siteurl.'/wp-login.php?action=logout",
+          width: "800",
+          height: "700"
+    }';
+    return $sso_login_str;
+}
+
 // from: http://www.php.net/manual/en/function.sha1.php#39492
-//Calculate HMAC-SHA1 according to RFC2104
+// Calculate HMAC-SHA1 according to RFC2104
 // http://www.ietf.org/rfc/rfc2104.txt
 function dsq_hmacsha1($data, $key) {
     $blocksize=64;
