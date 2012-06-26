@@ -37,7 +37,7 @@ The Disqus for WordPress plugin seamlessly integrates using the Disqus API and b
 
 == Installation ==
 
-**NOTE: It is recommended that you backup your database before installing the plugin.**
+**NOTE: It is recommended that you [backup your database](http://codex.wordpress.org/Backing_Up_Your_Database) before installing the plugin.**
 
 1. Unpack archive to this archive to the 'wp-content/plugins/' directory inside
    of WordPress
