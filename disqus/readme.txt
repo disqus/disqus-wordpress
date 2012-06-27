@@ -1,5 +1,5 @@
 === Disqus Comment System ===
-Contributors: disqus, alexkingorg, crowdfavorite
+Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 2.8
 Tested up to: 3.4
@@ -56,6 +56,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 2.73
 
+* Added Single Sign-On log-in button and icon to options (only for sites using SSO)
 * Output user website if set in SSO payload
 * Added plugin activation statuses to debug info
 * Bump supported WordPress version to 3.4
