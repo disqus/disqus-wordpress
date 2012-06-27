@@ -52,10 +52,17 @@ The Disqus for WordPress plugin seamlessly integrates using the Disqus API and b
 
 Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
+== Screenshots ==
+
+1. Disqus Comments
+2. Discovery Box (part of Disqus Comments)
+3. Inline Moderation Interface
+
 == Changes ==
 
 2.73
 
+* Added screenshots
 * Fixed issue where disqus_dupecheck won't properly uninstall
 * Load second count.js (output-in-footer version) reference via SSL too
 
