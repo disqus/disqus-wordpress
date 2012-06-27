@@ -62,6 +62,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Bump supported WordPress version to 3.4
 * Fixed issue where disqus_dupecheck won't properly uninstall
 * Load second count.js (output-in-footer version) reference via SSL too
+* Updated settings UI
 
 2.72
 
