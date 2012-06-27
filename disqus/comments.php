@@ -71,7 +71,12 @@ if (DISQUS_DEBUG) {
         <?php if (!get_option('disqus_manual_sync')): ?>
         config.callbacks.onReady.push(function() {
             // sync comments in the background so we don't block the page
-            DISQUS.request.get('?cf_action=sync_comments&post_id=<?php echo $post->ID; ?>');
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '?cf_action=sync_comments&post_id=<?php echo $post->ID; ?>';
+
+            var firstScript = document.getElementsByTagName( "script" )[0];
+            firstScript.parentNode.insertBefore(script, firstScript);
         });
         <?php endif; ?>
         <?php
