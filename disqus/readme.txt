@@ -56,6 +56,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 2.73
 
+* Output user website if set in SSO payload
 * Added plugin activation statuses to debug info
 * Bump supported WordPress version to 3.4
 * Fixed issue where disqus_dupecheck won't properly uninstall
