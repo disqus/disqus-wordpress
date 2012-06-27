@@ -1406,6 +1406,7 @@ function dsq_sso() {
             'id' => $current_user->ID,
             'avatar' => $avatar,
             'email' => $current_user->user_email,
+            'url' => $current_user->user_url,
         );
     }
     else {

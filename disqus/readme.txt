@@ -57,6 +57,8 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 2.73
 
 * Added Single Sign-On log-in button and icon to options (only for sites using SSO)
+* Output user website if set in SSO payload
+* Added plugin activation statuses to debug info
 * Bump supported WordPress version to 3.4
 * Fixed issue where disqus_dupecheck won't properly uninstall
 * Load second count.js (output-in-footer version) reference via SSL too
