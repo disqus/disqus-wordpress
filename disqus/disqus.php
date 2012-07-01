@@ -334,7 +334,7 @@ function dsq_sync_comments($comments) {
                 continue;
             }
 
-            $commentdata['comment_ID'] = wp_insert_comment($commentdata);
+            $commentdata['comment_ID'] = wp_new_comment($commentdata);
             if (DISQUS_DEBUG) {
                 echo "inserted {$comment->id}: id is {$commentdata[comment_ID]}\n";
             }
