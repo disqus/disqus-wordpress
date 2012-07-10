@@ -2,7 +2,7 @@ README_FILENAME=disqus/readme.txt
 SCRIPT_FILENAME=disqus/disqus.php
 PWD=`pwd`
 VERSION=$(shell awk '/Version: (.+)$$/ {print $$2}' "${SCRIPT_FILENAME}")
-OUT=$(shell mktemp -d -t disqus-wordpress)
+OUT=$(shell mktemp -d -t disqus-wordpress.XXXXXX)
 
 
 update:
