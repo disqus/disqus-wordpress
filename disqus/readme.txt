@@ -62,7 +62,8 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 2.73
 
-* Apply CDATA patch from Wordpress 3.4 to dsq_export_wxr_cdata()
+* Apply CDATA patch from Wordpress 3.4 to dsq_export_wxr_cdata() (thanks Artem
+  Russakovskii for the patch).
 * Added Single Sign-On log-in button and icon to options (only for sites using SSO)
 * Output user website if set in SSO payload
 * Added plugin activation statuses to debug info
