@@ -71,7 +71,6 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Fixed issue where disqus_dupecheck won't properly uninstall
 * Load second count.js (output-in-footer version) reference via SSL too
 * Added screenshots
-* Updated settings UI
 
 2.72
 
