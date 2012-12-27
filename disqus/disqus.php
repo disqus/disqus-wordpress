@@ -827,7 +827,6 @@ function dsq_comment( $comment, $args, $depth ) {
         <div id="dsq-comment-body-<?php echo comment_ID(); ?>" class="dsq-comment-body">
             <div id="dsq-comment-message-<?php echo comment_ID(); ?>" class="dsq-comment-message"><?php echo wp_filter_kses(comment_text()); ?></div>
         </div>
-    </li>
 
     <?php
             break;
