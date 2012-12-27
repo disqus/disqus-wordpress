@@ -31,7 +31,7 @@ define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
     define('DISQUS_DEBUG',          false);
 }
-define('DISQUS_VERSION',            '2.73');
+define('DISQUS_VERSION',            '2.74');
 define('DISQUS_SYNC_TIMEOUT',       30);
 
 /**
