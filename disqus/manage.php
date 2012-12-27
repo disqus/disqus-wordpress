@@ -269,26 +269,14 @@ case 0:
         <table class="form-table">
             
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('<h3>General</h3><p>Automatically set during installation.</p>'); ?></th>
+                <th scope="row" valign="top"><?php echo dsq_i('<h3>General</h3>'); ?></th>
             </tr>
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Forum Shortname'); ?></th>
                 <td>
-                    <input name="disqus_forum_url" value="<?php echo esc_attr($dsq_forum_url); ?>" tabindex="1" type="text" readonly="true">
+                    <code><?php echo esc_attr($dsq_forum_url); ?></code>
                     <br />
-                    <?php echo dsq_i('This is the unique identifier for your website in Disqus.'); ?>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('Forum API Key'); ?></th>
-                <td>
-                    <input type="text" name="disqus_api_key" value="<?php echo esc_attr($dsq_api_key); ?>" tabindex="2" readonly="true">
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('User API Key'); ?></th>
-                <td>
-                    <input type="text" name="disqus_user_api_key" value="<?php echo esc_attr($dsq_user_api_key); ?>" tabindex="2" readonly="true">
+                    <?php echo dsq_i('This is the unique identifier for your website in Disqus, automatically set during installation.'); ?>
                 </td>
             </tr>
 
