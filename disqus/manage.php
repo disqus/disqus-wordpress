@@ -26,18 +26,18 @@ if( isset($_POST['export']) and DISQUS_CAN_EXPORT ) {
     dsq_export_wp();
 }
 
-// Handle uninstallation.
-if ( isset($_POST['uninstall']) ) {
+// Handle resetting.
+if ( isset($_POST['reset']) ) {
     foreach (dsq_options() as $opt) {
         delete_option($opt);
     }
     unset($_POST);
-    dsq_uninstall_database();
+    dsq_reset_database();
 ?>
 <div class="wrap">
-    <h2><?php echo dsq_i('Disqus Uninstalled'); ?></h2>
+    <h2><?php echo dsq_i('Disqus Reset'); ?></h2>
     <form method="POST" action="?page=disqus">
-        <p>Disqus has been uninstalled successfully.</p>
+        <p>Disqus has been reset successfully.</p>
         <ul style="list-style: circle;padding-left:20px;">
             <li>Local settings for the plugin were removed.</li>
             <li>Database changes by Disqus were reverted.</li>
@@ -416,16 +416,16 @@ case 0:
             </tr>
         </table>
 
-        <h3>Uninstall</h3>
+        <h3>Reset</h3>
 
         <table class="form-table">
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('Uninstall Disqus Comments'); ?></th>
+                <th scope="row" valign="top"><?php echo dsq_i('Reset Disqus'); ?></th>
                 <td>
                     <form action="?page=disqus" method="POST">
-                        <?php wp_nonce_field('dsq-uninstall'); ?>
-                        <p><input type="submit" value="Uninstall" name="uninstall" onclick="return confirm('<?php echo dsq_i('Are you sure you want to uninstall Disqus?'); ?>')" class="button" /> This removes all Disqus-specific settings. Comments will remain unaffected.</p>
-                        If you have problems with uninstallation taking too long you may wish to first manually drop the <code>disqus_dupecheck</code> index from your <code>commentmeta</code> table.
+                        <?php wp_nonce_field('dsq-reset'); ?>
+                        <p><input type="submit" value="Reset" name="reset" onclick="return confirm('<?php echo dsq_i('Are you sure you want to reset the Disqus plugin?'); ?>')" class="button" /> This removes all Disqus-specific settings. Comments will remain unaffected.</p>
+                        If you have problems with resetting taking too long you may wish to first manually drop the <code>disqus_dupecheck</code> index from your <code>commentmeta</code> table.
                     </form>
                 </td>
             </tr>

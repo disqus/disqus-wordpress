@@ -194,11 +194,11 @@ msgid "This will download your Disqus comments and store them locally in WordPre
 msgstr ""
 
 #: ../disqus/manage.php:297
-msgid "Uninstall Disqus Comments"
+msgid "Reset Disqus Comments"
 msgstr ""
 
 #: ../disqus/manage.php:301
-msgid "Are you sure you want to uninstall Disqus?"
+msgid "Are you sure you want to reset Disqus?"
 msgstr ""
 
 #: ../disqus/manage.php:308

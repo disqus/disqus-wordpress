@@ -967,7 +967,7 @@ function dsq_manage() {
         dsq_install();
     }
 
-    if (dsq_does_need_update() && isset($_POST['uninstall'])) {
+    if (dsq_does_need_update() && isset($_POST['reset'])) {
         include_once(dirname(__FILE__) . '/upgrade.php');
     } else {
         include_once(dirname(__FILE__) . '/manage.php');
@@ -1112,7 +1112,7 @@ function dsq_warning() {
         dsq_manage_dialog('You must <a href="edit-comments.php?page=disqus">configure the plugin</a> to enable Disqus Comments.', true);
     }
 
-    if ( !dsq_is_installed() && $page != 'disqus' && !empty($_GET['step']) && !isset($_POST['uninstall']) ) {
+    if ( !dsq_is_installed() && $page != 'disqus' && !empty($_GET['step']) && !isset($_POST['reset']) ) {
         dsq_manage_dialog('Disqus Comments has not yet been configured. (<a href="edit-comments.php?page=disqus">Click here to configure</a>)');
     }
 }
@@ -1527,7 +1527,7 @@ function dsq_install_database($version=0) {
         $wpdb->query("CREATE INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta` (meta_key, meta_value(11));");
     }
 }
-function dsq_uninstall_database($version=0) {
+function dsq_reset_database($version=0) {
     global $wpdb;
     
     if (version_compare($version, '2.49', '>=')) {
