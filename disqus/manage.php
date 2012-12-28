@@ -321,7 +321,7 @@ case 0:
             </tr>
 
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('<h3>Advanced</h3><h4>Single Sign-On (<a href="%s" onclick="window.open(this.href); return false">More info on SSO</a>)</h4>', 'http://docs.disqus.com/developers/sso/'); ?></th>
+                <th scope="row" valign="top" colspan="2"><?php echo dsq_i('<h3>Advanced</h3><h4>Single Sign-On</h4><p>Allows users to log in to Disqus via WordPress. (<a href="%s" onclick="window.open(this.href); return false">More info on SSO</a>)</p>', 'http://help.disqus.com/customer/portal/articles/684744'); ?></th>
             </tr>
             <?php if (!empty($dsq_partner_key)) {// this option only shows if it was already present ?>
             <tr>
