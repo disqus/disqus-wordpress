@@ -140,7 +140,7 @@ $show_advanced = (isset($_GET['t']) && $_GET['t'] == 'adv');
 ?>
 <div class="wrap" id="dsq-wrap">
     <ul id="dsq-tabs">
-        <li<?php if (!$show_advanced) echo ' class="selected"'; ?> id="dsq-tab-main" rel="dsq-main"><?php echo (dsq_is_installed() ? 'Manage' : 'Install'); ?></li>
+        <li<?php if (!$show_advanced) echo ' class="selected"'; ?> id="dsq-tab-main" rel="dsq-main"><?php echo (dsq_is_installed() ? 'Moderate' : 'Install'); ?></li>
         <li<?php if ($show_advanced) echo ' class="selected"'; ?> id="dsq-tab-advanced" rel="dsq-advanced"><?php echo dsq_i('Plugin Settings'); ?></li>
     </ul>
 
@@ -226,14 +226,12 @@ case 1:
     break;
 case 0:
     $url = get_option('disqus_forum_url');
+    if ($url) { $mod_url = 'http://'.$url.'.'.DISQUS_DOMAIN.'/admin/moderate/'; }
+    else { $mod_url = DISQUS_URL.'admin/moderate/'; }
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
-            <h2><?php echo dsq_i('Comments'); ?></h2>
-            <iframe src="<?php if ($url) {
-                echo 'http://'.$url.'.'.DISQUS_DOMAIN.'/admin/moderate/';
-            } else {
-                echo DISQUS_URL.'admin/moderate/';
-            } ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
+            <h2><a href="<?php echo $mod_url ?>"><img src="<?php echo DSQ_PLUGIN_URL; ?>/media/images/logo.png"></a></h2>
+            <iframe src="<?php echo $mod_url ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
         </div>
 <?php } ?>
     </div>

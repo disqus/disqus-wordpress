@@ -1,7 +1,8 @@
-ul#dsq-tabs li {
+ul#dsq-tabs li:last-child {
+	width: 100px;
 }
 ul#dsq-tabs li.selected {
-	border-bottom: 3px solid #ffa100;
+	font-weight: bold;
 }
 ul#dsq-tabs li {
 	float: left;
@@ -10,6 +11,7 @@ ul#dsq-tabs li {
 	height: 16px;
 	cursor: pointer;
 	margin-right: 8px;
+	text-align: right;
 }
 
 ul#dsq-tabs {
@@ -28,8 +30,6 @@ select.disqus-replace {
 }
 
 .dsq-content h2 {
-	background: url(../../media/images/logo.png) no-repeat;
 	line-height: 41px;
 	margin: 15px 0 10px;
-	padding: 0 0 0 150px;
 }
