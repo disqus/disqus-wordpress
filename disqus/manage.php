@@ -363,7 +363,7 @@ case 0:
                     <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
                     <br />
                     <?php echo dsq_i('Allows users to log in to Disqus via WordPress. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-button.png'); ?>
-                    <?php echo dsq_i('<br />Dimensions: 89x21 for non-Disqus 2012 sites. Disqus 2012 sites, see <a href="%s">our SSO button template</a>.','http://help.disqus.com/customer/portal/articles/236206#button-style-template'); ?>
+                    <?php echo dsq_i('<br />See <a href="%s">our SSO button documentation</a> for a template to create your own button.','http://help.disqus.com/customer/portal/articles/236206#sso-login-button'); ?>
                 </td>
             </tr>
             <tr>
