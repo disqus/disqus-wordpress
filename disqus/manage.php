@@ -405,9 +405,8 @@ case 0:
                 <td>
                     <div id="dsq_import">
                         <div class="status">
-                            <p><?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?></p>
+                            <p><a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a>  <?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?></p>
                             <label><input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/> <?php echo dsq_i('Remove all imported Disqus comments before syncing.'); ?></label><br/>
-                            <p><a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a></p>
                         </div>
                     </div>
                 </td>
