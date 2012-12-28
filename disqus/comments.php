@@ -91,7 +91,6 @@ if (DISQUS_DEBUG) {
         }
         ?>
     };
-    var facebookXdReceiverPath = '<?php echo DSQ_PLUGIN_URL . '/xd_receiver.htm' ?>';
 /* ]]> */
 </script>
 
