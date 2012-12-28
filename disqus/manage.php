@@ -57,14 +57,7 @@ foreach ( array('dsq_forum', 'dsq_username', 'dsq_user_api_key') as $key ) {
 
 // Handle advanced options.
 if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
-    $disqus_forum_url = $_POST['disqus_forum_url'];
-    if ( $dot_pos = strpos($disqus_forum_url, '.') ) {
-        $disqus_forum_url = substr($disqus_forum_url, 0, $dot_pos);
-    }
-    update_option('disqus_forum_url', $disqus_forum_url);
     update_option('disqus_partner_key', trim(stripslashes($_POST['disqus_partner_key'])));
-    update_option('disqus_api_key', trim(stripslashes($_POST['disqus_api_key'])));
-    update_option('disqus_user_api_key', trim(stripslashes($_POST['disqus_user_api_key'])));
     update_option('disqus_replace', $_POST['disqus_replace']);
     update_option('disqus_cc_fix', isset($_POST['disqus_cc_fix']));
     update_option('disqus_manual_sync', isset($_POST['disqus_manual_sync']));
@@ -272,6 +265,7 @@ case 0:
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Forum Shortname'); ?></th>
                 <td>
+                    <input type="hidden" name="disqus_forum_url" value="<?php echo esc_attr($dsq_forum_url); ?>"/>
                     <code><?php echo esc_attr($dsq_forum_url); ?></code>
                     <br />
                     <?php echo dsq_i('This is the unique identifier for your website in Disqus, automatically set during installation.'); ?>
@@ -284,7 +278,7 @@ case 0:
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Use Disqus Comments on'); ?></th>
                 <td>
-                    <select name="disqus_replace" tabindex="3" class="disqus-replace">
+                    <select name="disqus_replace" tabindex="1" class="disqus-replace">
                         <option value="all" <?php if('all'==$dsq_replace){echo 'selected';}?>><?php echo dsq_i('On all existing and future blog posts.'); ?></option>
                         <option value="closed" <?php if('closed'==$dsq_replace){echo 'selected';}?>><?php echo dsq_i('Only on blog posts with closed comments.'); ?></option>
                     </select>
@@ -383,6 +377,8 @@ case 0:
         </table>
 
         <p class="submit" style="text-align: left">
+            <input type="hidden" name="disqus_api_key" value="<?php echo esc_attr($dsq_api_key); ?>"/>
+            <input type="hidden" name="disqus_user_api_key" value="<?php echo esc_attr($dsq_user_api_key); ?>"/>
             <input name="submit" type="submit" value="Save" class="button-primary button" tabindex="4">
         </p>
         </form>
