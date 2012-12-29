@@ -85,8 +85,6 @@ if (DISQUS_DEBUG) {
             foreach ($sso as $k=>$v) {
                 echo "this.page.{$k} = '{$v}';\n";
             }
-        }
-        if (get_option('disqus_sso_button')) {
             echo dsq_sso_login();
         }
         ?>
