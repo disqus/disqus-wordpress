@@ -65,11 +65,20 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
     update_option('disqus_public_key', $_POST['disqus_public_key']);
     update_option('disqus_secret_key', $_POST['disqus_secret_key']);
     // Handle any SSO button and icon uploads
-    if(isset($_FILES['disqus_sso_button'])) {
-        dsq_image_upload_handler('disqus_sso_button');
-    }
-    if(isset($_FILES['disqus_sso_icon'])) {
-        dsq_image_upload_handler('disqus_sso_icon');
+    if ( version_compare($wp_version, '3.5', '>=') ) {
+        // Use WP 3.5's new, streamlined, much-improved built-in media uploader
+
+        // Only update if a value is actually POSTed, otherwise any time the form is saved the button and icon will be un-set
+        if ($_POST['disqus_sso_button']) { update_option('disqus_sso_button', $_POST['disqus_sso_button']); }
+        if ($_POST['disqus_sso_icon']) { update_option('disqus_sso_icon', $_POST['disqus_sso_icon']); }
+    } else {
+        // WP is older than 3.5, use legacy, less-elegant media uploader
+        if(isset($_FILES['disqus_sso_button'])) {
+            dsq_image_upload_handler('disqus_sso_button');
+        }
+        if(isset($_FILES['disqus_sso_icon'])) {
+            dsq_image_upload_handler('disqus_sso_icon');
+        }
     }
     dsq_manage_dialog('Your settings have been changed.');
 }
@@ -354,9 +363,57 @@ case 0:
                     <img src="<?php echo esc_attr($dsq_sso_button); ?>" alt="<?php echo esc_attr($dsq_sso_button); ?>" />
                     <br />
                     <?php } ?>
-                    <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
+
+                    <?php if ( version_compare($wp_version, '3.5', '>=') ) {
+                        // HACK: Use WP's new (as of WP 3.5), streamlined, much-improved built-in media uploader
+                        
+                        // Use WP 3.5's new consolidated call to get all necessary media uploader scripts and styles
+                        wp_enqueue_media(); ?>
+
+                        <script type="text/javascript">
+                        // Uploading files
+                        var file_frame;
+                         
+                          jQuery('.upload_image_button').live('click', function( event ){
+                         
+                            event.preventDefault();
+                         
+                            // If the media frame already exists, reopen it.
+                            if ( file_frame ) {
+                              file_frame.open();
+                              return;
+                            }
+                         
+                            // Create the media frame.
+                            file_frame = wp.media.frames.file_frame = wp.media({
+                              title: jQuery( this ).data( 'uploader_title' ),
+                              button: {
+                                text: jQuery( this ).data( 'uploader_button_text' ),
+                              },
+                              multiple: false  // Set to true to allow multiple files to be selected
+                            });
+                         
+                            // When an image is selected, run a callback.
+                            file_frame.on( 'select', function() {
+                              // We set multiple to false so only get one image from the uploader
+                              attachment = file_frame.state().get('selection').first().toJSON();
+                         
+                              // Do something with attachment.id and/or attachment.url here
+                              jQuery('#disqus_sso_button').val(attachment.url);
+                            });
+                         
+                            // Finally, open the modal
+                            file_frame.open();
+                          });
+                        </script>
+
+                        <input type="button" value="<?php echo ($dsq_sso_button ? 'Change' : 'Choose'); ?> button" class="button upload_image_button" tabindex="2">
+                        <input type="hidden" name="disqus_sso_button" id="disqus_sso_button" value=""/>
+                    <?php } else { // use pre-WP 3.5 media upload functionality ?>
+                        <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
+                    <?php } ?>
                     <br />
-                    <?php echo dsq_i('Allows users to log in to Disqus via WordPress. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-button.png'); ?>
+                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-button.png'); ?>
                     <?php echo dsq_i('<br />See <a href="%s">our SSO button documentation</a> for a template to create your own button.','http://help.disqus.com/customer/portal/articles/236206#sso-login-button'); ?>
                 </td>
             </tr>
@@ -367,9 +424,56 @@ case 0:
                     <img src="<?php echo esc_attr($dsq_sso_icon); ?>" alt="<?php echo esc_attr($dsq_sso_icon); ?>" />
                     <br />
                     <?php } ?>
-                    <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2"> 
+                    <?php if ( version_compare($wp_version, '3.5', '>=') ) {
+                        // HACK: Use WP's new (as of WP 3.5), streamlined, much-improved built-in media uploader
+                        
+                        // Use WP 3.5's new consolidated call to get all necessary media uploader scripts and styles
+                        wp_enqueue_media(); ?>
+
+                        <script type="text/javascript">
+                        // Uploading files
+                        var file_frame2;
+                         
+                          jQuery('.upload_image_button2').live('click', function( event ){
+                         
+                            event.preventDefault();
+                         
+                            // If the media frame already exists, reopen it.
+                            if ( file_frame2 ) {
+                              file_frame2.open();
+                              return;
+                            }
+                         
+                            // Create the media frame.
+                            file_frame2 = wp.media.frames.file_frame = wp.media({
+                              title: jQuery( this ).data( 'uploader_title' ),
+                              button: {
+                                text: jQuery( this ).data( 'uploader_button_text' ),
+                              },
+                              multiple: false  // Set to true to allow multiple files to be selected
+                            });
+                         
+                            // When an image is selected, run a callback.
+                            file_frame2.on( 'select', function() {
+                              // We set multiple to false so only get one image from the uploader
+                              attachment = file_frame2.state().get('selection').first().toJSON();
+                         
+                              // Do something with attachment.id and/or attachment.url here
+                              jQuery('#disqus_sso_icon').val(attachment.url);
+                            });
+                         
+                            // Finally, open the modal
+                            file_frame2.open();
+                          });
+                        </script>
+
+                        <input type="button" value="<?php echo ($dsq_sso_icon ? 'Change' : 'Choose'); ?> icon" class="button upload_image_button2" tabindex="2">
+                        <input type="hidden" name="disqus_sso_icon" id="disqus_sso_icon" value=""/>
+                    <?php } else { // use pre-WP 3.5 media upload functionality ?>
+                        <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2">
+                    <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds an icon to the log-in modal. Not necessary for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-icon.png'); ?>
+                    <?php echo dsq_i('Adds an icon to the Disqus Classic log-in modal. This does not apply for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-icon.png'); ?>
                     <?php echo dsq_i('<br />Dimensions: 16x16.'); ?>
                 </td>
             </tr>
