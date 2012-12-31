@@ -156,6 +156,7 @@ case 3:
 
             <p>Disqus has been installed on your blog.</p>
             <p>If you have existing comments, you may wish to <a href="?page=disqus&amp;t=adv#export">export them</a> now. Otherwise, you're all set, and the Disqus network is now powering comments on your blog.</p>
+            <p><a href="edit-comments.php?page=disqus">Continue to the moderation dashboard</a></p>
         </div>
 <?php
     break;

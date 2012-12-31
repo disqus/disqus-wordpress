@@ -870,7 +870,11 @@ function dsq_bloginfo_url($url) {
 function dsq_plugin_action_links($links, $file) {
     $plugin_file = basename(__FILE__);
     if (basename($file) == $plugin_file) {
-        $settings_link = '<a href="edit-comments.php?page=disqus#adv">'.dsq_i('Settings').'</a>';
+        if (!dsq_is_installed()) {
+            $settings_link = '<a href="edit-comments.php?page=disqus">'.dsq_i('Install').'</a>';
+        } else {
+            $settings_link = '<a href="edit-comments.php?page=disqus#adv">'.dsq_i('Settings').'</a>';    
+        }
         array_unshift($links, $settings_link);
     }
     return $links;
