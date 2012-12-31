@@ -871,7 +871,7 @@ function dsq_plugin_action_links($links, $file) {
     $plugin_file = basename(__FILE__);
     if (basename($file) == $plugin_file) {
         if (!dsq_is_installed()) {
-            $settings_link = '<a href="edit-comments.php?page=disqus">'.dsq_i('Install').'</a>';
+            $settings_link = '<a href="edit-comments.php?page=disqus">'.dsq_i('Configure').'</a>';
         } else {
             $settings_link = '<a href="edit-comments.php?page=disqus#adv">'.dsq_i('Settings').'</a>';    
         }
@@ -1113,7 +1113,7 @@ add_action('admin_head', 'dsq_admin_head');
 function dsq_warning() {
     $page = (isset($_GET['page']) ? $_GET['page'] : null);
     if ( !get_option('disqus_forum_url') && !isset($_POST['forum_url']) && $page != 'disqus' ) {
-        dsq_manage_dialog('You must <a href="edit-comments.php?page=disqus">configure the plugin</a> to enable Disqus Comments.', true);
+        dsq_manage_dialog('You must <a href="edit-comments.php?page=disqus">configure the plugin</a> to use Disqus Comments.', true);
     }
 
     if ( !dsq_is_installed() && $page != 'disqus' && !empty($_GET['step']) && !isset($_POST['reset']) ) {
