@@ -913,6 +913,8 @@ jQuery(function($) {
     // fix menu
     var mc = $('#menu-comments');
     mc.find('a.wp-has-submenu').attr('href', 'edit-comments.php?page=disqus').end().find('.wp-submenu  li:has(a[href="edit-comments.php?page=disqus"])').prependTo(mc.find('.wp-submenu ul'));
+    // fix admin bar
+    $('#wp-admin-bar-comments').find('a.ab-item').attr('href', 'edit-comments.php?page=disqus');
 });
 </script>
 <?php
