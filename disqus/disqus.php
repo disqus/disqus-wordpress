@@ -937,7 +937,7 @@ function dsq_dash_comment_counts() {
     $known_types = array_keys( $approved );
     foreach( (array) $count as $row_num => $row ) {
         $total += $row['num_comments'];
-        if ( in_array( $row['comment_approved'], $known_types ) )
+        if ( in_array( $row['comment_approved'], $known_types ) && array_key_exists($row['comment_approved'], $approved) )
             $stats[$approved[$row['comment_approved']]] = $row['num_comments'];
     }
 
