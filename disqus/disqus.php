@@ -1110,17 +1110,6 @@ dsq_import_comments = function(wipe) {
 }
 add_action('admin_head', 'dsq_admin_head');
 
-function dsq_warning() {
-    $page = (isset($_GET['page']) ? $_GET['page'] : null);
-    if ( !get_option('disqus_forum_url') && !isset($_POST['forum_url']) && $page != 'disqus' ) {
-        dsq_manage_dialog('You must <a href="edit-comments.php?page=disqus">configure the plugin</a> to use Disqus Comments.', true);
-    }
-
-    if ( !dsq_is_installed() && $page != 'disqus' && !empty($_GET['step']) && !isset($_POST['reset']) ) {
-        dsq_manage_dialog('Disqus Comments has not yet been configured. (<a href="edit-comments.php?page=disqus">Click here to configure</a>)');
-    }
-}
-
 /**
  * Wrapper for built-in __() which pulls all text from
  * the disqus domain and supports variable interpolation.
@@ -1283,8 +1272,6 @@ function dsq_check_permalink($post_id) {
     }
 }
 add_action('edit_post', 'dsq_check_permalink');
-
-add_action('admin_notices', 'dsq_warning');
 
 // Only replace comments if the disqus_forum_url option is set.
 add_filter('comments_template', 'dsq_comments_template');
@@ -1519,6 +1506,64 @@ function dsq_install($allow_database_install=true) {
     }
 
     update_option('disqus_version', DISQUS_VERSION);
+}
+
+/**
+ * Adds a simple WordPress pointer to Comments menu, to remind the user to configure the plugin
+ */
+function dsq_enqueue_pointer_script_style( $hook_suffix ) {
+    
+    // Assume pointer shouldn't be shown
+    $enqueue_pointer_script_style = false;
+
+    // Get array list of dismissed pointers for current user and convert it to array
+    $dismissed_pointers = explode( ',', get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+
+    // Check if our pointer is not among dismissed ones
+    if( !in_array( 'disqus_settings_pointer', $dismissed_pointers ) ) {
+        $enqueue_pointer_script_style = true;
+        
+        // Add footer scripts using callback function
+        add_action( 'admin_print_footer_scripts', 'dsq_pointer_print_scripts' );
+    }
+
+    // Enqueue pointer CSS and JS files, if needed
+    if( $enqueue_pointer_script_style ) {
+        wp_enqueue_style( 'wp-pointer' );
+        wp_enqueue_script( 'wp-pointer' );
+    }
+    
+}
+add_action( 'admin_enqueue_scripts', 'dsq_enqueue_pointer_script_style' );
+
+function dsq_pointer_print_scripts() {
+
+    $pointer_content  = '<h3>DISQUS needs to be configured</h3>';
+    $pointer_content .= '<p>Configure DISQUS by clicking Comments to the left.</p>';
+?>
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready( function($) {
+        $('#menu-comments').pointer({
+            content:        '<?php echo $pointer_content; ?>',
+            position:       {
+                                edge:   'left', // arrow direction
+                                align:  'center' // vertical alignment
+                            },
+            pointerWidth:   350,
+            close:          function() {
+                                $.post( ajaxurl, {
+                                        pointer: 'disqus_settings_pointer', // pointer ID
+                                        action: 'dismiss-wp-pointer'
+                                });
+                            }
+        }).pointer('open');
+    });
+    //]]>
+    </script>
+
+<?php
 }
 
 /**
