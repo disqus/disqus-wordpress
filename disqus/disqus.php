@@ -1585,4 +1585,20 @@ function dsq_reset_database($version=0) {
         $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta`;");
     }
 }
+
+/**
+* Disable internal Wordpress commenting if Disqus is enabled - this prevents spam bots from
+* commenting using POST requests to /wp-comments-post.php.
+*
+* @param int $comment_post_ID
+* @return int
+*/
+function dsq_pre_comment_on_post($comment_post_ID) {
+    if (dsq_can_replace()) {
+        wp_die( __('Sorry, the built-in commenting system is disabled because Disqus is active.') );
+    }
+    return $comment_post_ID;
+}
+add_action('pre_comment_on_post', 'dsq_pre_comment_on_post');
+
 ?>
