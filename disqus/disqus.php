@@ -948,15 +948,9 @@ function dsq_dash_comment_counts() {
     }
     $stats = (object) $stats;
 ?>
-<style type="text/css">
-#dashboard_right_now .inside,
-#dashboard_recent_comments div.trackback {
-    display: none;
-}
-</style>
 <script type="text/javascript">
 jQuery(function($) {
-    $('#dashboard_right_now').find('.b-comments a').html('<?php echo number_format($stats->total_comments); ?>').end().find('.b_approved a').html('<?php echo number_format($stats->approved); ?>').end().find('.b-waiting a').html('<?php echo number_format($stats->moderated); ?>').end().find('.b-spam a').html('<?php echo number_format($stats->spam); ?>').end().find('.inside').slideDown();
+    $('#dashboard_right_now').find('.b-comments a').html('<?php echo number_format($stats->total_comments); ?>').end().find('.b_approved a').html('<?php echo number_format($stats->approved); ?>').end().find('.b-waiting a').html('<?php echo number_format($stats->moderated); ?>').end().find('.b-spam a').html('<?php echo number_format($stats->spam); ?>');
     $('#dashboard_recent_comments div.trackback').remove();
     $('#dashboard_right_now .inside table td.last a, #dashboard_recent_comments .inside .textright a.button').attr('href', 'edit-comments.php?page=disqus');
 });
