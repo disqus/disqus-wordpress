@@ -54,6 +54,7 @@ if (DISQUS_DEBUG) {
     <?php endif; ?>
     var disqus_config = function () {
         var config = this; // Access to the config object
+        config.language = '<?php echo esc_js(apply_filters('disqus_language_filter', '')) ?>';
 
         /*
            All currently supported events:
