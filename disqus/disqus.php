@@ -1516,7 +1516,10 @@ function dsq_enqueue_pointer_script_style( $hook_suffix ) {
     }
     
 }
-add_action( 'admin_enqueue_scripts', 'dsq_enqueue_pointer_script_style' );
+if (!dsq_is_installed()) {
+    // Only show the pointer when Disqus isn't already configured
+    add_action( 'admin_enqueue_scripts', 'dsq_enqueue_pointer_script_style' );
+}
 
 function dsq_pointer_print_scripts() {
 
