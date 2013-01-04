@@ -37,12 +37,12 @@ if ( isset($_POST['reset']) ) {
 <div class="wrap">
     <h2><?php echo dsq_i('Disqus Reset'); ?></h2>
     <form method="POST" action="?page=disqus">
-        <p>Disqus has been reset successfully.</p>
+        <p><?php echo dsq_i('Disqus has been reset successfully.') ?></p>
         <ul style="list-style: circle;padding-left:20px;">
-            <li>Local settings for the plugin were removed.</li>
-            <li>Database changes by Disqus were reverted.</li>
+            <li><?php echo dsq_i('Local settings for the plugin were removed.') ?></li>
+            <li><?php echo dsq_i('Database changes by Disqus were reverted.') ?></li>
         </ul>
-        <p>If you wish to <a href="?page=disqus&amp;step=1">reinstall</a>, you can do that now.</p>
+        <p><?php echo dsq_i('If you wish to <a href="?page=disqus&amp;step=1">reinstall</a>, you can do that now.') ?></p>
     </form>
 </div>
 <?php
@@ -80,7 +80,7 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
             dsq_image_upload_handler('disqus_sso_icon');
         }
     }
-    dsq_manage_dialog('Your settings have been changed.');
+    dsq_manage_dialog(dsq_i('Your settings have been changed.'));
 }
 
 // handle disqus_active
@@ -142,7 +142,7 @@ $show_advanced = (isset($_GET['t']) && $_GET['t'] == 'adv');
 ?>
 <div class="wrap" id="dsq-wrap">
     <ul id="dsq-tabs">
-        <li<?php if (!$show_advanced) echo ' class="selected"'; ?> id="dsq-tab-main" rel="dsq-main"><?php echo (dsq_is_installed() ? 'Moderate' : 'Install'); ?></li>
+        <li<?php if (!$show_advanced) echo ' class="selected"'; ?> id="dsq-tab-main" rel="dsq-main"><?php echo (dsq_is_installed() ? dsq_i('Moderate') : dsq_i('Install')); ?></li>
         <li<?php if ($show_advanced) echo ' class="selected"'; ?> id="dsq-tab-advanced" rel="dsq-advanced"><?php echo dsq_i('Plugin Settings'); ?></li>
     </ul>
 
@@ -154,9 +154,9 @@ case 3:
         <div id="dsq-step-3" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
             <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
 
-            <p>Disqus has been installed on your blog.</p>
-            <p>If you have existing comments, you may wish to <a href="?page=disqus&amp;t=adv#export">export them</a> now. Otherwise, you're all set, and the Disqus network is now powering comments on your blog.</p>
-            <p><a href="edit-comments.php?page=disqus">Continue to the moderation dashboard</a></p>
+            <p><?php echo dsq_i('Disqus has been installed on your blog.'); ?></p>
+            <p><?php echo dsq_i('If you have existing comments, you may wish to <a href="?page=disqus&amp;t=adv#export">export them</a> now. Otherwise, you\'re all set, and the Disqus network is now powering comments on your blog.'); ?></p>
+            <p><a href="edit-comments.php?page=disqus"><?php echo dsq_i('Continue to the moderation dashboard'); ?></a></p>
         </div>
 <?php
     break;
@@ -260,9 +260,9 @@ case 0:
         <?php
         if (get_option('disqus_active') === '0') {
             // disqus is not active
-            echo '<p class="status">Disqus comments are currently disabled. (<a href="?page=disqus&amp;active=1">Enable</a>)</p>';
+            echo dsq_i('<p class="status">Disqus comments are currently disabled. (<a href="?page=disqus&amp;active=1">Enable</a>)</p>');
         } else {
-            echo '<p class="status">Disqus comments are currently enabled. (<a href="?page=disqus&amp;active=0">Disable</a>)</p>';
+            echo dsq_i('<p class="status">Disqus comments are currently enabled. (<a href="?page=disqus&amp;active=0">Disable</a>)</p>');
         }
         ?>
         <form method="POST" enctype="multipart/form-data">
@@ -408,7 +408,7 @@ case 0:
                           });
                         </script>
 
-                        <input type="button" value="<?php echo ($dsq_sso_button ? 'Change' : 'Choose'); ?> button" class="button upload_image_button" tabindex="2">
+                        <input type="button" value="<?php echo ($dsq_sso_button ? dsq_i('Change') : dsq_i('Choose')); ?> button" class="button upload_image_button" tabindex="2">
                         <input type="hidden" name="disqus_sso_button" id="disqus_sso_button" value=""/>
                     <?php } else { // use pre-WP 3.5 media upload functionality ?>
                         <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
@@ -468,7 +468,7 @@ case 0:
                           });
                         </script>
 
-                        <input type="button" value="<?php echo ($dsq_sso_icon ? 'Change' : 'Choose'); ?> icon" class="button upload_image_button2" tabindex="2">
+                        <input type="button" value="<?php echo ($dsq_sso_icon ? dsq_i('Change') : dsq_i('Choose')); ?> icon" class="button upload_image_button2" tabindex="2">
                         <input type="hidden" name="disqus_sso_icon" id="disqus_sso_icon" value=""/>
                     <?php } else { // use pre-WP 3.5 media upload functionality ?>
                         <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2">
@@ -522,8 +522,8 @@ case 0:
                 <td>
                     <form action="?page=disqus" method="POST">
                         <?php wp_nonce_field('dsq-reset'); ?>
-                        <p><input type="submit" value="Reset" name="reset" onclick="return confirm('<?php echo dsq_i('Are you sure you want to reset the Disqus plugin?'); ?>')" class="button" /> This removes all Disqus-specific settings. Comments will remain unaffected.</p>
-                        If you have problems with resetting taking too long you may wish to first manually drop the <code>disqus_dupecheck</code> index from your <code>commentmeta</code> table.
+                        <p><input type="submit" value="Reset" name="reset" onclick="return confirm('<?php echo dsq_i('Are you sure you want to reset the Disqus plugin?'); ?>')" class="button" /> <?php echo dsq_i('This removes all Disqus-specific settings. Comments will remain unaffected.') ?></p>
+                        <?php echo dsq_i('If you have problems with resetting taking too long you may wish to first manually drop the <code>disqus_dupecheck</code> index from your <code>commentmeta</code> table.') ?>
                     </form>
                 </td>
             </tr>

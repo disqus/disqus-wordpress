@@ -443,7 +443,7 @@ function dsq_request_handler() {
                     $eof = (int)($post_id == $max_post_id);
                     if ($eof) {
                         $status = 'complete';
-                        $msg = 'Your comments have been sent to Disqus and queued for import!<br/><a href="'.DISQUS_IMPORTER_URL.'" target="_blank">See the status of your import at Disqus</a>';
+                        $msg = dsq_i('Your comments have been sent to Disqus and queued for import!<br/><a href="'.DISQUS_IMPORTER_URL.'" target="_blank">See the status of your import at Disqus</a>');
                     }
                     else {
                         $status = 'partial';
