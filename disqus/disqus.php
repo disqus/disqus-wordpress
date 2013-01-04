@@ -1575,7 +1575,7 @@ function dsq_reset_database($version=0) {
 */
 function dsq_pre_comment_on_post($comment_post_ID) {
     if (dsq_can_replace()) {
-        wp_die( __('Sorry, the built-in commenting system is disabled because Disqus is active.') );
+        wp_die( dsq_i('Sorry, the built-in commenting system is disabled because Disqus is active.') );
     }
     return $comment_post_ID;
 }
