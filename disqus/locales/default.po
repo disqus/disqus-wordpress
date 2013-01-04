@@ -2,211 +2,428 @@ msgid ""
 msgstr ""
 "Project-Id-Version: disqus-wordpress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-25 12:46-0800\n"
-"PO-Revision-Date: 2010-08-25 12:46-0800\n"
-"Last-Translator: David Cramer <dcramer@gmail.com>\n"
-"Language-Team: DISQUS <team@disqus.com>\n"
+"POT-Creation-Date: 2013-01-04 12:02-0800\n"
+"PO-Revision-Date: 2013-01-04 12:03-0800\n"
+"Last-Translator: Tyler Hayes <tyler@disqus.com>\n"
+"Language-Team: DISQUS <translation@disqus.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop;dsq_i;__;_e\n"
 "X-Poedit-Basepath: ../\n"
+"X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../disqus/disqus.php:326
+#: ../disqus/comments.php:18 ../disqus/comments.php:34
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr ""
+
+#: ../disqus/comments.php:19 ../disqus/comments.php:35
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: ../disqus/disqus.php:446
+msgid ""
+"Your comments have been sent to Disqus and queued for import!<br/><a href=\""
+msgstr ""
+
+#: ../disqus/disqus.php:450
 #, php-format
 msgid "Processed comments on post #%s&hellip;"
 msgstr ""
 
-#: ../disqus/disqus.php:329
+#: ../disqus/disqus.php:460
 #, php-format
-msgid "Processed comments on posts #%s-%s&hellip;"
+msgid ""
+"Sorry, something unexpected happened with the export. Please <a href=\"#\" "
+"id=\"dsq_export_retry\">try again</a></p><p>If your API key has changed, you "
+"may need to reinstall Disqus (deactivate the plugin and then reactivate it). "
+"If you are still having issues, refer to the <a href=\"%s\" onclick=\"window."
+"open(this.href); return false\">WordPress help page</a>."
 msgstr ""
 
-#: ../disqus/disqus.php:340
+#: ../disqus/disqus.php:465
 #, php-format
-msgid "Sorry, something unexpected happened with the export. Please <a href=\"#\" id=\"dsq_export_retry\">try again</a></p><p>If your API key has changed, you may need to reinstall Disqus (deactivate the plugin and then reactivate it). If you are still having issues, refer to the <a href=\"%s\" onclick=\"window.open(this.href); return false\">WordPress help page</a>."
+msgid ""
+"Your comments have been sent to Disqus and queued for import!<br/><a href="
+"\"%s\" target=\"_blank\">See the status of your import at Disqus</a>"
 msgstr ""
 
-#: ../disqus/disqus.php:345
+#: ../disqus/disqus.php:495
+msgid "There was an error downloading your comments from Disqus."
+msgstr ""
+
+#: ../disqus/disqus.php:500
+msgid ""
+"Your comments have been downloaded from Disqus and saved in your local "
+"database."
+msgstr ""
+
+#: ../disqus/disqus.php:503
 #, php-format
-msgid "Your comments have been sent to Disqus and queued for import!<br/><a href=\"%s\" target=\"_blank\">See the status of your import at Disqus</a>"
+msgid "Import in progress (last post id: %s) &hellip;"
 msgstr ""
 
-#: ../disqus/disqus.php:386
-msgid "Your comments have been downloaded from Disqus and saved in your local database."
+#: ../disqus/disqus.php:837
+msgid "Pingback:"
 msgstr ""
 
-#: ../disqus/disqus.php:391
-#, php-format
-msgid "Imported comments on post #%s&hellip;"
+#: ../disqus/disqus.php:837
+msgid "(Edit)"
 msgstr ""
 
-#: ../disqus/disqus.php:394
-#, php-format
-msgid "Imported comments on posts #%s-%s&hellip;"
+#: ../disqus/disqus.php:874
+msgid "Configure"
 msgstr ""
 
-#: ../disqus/disqus.php:647
+#: ../disqus/disqus.php:876 ../disqus/manage.php:258
 msgid "Settings"
 msgstr ""
 
-#: ../disqus/manage.php:48
-msgid "There was an error completing the installation of Disqus. If you are still having issues, refer to the <a href=\"http://disqus.com/help/wordpress\">WordPress help page</a>."
+#: ../disqus/disqus.php:1578
+msgid ""
+"Sorry, the built-in commenting system is disabled because Disqus is active."
 msgstr ""
 
-#: ../disqus/manage.php:105
-#: ../disqus/manage.php:199
-msgid "Advanced Options"
+#: ../disqus/manage.php:38
+msgid "Disqus Reset"
 msgstr ""
 
-#: ../disqus/manage.php:114
-#: ../disqus/manage.php:148
+#: ../disqus/manage.php:40
+msgid "Disqus has been reset successfully."
+msgstr ""
+
+#: ../disqus/manage.php:42
+msgid "Local settings for the plugin were removed."
+msgstr ""
+
+#: ../disqus/manage.php:43
+msgid "Database changes by Disqus were reverted."
+msgstr ""
+
+#: ../disqus/manage.php:45
+msgid ""
+"If you wish to <a href=\"?page=disqus&amp;step=1\">reinstall</a>, you can do "
+"that now."
+msgstr ""
+
+#: ../disqus/manage.php:83
+msgid "Your settings have been changed."
+msgstr ""
+
+#: ../disqus/manage.php:106
+msgid ""
+"There was an error completing the installation of Disqus. If you are still "
+"having issues, refer to the <a href=\"http://docs.disqus.com/help/87/"
+"\">WordPress help page</a>."
+msgstr ""
+
+#: ../disqus/manage.php:135
+#, php-format
+msgid ""
+"There aren't any sites associated with this account. Maybe you want to <a "
+"href=\"%s\">create a site</a>?"
+msgstr ""
+
+#: ../disqus/manage.php:145
+msgid "Moderate"
+msgstr ""
+
+#: ../disqus/manage.php:145
+msgid "Install"
+msgstr ""
+
+#: ../disqus/manage.php:146
+msgid "Plugin Settings"
+msgstr ""
+
+#: ../disqus/manage.php:155 ../disqus/manage.php:166 ../disqus/manage.php:200
 msgid "Install Disqus Comments"
 msgstr ""
 
-#: ../disqus/manage.php:120
+#: ../disqus/manage.php:157
+msgid "Disqus has been installed on your blog."
+msgstr ""
+
+#: ../disqus/manage.php:158
+msgid ""
+"If you have existing comments, you may wish to <a href=\"?page=disqus&amp;"
+"t=adv#export\">export them</a> now. Otherwise, you're all set, and the "
+"Disqus network is now powering comments on your blog."
+msgstr ""
+
+#: ../disqus/manage.php:159
+msgid "Continue to the moderation dashboard"
+msgstr ""
+
+#: ../disqus/manage.php:172
 msgid "Select a website"
 msgstr ""
 
-#: ../disqus/manage.php:132
+#: ../disqus/manage.php:184
 msgid "Or register a new one on the Disqus website."
 msgstr ""
 
-#: ../disqus/manage.php:154
+#: ../disqus/manage.php:206
 msgid "Username"
 msgstr ""
 
-#: ../disqus/manage.php:157
+#: ../disqus/manage.php:209
 msgid "(don't have a Disqus Profile yet?)"
 msgstr ""
 
-#: ../disqus/manage.php:161
+#: ../disqus/manage.php:213
 msgid "Password"
 msgstr ""
 
-#: ../disqus/manage.php:164
+#: ../disqus/manage.php:216
 msgid "(forgot your password?)"
 msgstr ""
 
-#: ../disqus/manage.php:182
-msgid "Comments"
-msgstr ""
-
-#: ../disqus/manage.php:200
+#: ../disqus/manage.php:259
 #, php-format
 msgid "Version: %s"
 msgstr ""
 
-#: ../disqus/manage.php:205
-msgid "Disqus short name"
-msgstr ""
-
-#: ../disqus/manage.php:209
-msgid "This is the unique identifier for your website on Disqus Comments."
-msgstr ""
-
-#: ../disqus/manage.php:214
-msgid "Disqus API Key"
-msgstr ""
-
-#: ../disqus/manage.php:218
-#: ../disqus/manage.php:227
-msgid "This is set for you when going through the installation steps."
-msgstr ""
-
-#: ../disqus/manage.php:223
-msgid "Disqus User API Key"
-msgstr ""
-
-#: ../disqus/manage.php:232
-msgid "Disqus Partner Key"
-msgstr ""
-
-#: ../disqus/manage.php:236
-#, php-format
-msgid "Advanced: Used for single sign-on (SSO) integration. (<a href=\"%s\" onclick=\"window.open(this.href); return false\">more info on SSO</a>)"
-msgstr ""
-
-#: ../disqus/manage.php:241
-msgid "Use Disqus Comments on"
-msgstr ""
-
-#: ../disqus/manage.php:244
-msgid "On all existing and future blog posts."
-msgstr ""
-
-#: ../disqus/manage.php:245
-msgid "Only on blog posts with closed comments."
-msgstr ""
-
-#: ../disqus/manage.php:248
-msgid "NOTE: Your WordPress comments will never be lost."
-msgstr ""
-
-#: ../disqus/manage.php:253
-msgid "Comment Counts"
-msgstr ""
-
-#: ../disqus/manage.php:256
-msgid "Output JavaScript in footer"
-msgstr ""
-
-#: ../disqus/manage.php:257
-#, php-format
-msgid "NOTE: Check this if you have problems with the comment count displays including: not showing on permalinks, broken featured image carousels, or longer-than-usual homepage load times (<a href=\"%s\" onclick=\"window.open(this.href); return false\">more info</a>)."
-msgstr ""
-
-#: ../disqus/manage.php:262
-msgid "Comment Sync"
+#: ../disqus/manage.php:263
+msgid ""
+"<p class=\"status\">Disqus comments are currently disabled. (<a href=\"?"
+"page=disqus&amp;active=1\">Enable</a>)</p>"
 msgstr ""
 
 #: ../disqus/manage.php:265
-msgid "Disable automated comment importing"
+msgid ""
+"<p class=\"status\">Disqus comments are currently enabled. (<a href=\"?"
+"page=disqus&amp;active=0\">Disable</a>)</p>"
 msgstr ""
 
-#: ../disqus/manage.php:266
-msgid "NOTE: If you have problems with WP cron taking too long and large numbers of comments you may wish to disable the automated sync cron. Keep in mind that this means comments will not automatically get synced to your local Wordpress database."
+#: ../disqus/manage.php:273
+msgid "<h3>General</h3>"
 msgstr ""
 
-#: ../disqus/manage.php:280
-msgid "Export comments to Disqus"
+#: ../disqus/manage.php:276
+msgid "Forum Shortname"
 msgstr ""
 
-#: ../disqus/manage.php:283
-msgid "Export Comments"
+#: ../disqus/manage.php:281
+msgid ""
+"This is the unique identifier for your website in Disqus, automatically set "
+"during installation."
 msgstr ""
 
-#: ../disqus/manage.php:283
-msgid "This will sync your WordPress comments with Disqus"
+#: ../disqus/manage.php:286
+msgid "<h3>Appearance</h3>"
 msgstr ""
 
 #: ../disqus/manage.php:289
-msgid "Sync Disqus with WordPress"
+msgid "Use Disqus Comments on"
 msgstr ""
 
 #: ../disqus/manage.php:292
-msgid "Sync Comments"
+msgid "On all existing and future blog posts."
 msgstr ""
 
-#: ../disqus/manage.php:292
-msgid "This will download your Disqus comments and store them locally in WordPress"
+#: ../disqus/manage.php:293
+msgid "Only on blog posts with closed comments."
 msgstr ""
 
-#: ../disqus/manage.php:297
-msgid "Reset Disqus Comments"
+#: ../disqus/manage.php:296
+msgid "Your WordPress comments will never be lost."
 msgstr ""
 
 #: ../disqus/manage.php:301
-msgid "Are you sure you want to reset Disqus?"
+msgid "<h3>Sync</h3>"
+msgstr ""
+
+#: ../disqus/manage.php:304
+msgid "Comment Sync"
+msgstr ""
+
+#: ../disqus/manage.php:307
+msgid "Disable automated comment importing"
 msgstr ""
 
 #: ../disqus/manage.php:308
+msgid ""
+"If you have problems with WP-Cron taking too long, or have a large number of "
+"comments, you may wish to disable automated sync. Keep in mind this means "
+"comments will not automatically sync to your local WordPress database."
+msgstr ""
+
+#: ../disqus/manage.php:312
+msgid "Server-Side Rendering"
+msgstr ""
+
+#: ../disqus/manage.php:315
+msgid "Disable server-side rendering of comments"
+msgstr ""
+
+#: ../disqus/manage.php:316
+msgid "Hides comments from nearly all search engines."
+msgstr ""
+
+#: ../disqus/manage.php:321
+msgid "<h3>Patches</h3>"
+msgstr ""
+
+#: ../disqus/manage.php:325
+msgid "Template Conflicts"
+msgstr ""
+
+#: ../disqus/manage.php:328
+msgid "Output JavaScript in footer"
+msgstr ""
+
+#: ../disqus/manage.php:329
+#, php-format
+msgid ""
+"Enable this if you have problems with comment counts or other "
+"irregularities. For example: missing counts, counts always at 0, Disqus code "
+"showing on the page, broken image carousels, or longer-than-usual home page "
+"load times (<a href=\"%s\" onclick=\"window.open(this.href); return false"
+"\">more info</a>)."
+msgstr ""
+
+#: ../disqus/manage.php:334
+#, php-format
+msgid ""
+"<h3>Advanced</h3><h4>Single Sign-On</h4><p>Allows users to log in to Disqus "
+"via WordPress. (<a href=\"%s\" onclick=\"window.open(this.href); return false"
+"\">More info on SSO</a>)</p>"
+msgstr ""
+
+#: ../disqus/manage.php:338
+msgid "Disqus Partner Key"
+msgstr ""
+
+#: ../disqus/manage.php:345
+msgid "API Application Public Key"
+msgstr ""
+
+#: ../disqus/manage.php:349 ../disqus/manage.php:357
+#, php-format
+msgid "Found at <a href=\"%s\">Disqus API Applications</a>."
+msgstr ""
+
+#: ../disqus/manage.php:353
+msgid "API Application Secret Key"
+msgstr ""
+
+#: ../disqus/manage.php:361
+msgid "Custom Log-in Button"
+msgstr ""
+
+#: ../disqus/manage.php:411 ../disqus/manage.php:471
+msgid "Change"
+msgstr ""
+
+#: ../disqus/manage.php:411 ../disqus/manage.php:471
+msgid "Choose"
+msgstr ""
+
+#: ../disqus/manage.php:411
+msgid "button"
+msgstr ""
+
+#: ../disqus/manage.php:417
+#, php-format
+msgid ""
+"Adds a button to the Disqus log-in interface. (<a href=\"%s\">Example "
+"screenshot</a>.)"
+msgstr ""
+
+#: ../disqus/manage.php:418
+#, php-format
+msgid ""
+"<br />See <a href=\"%s\">our SSO button documentation</a> for a template to "
+"create your own button."
+msgstr ""
+
+#: ../disqus/manage.php:422
+msgid "Custom Log-in Icon<br>"
+msgstr ""
+
+#: ../disqus/manage.php:471
+msgid "icon"
+msgstr ""
+
+#: ../disqus/manage.php:477
+#, php-format
+msgid ""
+"Adds an icon to the Disqus Classic log-in modal. This does not apply for "
+"sites using Disqus 2012. (<a href=\"%s\">Example screenshot</a>.)"
+msgstr ""
+
+#: ../disqus/manage.php:478
+msgid "<br />Dimensions: 16x16."
+msgstr ""
+
+#: ../disqus/manage.php:496
+msgid "Export comments to Disqus"
+msgstr ""
+
+#: ../disqus/manage.php:499
+msgid "Export Comments"
+msgstr ""
+
+#: ../disqus/manage.php:499
+msgid "This will export your existing WordPress comments to Disqus"
+msgstr ""
+
+#: ../disqus/manage.php:505
+msgid "Sync Disqus with WordPress"
+msgstr ""
+
+#: ../disqus/manage.php:509
+msgid "Sync Comments"
+msgstr ""
+
+#: ../disqus/manage.php:509
+msgid ""
+"This will download your Disqus comments and store them locally in WordPress"
+msgstr ""
+
+#: ../disqus/manage.php:510
+msgid "Remove all imported Disqus comments before syncing."
+msgstr ""
+
+#: ../disqus/manage.php:521
+msgid "Reset Disqus"
+msgstr ""
+
+#: ../disqus/manage.php:525
+msgid "Are you sure you want to reset the Disqus plugin?"
+msgstr ""
+
+#: ../disqus/manage.php:525
+msgid ""
+"This removes all Disqus-specific settings. Comments will remain unaffected."
+msgstr ""
+
+#: ../disqus/manage.php:526
+msgid ""
+"If you have problems with resetting taking too long you may wish to first "
+"manually drop the <code>disqus_dupecheck</code> index from your "
+"<code>commentmeta</code> table."
+msgstr ""
+
+#: ../disqus/manage.php:533
 msgid "Debug Information"
 msgstr ""
 
-#: ../disqus/manage.php:309
+#: ../disqus/manage.php:534
 #, php-format
-msgid "Having problems with the plugin? <a href=\"%s\">Drop us a line</a> and include the following details and we'll do what we can."
+msgid ""
+"Having problems with the plugin? Check out our <a href=\"%s\" onclick="
+"\"window.open(this.href); return false\">WordPress Troubleshooting</a> "
+"documentation. You can also <a href=\"%s\">drop us a line</a> including the "
+"following details and we'll do what we can."
 msgstr ""
 
+#: ../disqus/upgrade.php:12
+msgid "Upgrade Disqus Comments"
+msgstr ""
+
+#: ../disqus/upgrade.php:14
+msgid "You need to upgrade your database to continue."
+msgstr ""
