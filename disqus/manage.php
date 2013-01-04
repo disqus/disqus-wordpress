@@ -408,7 +408,7 @@ case 0:
                           });
                         </script>
 
-                        <input type="button" value="<?php echo ($dsq_sso_button ? dsq_i('Change') : dsq_i('Choose')); ?> button" class="button upload_image_button" tabindex="2">
+                        <input type="button" value="<?php echo ($dsq_sso_button ? dsq_i('Change') : dsq_i('Choose')).' '.dsq_i('button'); ?>" class="button upload_image_button" tabindex="2">
                         <input type="hidden" name="disqus_sso_button" id="disqus_sso_button" value=""/>
                     <?php } else { // use pre-WP 3.5 media upload functionality ?>
                         <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
@@ -468,7 +468,7 @@ case 0:
                           });
                         </script>
 
-                        <input type="button" value="<?php echo ($dsq_sso_icon ? dsq_i('Change') : dsq_i('Choose')); ?> icon" class="button upload_image_button2" tabindex="2">
+                        <input type="button" value="<?php echo ($dsq_sso_icon ? dsq_i('Change') : dsq_i('Choose')).' '.dsq_i('icon'); ?>" class="button upload_image_button2" tabindex="2">
                         <input type="hidden" name="disqus_sso_icon" id="disqus_sso_icon" value=""/>
                     <?php } else { // use pre-WP 3.5 media upload functionality ?>
                         <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2">
