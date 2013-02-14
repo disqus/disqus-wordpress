@@ -535,7 +535,7 @@ case 0:
         <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?>
 PHP Version: <?php echo phpversion(); ?>
 Version: <?php echo $wp_version; ?>
-Active Theme: <?php $theme = get_theme(get_current_theme()); echo $theme['Name'].' '.$theme['Version']; ?>
+Active Theme: <?php $theme = wp_get_theme(); echo $theme['Name'].' '.$theme['Version']; ?>
 URLOpen Method: <?php echo dsq_url_method(); ?>
 
 Plugin Version: <?php echo DISQUS_VERSION; ?>
