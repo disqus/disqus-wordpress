@@ -1404,7 +1404,7 @@ function dsq_sso_login() {
     $button = get_option('disqus_sso_button');
     $icon = get_option('disqus_sso_icon');
     $sso_login_str = 'this.sso = {
-          name: "'.$sitename.'",
+          name: "'.wp_specialchars_decode($sitename, ENT_QUOTES).'",
           button: "'.$button.'",
           icon: "'.$icon.'",
           url: "'.$siteurl.'/wp-login.php",
