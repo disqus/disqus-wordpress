@@ -353,7 +353,7 @@ function dsq_sync_comments($comments) {
     }
     unset($comment);
 
-    if( isset($_POST['dsq_api_key']) && $_POST['dsq_api_key'] == get_option('disqus_api_key') ) {
+    if( isset($_POST['dsq_secret_key']) && $_POST['dsq_secret_key'] == get_option('disqus_secret_key') ) {
         if( isset($_GET['dsq_sync_action']) && isset($_GET['dsq_sync_comment_id']) ) {
             $comment_parts = explode('=', $_GET['dsq_sync_comment_id']);
 
