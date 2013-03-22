@@ -2,8 +2,8 @@
 /**
  * Implementation of the Disqus API designed for WordPress.
  *
- * @author        Disqus <team@disqus.com>
- * @copyright    2007-2010 Big Head Labs
+ * @author        Disqus <help@disqus.com>
+ * @copyright    2007-2013 Disqus
  * @link        http://disqus.com/
  * @package        Disqus
  * @subpackage    DisqusWordPressAPI
@@ -11,7 +11,8 @@
  */
 
 require_once(ABSPATH.WPINC.'/http.php');
-require_once(dirname(__FILE__) . '/api/disqus/disqus.php');
+require_once(dirname(__FILE__) . '/api/disqusapi/disqusapi.php');
+
 /** @#+
  * Constants
  */
@@ -21,45 +22,22 @@ require_once(dirname(__FILE__) . '/api/disqus/disqus.php');
 define('DISQUS_ALLOWED_HTML', '<b><u><i><h1><h2><h3><code><blockquote><br><hr>');
 
 /**
- * Helper methods for all of the Disqus v2 API methods.
+ * Helper methods for all of the Disqus v3 API methods.
  *
  * @package        Disqus
  * @subpackage    DisqusWordPressAPI
- * @author        DISQUS.com <team@disqus.com>
- * @copyright    2007-2008 Big Head Labs
- * @version        1.0
+ * @author        DISQUS.com <help@disqus.com>
+ * @copyright    2007-2013 Disqus
+ * @version        2.0
  */
 class DisqusWordPressAPI {
-    var $short_name;
-    var $forum_api_key;
-
-    function DisqusWordPressAPI($short_name=null, $forum_api_key=null, $user_api_key=null) {
-        $this->short_name = $short_name;
-        $this->forum_api_key = $forum_api_key;
-        $this->user_api_key = $user_api_key;
-        $this->api = new DisqusAPI($user_api_key, $forum_api_key, DISQUS_API_URL);
+    function DisqusWordPressAPI($dsq_secret_key=null) {
+        $this->dsq_secret_key = $dsq_secret_key;
+        $this->api = new DisqusAPI($secret_key);
     }
 
-    function get_last_error() {
-        return $this->api->get_last_error();
-    }
-
-    function get_user_api_key($username, $password) {
-        $response = $this->api->call('get_user_api_key', array(
-            'username'    => $username,
-            'password'    => $password,
-        ), true);
-        return $response;
-    }
-
-    function get_forum_list($user_api_key) {
-        $this->api->user_api_key = $user_api_key;
-        return $this->api->get_forum_list();
-    }
-
-    function get_forum_api_key($user_api_key, $id) {
-        $this->api->user_api_key = $user_api_key;
-        return $this->api->get_forum_api_key($id);
+    function get_forum_list() {
+        return $this->api->users->listForums();
     }
     
     function get_forum_posts($start_id=0) {

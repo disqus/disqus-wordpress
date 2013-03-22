@@ -45,8 +45,6 @@ function dsq_options() {
         # render disqus in the embed
         'disqus_active',
         'disqus_forum_url',
-        'disqus_api_key',
-        'disqus_user_api_key',
         'disqus_replace',
         'disqus_cc_fix',
         # SSO features
@@ -108,7 +106,7 @@ $dsq_response = '';
  * @global    string    $dsq_api
  * @since    1.0
  */
-$dsq_api = new DisqusWordPressAPI(get_option('disqus_forum_url'), get_option('disqus_api_key'));
+$dsq_api = new DisqusWordPressAPI(get_option('disqus_secret_key'));
 
 /**
  * DISQUS currently unsupported dev toggle to output comments for this query.
@@ -135,7 +133,7 @@ $DSQ_QUERY_POST_IDS = array();
  * @return bool
  */
 function dsq_is_installed() {
-    return get_option('disqus_forum_url') && get_option('disqus_api_key');
+    return get_option('disqus_forum_url') && get_option('disqus_replace');
 }
 
 /**

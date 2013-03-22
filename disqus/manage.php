@@ -93,47 +93,66 @@ $dsq_user_api_key = isset($_POST['dsq_user_api_key']) ? $_POST['dsq_user_api_key
 // Get installation step process (or 0 if we're already installed).
 $step = @intval($_GET['step']);
 if ($step > 1 && $step != 3 && $dsq_user_api_key) $step = 1;
-elseif ($step == 2 && !isset($_POST['dsq_username'])) $step = 1;
+elseif ($step == 2 && !isset($_GET['code'])) $step = 1;
+elseif (isset($_GET['code']) && !dsq_is_installed()) $step = 2;
 $step = (dsq_is_installed()) ? 0 : ($step ? $step : 1);
 
 // Handle installation process.
-if ( 3 == $step && isset($_POST['dsq_forum']) && isset($_POST['dsq_user_api_key']) ) {
-    list($dsq_forum_id, $dsq_forum_url) = explode(':', $_POST['dsq_forum']);
-    update_option('disqus_forum_url', $dsq_forum_url);
-    $api_key = $dsq_api->get_forum_api_key($_POST['dsq_user_api_key'], $dsq_forum_id);
-    if ( !$api_key || $api_key < 0 ) {
+if ( 3 == $step && isset($_POST['dsq_forum']) ) {
+    update_option('disqus_forum_url', $_POST['dsq_forum']);
+    $dsq_secret_key = get_option('disqus_secret_key');
+    if ( !isset($dsq_secret_key) || $dsq_secret_key < 0 ) {
         update_option('disqus_replace', 'replace');
         dsq_manage_dialog(dsq_i('There was an error completing the installation of Disqus. If you are still having issues, refer to the <a href="http://docs.disqus.com/help/87/">WordPress help page</a>.'), true);
     } else {
-        update_option('disqus_api_key', $api_key);
-        update_option('disqus_user_api_key', $_POST['dsq_user_api_key']);
         update_option('disqus_replace', 'all');
-    }
-
-    if (!empty($_POST['disqus_partner_key'])) {
-        $partner_key = trim(stripslashes($_POST['disqus_partner_key']));
-        if (!empty($partner_key)) {
-            update_option('disqus_partner_key', $partner_key);
-        }
     }
 }
 
-if ( 2 == $step && isset($_POST['dsq_username']) && isset($_POST['dsq_password']) ) {
-    $dsq_user_api_key = $dsq_api->get_user_api_key($_POST['dsq_username'], $_POST['dsq_password']);
-    if ( $dsq_user_api_key < 0 || !$dsq_user_api_key ) {
+if ( 2 == $step && isset($_GET['code'])) {
+    $code = $_GET['code'];
+    $grant_type = "api_key";
+    $redirect_uri = admin_url('edit-comments.php?page=disqus');
+    $app_label = get_option('blogname');
+    $app_site_url = site_url();
+    $organization = get_option('blogname');
+
+    $endpoint = 'https://disqus.com/api/oauth/2.0/api_key/?';
+    $fields = array(
+        'grant_type'=>urlencode($grant_type),
+        'redirect_uri'=>urlencode($redirect_uri),
+        'code'=>urlencode($code),
+        'application[label]'=>urlencode($app_label),
+        'application[website]'=>urlencode($app_site_url),
+        'application[organization]'=>urlencode($organization)
+    );
+
+    foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+    $fields_string = rtrim($fields_string, "&");
+
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL,$endpoint);
+    curl_setopt($ch,CURLOPT_POST,count($fields));
+    curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    $data = curl_exec($ch);
+    $data = json_decode($data, true);
+    curl_close($ch);
+
+    update_option('disqus_access_token', $data['access_token']);
+    update_option('disqus_public_key', $data['api_key']);
+    update_option('disqus_secret_key', $data['api_secret']);
+
+    // Normally we'd use $dsq_api. This specific call is manual because $dsq_api is a global that
+    // inherits $dsq_secret_key upon instantation, which doesn't exist yet because we're still onboarding
+    $oneTimeDisqusAPICall = new DisqusAPI(get_option('disqus_secret_key'));
+    $dsq_sites = $oneTimeDisqusAPICall->users->listForums(array('access_token'=>get_option('disqus_access_token')));
+    if ( $dsq_sites < 0 ) {
         $step = 1;
         dsq_manage_dialog($dsq_api->get_last_error(), true);
-    }
-
-    if ( $step == 2 ) {
-        $dsq_sites = $dsq_api->get_forum_list($dsq_user_api_key);
-        if ( $dsq_sites < 0 ) {
-            $step = 1;
-            dsq_manage_dialog($dsq_api->get_last_error(), true);
-        } else if ( !$dsq_sites ) {
-            $step = 1;
-            dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'http://disqus.com/admin/register/'), true);
-        }
+    } else if ( !$dsq_sites ) {
+        $step = 1;
+        dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'http://disqus.com/admin/register/'), true);
     }
 }
 
@@ -174,8 +193,8 @@ case 2:
 <?php
 foreach ( $dsq_sites as $counter => $dsq_site ):
 ?>
-                        <input name="dsq_forum" type="radio" id="dsq-site-<?php echo $counter; ?>" value="<?php echo $dsq_site->id; ?>:<?php echo $dsq_site->shortname; ?>" />
-                        <label for="dsq-site-<?php echo $counter; ?>"><strong><?php echo htmlspecialchars($dsq_site->name); ?></strong> (<u><?php echo $dsq_site->shortname; ?>.disqus.com</u>)</label>
+                        <input name="dsq_forum" type="radio" id="dsq-site-<?php echo $counter; ?>" value="<?php echo $dsq_site->id; ?>" />
+                        <label for="dsq-site-<?php echo $counter; ?>"><strong><?php echo htmlspecialchars($dsq_site->name); ?></strong> (<u><?php echo $dsq_site->id; ?>.disqus.com</u>)</label>
                         <br />
 <?php
 endforeach;
@@ -187,7 +206,6 @@ endforeach;
             </table>
 
             <p class="submit" style="text-align: left">
-                <input type="hidden" name="dsq_user_api_key" value="<?php echo htmlspecialchars($dsq_user_api_key); ?>"/>
                 <input name="submit" type="submit" value="Next &raquo;" />
             </p>
             </form>
@@ -198,32 +216,8 @@ case 1:
 ?>
         <div id="dsq-step-1" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
             <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
-
-            <form method="POST" action="?page=disqus&amp;step=2">
-            <?php wp_nonce_field('dsq-install-1'); ?>
-            <table class="form-table">
-                <tr>
-                    <th scope="row" valign="top"><?php echo dsq_i('Username'); ?></th>
-                    <td>
-                        <input id="dsq-username" name="dsq_username" tabindex="1" type="text" />
-                        <a href="http://disqus.com/profile/signup/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" valign="top"><?php echo dsq_i('Password'); ?></th>
-                    <td>
-                        <input type="password" id="dsq-password" name="dsq_password" tabindex="2">
-                        <a href="http://disqus.com/forgot/"><?php echo dsq_i('(forgot your password?)'); ?></a>
-                    </td>
-                </tr>
-            </table>
-
-            <p class="submit" style="text-align: left">
-                <input name="submit" type="submit" value="Next &raquo;" tabindex="3">
-            </p>
-
-            <script type="text/javascript"> document.getElementById('dsq-username').focus(); </script>
-            </form>
+            <?php # TODO: Add ability to select an API app user already owns ?>
+            <p><a href="https://disqus.com/api/oauth/2.0/authorize/?scope=read,write&amp;response_type=api_key&amp;redirect_uri=http://shmeriously.com/beach/wp-admin/edit-comments.php?page=disqus&amp;step=2">Connect with Disqus</a></p>
         </div>
 <?php
     break;
@@ -242,8 +236,6 @@ case 0:
 <?php
     $dsq_replace = get_option('disqus_replace');
     $dsq_forum_url = strtolower(get_option('disqus_forum_url'));
-    $dsq_api_key = get_option('disqus_api_key');
-    $dsq_user_api_key = get_option('disqus_user_api_key');
     $dsq_partner_key = get_option('disqus_partner_key');
     $dsq_cc_fix = get_option('disqus_cc_fix');
     $dsq_manual_sync = get_option('disqus_manual_sync');
@@ -346,7 +338,7 @@ case 0:
                 <td>
                     <input type="text" name="disqus_public_key" value="<?php echo esc_attr($dsq_public_key); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
+                    <?php echo dsq_i('Automatically set during installation. If you\'d like to use a different API application, copy its keys from <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
                 </td>
             </tr>
             <tr>
@@ -354,7 +346,7 @@ case 0:
                 <td>
                     <input type="text" name="disqus_secret_key" value="<?php echo esc_attr($dsq_secret_key); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
+                    <?php echo dsq_i('Automatically set during installation. If you\'d like to use a different API application, copy its keys from <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
                 </td>
             </tr>
             <tr>
@@ -482,8 +474,6 @@ case 0:
         </table>
 
         <p class="submit" style="text-align: left">
-            <input type="hidden" name="disqus_api_key" value="<?php echo esc_attr($dsq_api_key); ?>"/>
-            <input type="hidden" name="disqus_user_api_key" value="<?php echo esc_attr($dsq_user_api_key); ?>"/>
             <input name="submit" type="submit" value="Save" class="button-primary button" tabindex="4">
         </p>
         </form>
