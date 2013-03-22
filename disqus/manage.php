@@ -7,14 +7,6 @@ if ( !current_user_can('moderate_comments') ) {
     die();
 }
 
-if(isset($_POST['dsq_username'])) {
-    $_POST['dsq_username'] = stripslashes($_POST['dsq_username']);
-}
-
-if(isset($_POST['dsq_password'])) {
-    $_POST['dsq_password'] = stripslashes($_POST['dsq_password']);
-}
-
 // HACK: For old versions of WordPress
 if ( !function_exists('wp_nonce_field') ) {
     function wp_nonce_field() {}
@@ -50,7 +42,7 @@ die();
 }
 
 // Clean-up POST parameters.
-foreach ( array('dsq_forum', 'dsq_username', 'dsq_user_api_key') as $key ) {
+foreach ( array('dsq_forum', 'dsq_user_api_key') as $key ) {
     if ( isset($_POST[$key]) ) { $_POST[$key] = strip_tags($_POST[$key]); }
 }
 
