@@ -42,7 +42,7 @@ die();
 }
 
 // Clean-up POST parameters.
-foreach ( array('dsq_forum', 'dsq_user_api_key') as $key ) {
+foreach ( array('dsq_forum', 'dsq_secret_key') as $key ) {
     if ( isset($_POST[$key]) ) { $_POST[$key] = strip_tags($_POST[$key]); }
 }
 
@@ -80,11 +80,9 @@ if (isset($_GET['active'])) {
     update_option('disqus_active', ($_GET['active'] == '1' ? '1' : '0'));
 }
 
-$dsq_user_api_key = isset($_POST['dsq_user_api_key']) ? $_POST['dsq_user_api_key'] : null;
-
 // Get installation step process (or 0 if we're already installed).
 $step = @intval($_GET['step']);
-if ($step > 1 && $step != 3 && $dsq_user_api_key) $step = 1;
+if ($step > 1 && $step != 3 && $dsq_secret_key) $step = 1;
 elseif ($step == 2 && !isset($_GET['code'])) $step = 1;
 elseif (isset($_GET['code']) && !dsq_is_installed()) $step = 2;
 $step = (dsq_is_installed()) ? 0 : ($step ? $step : 1);
