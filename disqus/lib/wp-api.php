@@ -36,18 +36,6 @@ class DisqusWordPressAPI {
         $this->dsq_secret_key = $dsq_secret_key;
         $this->api = new DisqusAPI($secret_key);
     }
-    
-    function get_forum_posts($start_id=0) {
-        $last_comment_details = $this->api->posts->details($start_id);
-        $last_timestamp = $last_comment_details->response->createdAt;
-        $response = $this->api->forums->listPosts(array(
-            'include' => 'approved',
-            'since' => $last_timestamp,
-            'limit' => 100,
-            'order' => 'asc'
-        ));
-        return $response;
-    }
 
     function import_wordpress_comments(&$wxr, $timestamp, $eof=true) {
         $http = new WP_Http();

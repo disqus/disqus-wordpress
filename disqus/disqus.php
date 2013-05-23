@@ -57,7 +57,7 @@ function dsq_options() {
         'disqus_manual_sync',
         # disables server side rendering
         'disqus_disable_ssr',
-        # the last sync comment id (from get_forum_posts)
+        # the last sync comment id (from dsq_get_forum_posts)
         'disqus_last_comment_id',
         'disqus_version',
     );
@@ -614,7 +614,7 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
     //$last_comment_id = 0;
 
     // Pull comments from API
-    $dsq_response = $dsq_api->get_forum_posts($last_comment_id);
+    $dsq_response = dsq_get_forum_posts($last_comment_id);
     if( $dsq_response < 0 || $dsq_response === false ) {
         return false;
     }
@@ -637,6 +637,22 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
 }
 
 add_action('dsq_sync_forum', 'dsq_sync_forum');
+
+function dsq_get_forum_posts($start_id=0) {
+    global $dsq_api;
+
+    $last_comment_details = $dsq_api->api->posts->details($start_id);
+    $last_timestamp = $last_comment_details->response->createdAt;
+
+    $response = $dsq_api->api->forums->listPosts(array(
+        'include' => 'approved',
+        'since' => $last_timestamp,
+        'limit' => 100,
+        'order' => 'asc'
+    ));
+
+    return $response;
+}
 
 function dsq_update_permalink($post) {
     global $dsq_api;
