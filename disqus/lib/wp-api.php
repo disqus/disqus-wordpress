@@ -3,11 +3,11 @@
  * Implementation of the Disqus API designed for WordPress.
  *
  * @author        Disqus <help@disqus.com>
- * @copyright    2007-2013 Disqus
- * @link        http://disqus.com/
- * @package        Disqus
+ * @link          http://disqus.com/
+ * @package       Disqus
  * @subpackage    DisqusWordPressAPI
- * @version        2.0
+ * @copyright     2007-2013 Disqus
+ * @version       2.0
  */
 
 require_once(ABSPATH.WPINC.'/http.php');
@@ -24,29 +24,27 @@ define('DISQUS_ALLOWED_HTML', '<b><u><i><h1><h2><h3><code><blockquote><br><hr>')
 /**
  * Helper methods for all of the Disqus v3 API methods.
  *
- * @package        Disqus
- * @subpackage    DisqusWordPressAPI
- * @author        DISQUS.com <help@disqus.com>
- * @copyright    2007-2013 Disqus
- * @version        2.0
+ * @author        Disqus <help@disqus.com>
+ * @link          http://disqus.com/
+ * @package       Disqus
+ * @subpackage    DisqusWordPressAPI 
+ * @copyright     2007-2013 Disqus
+ * @version       2.0
  */
 class DisqusWordPressAPI {
     function DisqusWordPressAPI($dsq_secret_key=null) {
         $this->dsq_secret_key = $dsq_secret_key;
         $this->api = new DisqusAPI($secret_key);
     }
-
-    function get_forum_list() {
-        return $this->api->users->listForums();
-    }
     
     function get_forum_posts($start_id=0) {
-        $response = $this->api->get_forum_posts(null, array(
-            'filter' => 'approved',
-            'start_id' => $start_id,
+        $last_comment_details = $this->api->posts->details($start_id);
+        $last_timestamp = $last_comment_details->response->createdAt;
+        $response = $this->api->forums->listPosts(array(
+            'include' => 'approved',
+            'since' => $last_timestamp,
             'limit' => 100,
-            'order' => 'asc',
-            'full_info' => 1
+            'order' => 'asc'
         ));
         return $response;
     }
