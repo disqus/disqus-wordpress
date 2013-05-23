@@ -661,8 +661,8 @@ function dsq_update_permalink($post) {
         echo "updating post on disqus: {$post->ID}\n";
     }
 
-    $response = $dsq_api->api->update_thread(null, array(
-        'thread_identifier'    => dsq_identifier_for_post($post),
+    $response = $dsq_api->api->threads->update(null, array(
+        'identifier' => dsq_identifier_for_post($post),
         'title' => dsq_title_for_post($post),
         'url' => dsq_link_for_post($post)
     ));
