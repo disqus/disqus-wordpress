@@ -1,4 +1,6 @@
 <?php
+
+error_reporting(-1);
 /*
 Plugin Name: Disqus Comment System
 Plugin URI: http://disqus.com/
@@ -57,7 +59,7 @@ function dsq_options() {
         'disqus_manual_sync',
         # disables server side rendering
         'disqus_disable_ssr',
-        # the last sync comment id (from dsq_get_forum_posts)
+        # the last sync comment id (from get_forum_posts)
         'disqus_last_comment_id',
         'disqus_version',
     );
@@ -106,7 +108,7 @@ $dsq_response = '';
  * @global    string    $dsq_api
  * @since    1.0
  */
-$dsq_api = new DisqusWordPressAPI(get_option('disqus_secret_key'));
+$dsq_api = new DisqusWordPressAPI(get_option('disqus_forum_url'), get_option('disqus_secret_key'));
 
 /**
  * DISQUS currently unsupported dev toggle to output comments for this query.
@@ -212,7 +214,7 @@ function dsq_sync_comments($comments) {
     unset($result);
 
     foreach ( $comments as $comment ) {
-        $ts = strtotime($comment->created_at);
+        $ts = strtotime($comment->createdAt);
         if (!$thread_map[$comment->thread->id] && !empty($comment->thread->identifier)) {
             // legacy threads dont already have their meta stored
             foreach ( $comment->thread->identifier as $identifier ) {
@@ -293,8 +295,8 @@ function dsq_sync_comments($comments) {
             }
             $commentdata = array(
                 'comment_post_ID' => $thread_map[$comment->thread->id],
-                'comment_date' => date('Y-m-d\TH:i:s', strtotime($comment->created_at) + (get_option('gmt_offset') * 3600)),
-                'comment_date_gmt' => $comment->created_at,
+                'comment_date' => date('Y-m-d\TH:i:s', strtotime($comment->createdAt) + (get_option('gmt_offset') * 3600)),
+                'comment_date_gmt' => $comment->createdAt,
                 'comment_content' => apply_filters('pre_comment_content', $comment->message),
                 'comment_approved' => $approved,
                 'comment_agent' => 'Disqus/1.1('.DISQUS_VERSION.'):'.intval($comment->id),
@@ -304,16 +306,16 @@ function dsq_sync_comments($comments) {
                 $commentdata['comment_author'] = $comment->anonymous_author->name;
                 $commentdata['comment_author_email'] = $comment->anonymous_author->email;
                 $commentdata['comment_author_url'] = $comment->anonymous_author->url;
-                $commentdata['comment_author_IP'] = $comment->ip_address;
+                $commentdata['comment_author_IP'] = $comment->ipAddress;
             } else {
-                if (!empty($comment->author->display_name)) {
-                    $commentdata['comment_author'] = $comment->author->display_name;
+                if (!empty($comment->author->name)) {
+                    $commentdata['comment_author'] = $comment->author->name;
                 } else {
                     $commentdata['comment_author'] = $comment->author->username;
                 }
                 $commentdata['comment_author_email'] = $comment->author->email;
                 $commentdata['comment_author_url'] = $comment->author->url;
-                $commentdata['comment_author_IP'] = $comment->ip_address;
+                $commentdata['comment_author_IP'] = $comment->ipAddress;
             }
             $commentdata = wp_filter_comment($commentdata);
             if ($comment->parent_post) {
@@ -614,7 +616,7 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
     //$last_comment_id = 0;
 
     // Pull comments from API
-    $dsq_response = dsq_get_forum_posts($last_comment_id);
+    $dsq_response = $dsq_api->get_forum_posts($last_comment_id);
     if( $dsq_response < 0 || $dsq_response === false ) {
         return false;
     }
@@ -637,22 +639,6 @@ function dsq_sync_forum($last_comment_id=false, $force=false) {
 }
 
 add_action('dsq_sync_forum', 'dsq_sync_forum');
-
-function dsq_get_forum_posts($start_id=0) {
-    global $dsq_api;
-
-    $last_comment_details = $dsq_api->api->posts->details($start_id);
-    $last_timestamp = $last_comment_details->response->createdAt;
-
-    $response = $dsq_api->api->forums->listPosts(array(
-        'include' => 'approved',
-        'since' => $last_timestamp,
-        'limit' => 100,
-        'order' => 'asc'
-    ));
-
-    return $response;
-}
 
 function dsq_update_permalink($post) {
     global $dsq_api;

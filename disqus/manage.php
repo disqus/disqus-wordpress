@@ -87,6 +87,8 @@ elseif ($step == 2 && !isset($_GET['code'])) $step = 1;
 elseif (isset($_GET['code']) && !dsq_is_installed()) $step = 2;
 $step = (dsq_is_installed()) ? 0 : ($step ? $step : 1);
 
+$redirect_uri = admin_url('edit-comments.php?page=disqus');
+
 // Handle installation process.
 if ( 3 == $step && isset($_POST['dsq_forum']) ) {
     update_option('disqus_forum_url', $_POST['dsq_forum']);
@@ -102,7 +104,6 @@ if ( 3 == $step && isset($_POST['dsq_forum']) ) {
 if ( 2 == $step && isset($_GET['code'])) {
     $code = $_GET['code'];
     $grant_type = "api_key";
-    $redirect_uri = admin_url('edit-comments.php?page=disqus');
     $app_label = get_option('blogname');
     $app_site_url = site_url();
     $organization = get_option('blogname');
@@ -207,7 +208,7 @@ case 1:
         <div id="dsq-step-1" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
             <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
             <?php # TODO: Add ability to select an API app user already owns ?>
-            <p><a href="https://disqus.com/api/oauth/2.0/authorize/?scope=read,write&amp;response_type=api_key&amp;redirect_uri=http://shmeriously.com/beach/wp-admin/edit-comments.php?page=disqus&amp;step=2">Connect with Disqus</a></p>
+            <p><a href="https://disqus.com/api/oauth/2.0/authorize/?scope=read,write,admin&amp;response_type=api_key&amp;redirect_uri=<?php echo $redirect_uri; ?>&amp;step=2">Connect with Disqus</a></p>
         </div>
 <?php
     break;

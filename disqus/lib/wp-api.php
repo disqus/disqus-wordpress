@@ -32,9 +32,13 @@ define('DISQUS_ALLOWED_HTML', '<b><u><i><h1><h2><h3><code><blockquote><br><hr>')
  * @version       2.0
  */
 class DisqusWordPressAPI {
-    function DisqusWordPressAPI($dsq_secret_key=null) {
+    var $short_name;
+    var $dsq_secret_key;
+
+    function DisqusWordPressAPI($short_name=null, $dsq_secret_key=null) {
+        $this->short_name = $short_name;
         $this->dsq_secret_key = $dsq_secret_key;
-        $this->api = new DisqusAPI($secret_key);
+        $this->api = new DisqusAPI($dsq_secret_key);  
     }
 
     function import_wordpress_comments(&$wxr, $timestamp, $eof=true) {
@@ -64,6 +68,31 @@ class DisqusWordPressAPI {
         }
         
         return $data;
+    }
+
+    function get_forum_posts($start_id=0) {
+        // comment id=0 doesn't exist so posts/details will fail using it
+        // first ever Disqus comment actually is id=4
+        if ($start_id==0) {
+            $start_id=4; 
+        }
+
+        $last_comment_details = $this->api->posts->details(array('post'=>$start_id));
+        $last_timestamp = $last_comment_details->createdAt;
+
+        $response = $this->api->forums->listPosts(array(
+            'forum' => $this->short_name,
+            'include' => 'approved',
+            'since' => $last_timestamp,
+            'limit' => 100,
+            'order' => 'asc',
+            'access_token' => get_option('disqus_access_token')
+        ));
+
+        error_log(print_r(get_option('disqus_access_token'), true));
+        error_log(print_r($response, true));
+
+        return $response;
     }
 }
 
