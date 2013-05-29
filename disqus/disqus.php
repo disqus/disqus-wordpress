@@ -1,6 +1,5 @@
 <?php
 
-error_reporting(-1);
 /*
 Plugin Name: Disqus Comment System
 Plugin URI: http://disqus.com/
