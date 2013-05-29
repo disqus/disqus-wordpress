@@ -89,9 +89,6 @@ class DisqusWordPressAPI {
             'access_token' => get_option('disqus_access_token')
         ));
 
-        error_log(print_r(get_option('disqus_access_token'), true));
-        error_log(print_r($response, true));
-
         return $response;
     }
 }
