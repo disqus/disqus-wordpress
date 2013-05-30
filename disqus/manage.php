@@ -162,7 +162,7 @@ switch ( $step ) {
 case 3:
 ?>
         <div id="dsq-step-3" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
-            <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
+            <h2><?php echo dsq_i('Install Disqus'); ?></h2>
 
             <p><?php echo dsq_i('Disqus has been installed on your blog.'); ?></p>
             <p><?php echo dsq_i('If you have existing comments, you may wish to <a href="?page=disqus&amp;t=adv#export">export them</a> now. Otherwise, you\'re all set, and the Disqus network is now powering comments on your blog.'); ?></p>
@@ -173,7 +173,7 @@ case 3:
 case 2:
 ?>
         <div id="dsq-step-2" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
-            <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
+            <h2><?php echo dsq_i('Install Disqus'); ?></h2>
 
             <form method="POST" action="?page=disqus&amp;step=3">
             <?php wp_nonce_field('dsq-install-2'); ?>
@@ -206,7 +206,7 @@ endforeach;
 case 1:
 ?>
         <div id="dsq-step-1" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
-            <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
+            <h2><?php echo dsq_i('Install Disqus'); ?></h2>
             <?php # TODO: Add ability to select an API app user already owns ?>
             <p>Starting in version 2.75, we've made some major functional improvements to the Disqus plugin. These make the plugin more responsive and efficient.</p>
             <p>This upgrade requires you to re-connect your Disqus account, allowing the plugin to automatically sync new Disqus comments back to WordPress.</p>
@@ -272,11 +272,11 @@ case 0:
                 <th scope="row" valign="top"><?php echo dsq_i('<h3>Appearance</h3>'); ?></th>
             </tr>
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('Use Disqus Comments on'); ?></th>
+                <th scope="row" valign="top"><?php echo dsq_i('Use Disqus on'); ?></th>
                 <td>
                     <select name="disqus_replace" tabindex="1" class="disqus-replace">
-                        <option value="all" <?php if('all'==$dsq_replace){echo 'selected';}?>><?php echo dsq_i('On all existing and future blog posts.'); ?></option>
-                        <option value="closed" <?php if('closed'==$dsq_replace){echo 'selected';}?>><?php echo dsq_i('Only on blog posts with closed comments.'); ?></option>
+                        <option value="all" <?php if('all'==$dsq_replace){echo 'selected';}?>><?php echo dsq_i('All existing and future blog posts.'); ?></option>
+                        <option value="closed" <?php if('closed'==$dsq_replace){echo 'selected';}?>><?php echo dsq_i('Only blog posts with closed comments.'); ?></option>
                     </select>
                     <br />
                     <?php echo dsq_i('Your WordPress comments will never be lost.'); ?>
