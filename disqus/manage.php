@@ -208,6 +208,9 @@ case 1:
         <div id="dsq-step-1" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
             <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
             <?php # TODO: Add ability to select an API app user already owns ?>
+            <p>Starting in version 2.75, we've made some major functional improvements to the Disqus plugin. These make the plugin more responsive and efficient.</p>
+            <p>This upgrade requires you to re-connect your Disqus account, allowing the plugin to automatically sync new Disqus comments back to WordPress.</p>
+            <p>This is a one-time action; you will not be required to do so again.</p>
             <p><a href="https://disqus.com/api/oauth/2.0/authorize/?scope=read,write,admin&amp;response_type=api_key&amp;redirect_uri=<?php echo $redirect_uri; ?>&amp;step=2">Connect with Disqus</a></p>
         </div>
 <?php
@@ -316,30 +319,6 @@ case 0:
             <tr>
                 <th scope="row" valign="top" colspan="2"><?php echo dsq_i('<h3>Advanced</h3><h4>Single Sign-On</h4><p>Allows users to log in to Disqus via WordPress. (<a href="%s" onclick="window.open(this.href); return false">More info on SSO</a>)</p>', 'http://help.disqus.com/customer/portal/articles/684744'); ?></th>
             </tr>
-            <?php if (!empty($dsq_partner_key)) {// this option only shows if it was already present ?>
-            <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('Disqus Partner Key'); ?></th>
-                <td>
-                    <input type="text" name="disqus_partner_key" value="<?php echo esc_attr($dsq_partner_key); ?>" tabindex="2">
-                </td>
-            </tr>
-            <?php } ?>
-            <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('API Application Public Key'); ?></th>
-                <td>
-                    <input type="text" name="disqus_public_key" value="<?php echo esc_attr($dsq_public_key); ?>" tabindex="2">
-                    <br />
-                    <?php echo dsq_i('Automatically set during installation. If you\'d like to use a different API application, copy its keys from <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('API Application Secret Key'); ?></th>
-                <td>
-                    <input type="text" name="disqus_secret_key" value="<?php echo esc_attr($dsq_secret_key); ?>" tabindex="2">
-                    <br />
-                    <?php echo dsq_i('Automatically set during installation. If you\'d like to use a different API application, copy its keys from <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
-                </td>
-            </tr>
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Custom Log-in Button'); ?></th>
                 <td>
@@ -397,10 +376,11 @@ case 0:
                         <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
                     <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-button.png'); ?>
+                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/login-sso-button.png'); ?>
                     <?php echo dsq_i('<br />See <a href="%s">our SSO button documentation</a> for a template to create your own button.','http://help.disqus.com/customer/portal/articles/236206#sso-login-button'); ?>
                 </td>
             </tr>
+            <?php if (!empty($dsq_sso_icon)) {// this option only shows if it was already present ?>
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Custom Log-in Icon<br>'); ?></th>
                 <td>
@@ -461,6 +441,30 @@ case 0:
                     <?php echo dsq_i('<br />Dimensions: 16x16.'); ?>
                 </td>
             </tr>
+            <?php } ?>
+            <tr>
+                <th scope="row" valign="top" colspan="2"><?php echo dsq_i('<h4>API Keys</h4><p>Automatically set during installation. If you\'d like to use a different API application, copy its keys from <a href="%s">Disqus API Applications</a>.</p>','http://disqus.com/api/applications/'); ?></th>
+            </tr>
+            <?php if (!empty($dsq_partner_key)) {// this option only shows if it was already present ?>
+            <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('Disqus Partner Key'); ?></th>
+                <td>
+                    <input type="text" name="disqus_partner_key" value="<?php echo esc_attr($dsq_partner_key); ?>" tabindex="2">
+                </td>
+            </tr>
+            <?php } ?>
+            <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('API Application Public Key'); ?></th>
+                <td>
+                    <input type="text" name="disqus_public_key" value="<?php echo esc_attr($dsq_public_key); ?>" tabindex="2">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('API Application Secret Key'); ?></th>
+                <td>
+                    <input type="text" name="disqus_secret_key" value="<?php echo esc_attr($dsq_secret_key); ?>" tabindex="2">
+                </td>
+            </tr>
 
         </table>
 
@@ -483,11 +487,11 @@ case 0:
             </tr>
             <?php endif; ?>
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('Sync Disqus with WordPress'); ?></th>
+                <th scope="row" valign="top"><?php echo dsq_i('Sync Disqus to WordPress'); ?></th>
                 <td>
                     <div id="dsq_import">
                         <div class="status">
-                            <p><a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a>  <?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?></p>
+                            <p><a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a>  <?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress.'); ?></p>
                             <label><input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/> <?php echo dsq_i('Remove all imported Disqus comments before syncing.'); ?></label><br/>
                         </div>
                     </div>

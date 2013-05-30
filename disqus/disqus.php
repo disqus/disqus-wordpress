@@ -134,7 +134,7 @@ $DSQ_QUERY_POST_IDS = array();
  * @return bool
  */
 function dsq_is_installed() {
-    return get_option('disqus_forum_url') && get_option('disqus_replace');
+    return get_option('disqus_forum_url') && get_option('disqus_secret_key') && get_option('disqus_access_token') && get_option('disqus_replace');
 }
 
 /**
