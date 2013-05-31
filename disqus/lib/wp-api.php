@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Implementation of the Disqus API designed for WordPress.
  *
@@ -87,6 +88,29 @@ class DisqusWordPressAPI {
             'limit' => 100,
             'order' => 'asc',
             'access_token' => get_option('disqus_access_token')
+        ));
+
+        return $response;
+    }
+
+    function create_forum($attempt=0) {
+        $blog_name = get_bloginfo('name');
+
+        $desired_short_name = str_replace(" ", "", $blog_name);
+        $desired_short_name = urlencode($desired_short_name);
+
+        if ($attempt == 0) { // first attempt, let's try a nice and clean shortname
+            $attempt_string = '';
+        } else { // shortname was taken in last attempt, prep for appending an integer this time
+            $attempt_string = $attempt;
+        }
+
+        $response = $this->api->forums->create(array(
+            'website' => site_url(),
+            'name' => $blog_name,
+            'short_name' => $desired_short_name.$attempt_string,
+            'access_token' => get_option('disqus_access_token'),
+            'api_key' => get_option('disqus_public_key')
         ));
 
         return $response;

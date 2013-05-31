@@ -142,8 +142,7 @@ if ( 2 == $step && isset($_GET['code'])) {
         $step = 1;
         dsq_manage_dialog($dsq_api->get_last_error(), true);
     } else if ( !$dsq_sites ) {
-        $step = 1;
-        dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'http://disqus.com/admin/register/'), true);
+        $step = 2;
     }
 }
 
@@ -174,32 +173,59 @@ case 2:
 ?>
         <div id="dsq-step-2" class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
             <h2><?php echo dsq_i('Install Disqus'); ?></h2>
+            <?php
+            if ( !$dsq_sites) { // user owns no forums yet
+                $dsq_site = $dsq_api->create_forum();
+                ?>
 
-            <form method="POST" action="?page=disqus&amp;step=3">
-            <?php wp_nonce_field('dsq-install-2'); ?>
-            <table class="form-table">
-                <tr>
-                    <th scope="row" valign="top"><?php echo dsq_i('Select a website'); ?></th>
-                    <td>
-<?php
-foreach ( $dsq_sites as $counter => $dsq_site ):
-?>
-                        <input name="dsq_forum" type="radio" id="dsq-site-<?php echo $counter; ?>" value="<?php echo $dsq_site->id; ?>" />
-                        <label for="dsq-site-<?php echo $counter; ?>"><strong><?php echo htmlspecialchars($dsq_site->name); ?></strong> (<u><?php echo $dsq_site->id; ?>.disqus.com</u>)</label>
-                        <br />
-<?php
-endforeach;
-?>
-                        <hr />
-                        <a href="<?php echo DISQUS_URL; ?>comments/register/"><?php echo dsq_i('Or register a new one on the Disqus website.'); ?></a>
-                    </td>
-                </tr>
-            </table>
+                <form method="POST" action="?page=disqus&amp;step=3">
+                <?php wp_nonce_field('dsq-install-2'); ?>
+                <table class="form-table">
+                    <tr>
+                        <td>
+                            <?php echo dsq_i('Your website was automatically registered in Disqus using the following credentials:'); ?>
+                            <br /><?php echo dsq_i('Shortname'); ?>: <code><?php echo $dsq_site->id; ?></code>
+                            <br /><?php echo dsq_i('Site name'); ?>: <code><?php echo $dsq_site->name; ?></code>
+                            <p>You can access your Disqus admin anytime at <a href="http://<?php echo $dsq_site->id; ?>.disqus.com/admin/">http://<?php echo $dsq_site->id; ?>.disqus.com/admin/</a>.</p>
+                            <input name="dsq_forum" type="hidden" value="<?php echo $dsq_site->id; ?>" />
+                        </td>
+                    </tr>
+                </table>
 
-            <p class="submit" style="text-align: left">
-                <input name="submit" type="submit" value="Next &raquo;" />
-            </p>
-            </form>
+                <p class="submit" style="text-align: left">
+                    <input name="submit" type="submit" value="Finish &raquo;" />
+                </p>
+                </form>
+
+                <?php
+            } else {
+            ?>
+
+                <form method="POST" action="?page=disqus&amp;step=3">
+                <?php wp_nonce_field('dsq-install-2'); ?>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row" valign="top"><?php echo dsq_i('Select a website'); ?></th>
+                        <td>
+                <?php
+                foreach ( $dsq_sites as $counter => $dsq_site ):
+                ?>
+                            <input name="dsq_forum" type="radio" id="dsq-site-<?php echo $counter; ?>" value="<?php echo $dsq_site->id; ?>" />
+                            <label for="dsq-site-<?php echo $counter; ?>"><strong><?php echo htmlspecialchars($dsq_site->name); ?></strong> (<u><?php echo $dsq_site->id; ?>.disqus.com</u>)</label>
+                            <br />
+                <?php
+                endforeach;
+                ?>
+                        </td>
+                    </tr>
+                </table>
+
+                <p class="submit" style="text-align: left">
+                    <input name="submit" type="submit" value="Next &raquo;" />
+                </p>
+                </form>
+
+            <?php } ?>
         </div>
 <?php
     break;
