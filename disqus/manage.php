@@ -57,7 +57,9 @@ foreach ( array('dsq_forum', 'dsq_username', 'dsq_user_api_key') as $key ) {
 
 // Handle advanced options.
 if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
-    update_option('disqus_partner_key', trim(stripslashes($_POST['disqus_partner_key'])));
+    if (!empty($_POST['disqus_partner_key'])) {
+        update_option('disqus_partner_key', trim(stripslashes($_POST['disqus_partner_key'])));
+    }
     update_option('disqus_replace', $_POST['disqus_replace']);
     update_option('disqus_cc_fix', isset($_POST['disqus_cc_fix']));
     update_option('disqus_manual_sync', isset($_POST['disqus_manual_sync']));
@@ -533,9 +535,13 @@ case 0:
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
         <p><?php echo dsq_i('Having problems with the plugin? Check out our <a href="%s" onclick="window.open(this.href); return false">WordPress Troubleshooting</a> documentation. You can also <a href="%s">drop us a line</a> including the following details and we\'ll do what we can.', 'http://docs.disqus.com/help/87/', 'mailto:help+wp@disqus.com'); ?></p>
         <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?>
+
 PHP Version: <?php echo phpversion(); ?>
+
 Version: <?php echo $wp_version; ?>
-Active Theme: <?php $theme = get_theme(get_current_theme()); echo $theme['Name'].' '.$theme['Version']; ?>
+
+Active Theme: <?php $theme = function_exists('wp_get_theme') ? wp_get_theme() : get_theme(get_current_theme()); echo $theme['Name'].' '.$theme['Version']; ?>
+
 URLOpen Method: <?php echo dsq_url_method(); ?>
 
 Plugin Version: <?php echo DISQUS_VERSION; ?>
