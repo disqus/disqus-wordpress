@@ -3,7 +3,7 @@
 /**
  * Incrementally (in chunks of EXPORT_CHUNK_SIZE) exports all comments to DISQUS.
  *
- * ``php export-comments.php``
+ * ``php export-comments.php [--host=hostname.com] [--uri=/]``
  */
 
 require_once(dirname(__FILE__) . '/../lib/wp-cli.php');
@@ -71,6 +71,7 @@ while ($post_id < $max_post_id) {
 
     // we need to send empty files to ensure EOF happens
     while (($at === 0 && $post_id == $max_post_id) || $at < $total_comments) {
+        $time = abs(microtime() - $start);
         if ($post_id == $max_post_id && ($at + EXPORT_CHUNK_SIZE) >= $total_comments) {
             $eof = 1;
         }
