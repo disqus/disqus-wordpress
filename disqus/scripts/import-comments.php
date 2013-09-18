@@ -3,7 +3,7 @@
 /**
  * Incrementally downloads all comments from DISQUS.
  *
- * ``php import-comments.php``
+ * ``php import-comments.php [--host=hostname.com] [--uri=/]``
  */
 
 require_once(dirname(__FILE__) . '/../lib/wp-cli.php');
@@ -60,4 +60,5 @@ $total_time = abs(microtime() - $global_start);
 print_line('---------------------------------------------------------');
 print_line('Done (took %.2fs)! %d comments imported from DISQUS', $total_time, $total);
 print_line('---------------------------------------------------------');
+
 ?>
