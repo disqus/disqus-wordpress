@@ -89,7 +89,7 @@ class DisqusWordPressAPI {
                 )
             )
         );
-        if ($response->errors) {
+        if (is_wp_error($response)) {
             // hack
             $this->api->last_error = $response->errors;
             return -1;

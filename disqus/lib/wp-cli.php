@@ -19,31 +19,39 @@ function print_line() {
     print("{$result}\n");
 }
 
+if (!empty($argc)) {
+    for ($x=0; $x < $argc; $x++){
+        $param = $argv[$x];
+        if (strpos($param, '--host=') === 0) {
+            $param_host = substr($param, strpos($param, '=') + 1);
+        }
+        if (strpos($param, '--uri=') === 0) {
+            $param_uri = substr($param, strpos($param, '=') + 1);
+        }
+    }
+}
+
 define('DOING_AJAX', true);
 define('WP_USE_THEMES', false);
 if (isset($_ENV['WORDPRESS_PATH'])) {
     define('ABSPATH', $_ENV['WORDPRESS_PATH']);
 } else {
-    if (substr($_SERVER['SCRIPT_FILENAME'], 0, 1) != '/') {
-        $script_path = $_SERVER['PWD'] . $_SERVER['SCRIPT_FILENAME'];
-    } else {
-        $script_path = $_SERVER['SCRIPT_FILENAME'];
-    }
-    $tree = '';
-    $paths = array();
-    $chunks = explode('/', dirname($script_path));
-    foreach ($chunks as $chunk) {
-        if (!$chunk) continue;
-        $tree = $tree.'/'.$chunk;
-        array_push($paths, $tree);
-    }
-    $paths = array_reverse($paths);
+    $path = str_replace('\\', '/', dirname(__FILE__));
+    $parts = explode('/', $path);
 
-    foreach ($paths as $path) {
-        if (is_file($path.'/wp-config.php')) {
-            define('ABSPATH', $path . '/');
-            break;
-        }
+    if (count($parts) > 4 && is_file($tmp_path = implode('/', array_slice($parts, 0, -4)) . '/wp-config.php')) {
+        // Logical try for default plugin install, 4 levels up. (wp-content/plugins/disqus-comment-system/lib)
+        define('ABSPATH', dirname($tmp_path) . '/');
+    } else {
+        // Iterate upwards until finding any wp-config.php file.
+        // Not the best security here, as we could end up running an injected wp-config.php script with the shell user privs.
+        do {
+            $tmp_path = implode('/', $parts) . '/wp-config.php';
+            if(@is_file($tmp_path)) {
+                define('ABSPATH', dirname($tmp_path) . '/');
+                break;
+            }
+        } while (null !== array_pop($parts));
     }
 }
 
@@ -53,13 +61,14 @@ if (!defined('ABSPATH')) {
 }
 
 $_SERVER = array(
-    "HTTP_HOST" => "disqus.com",
-    "SCRIPT_NAME" => "",
-    "PHP_SELF" => __FILE__,
-    "SERVER_NAME" => "localhost",
-    "REQUEST_URI" => "/",
-    "REQUEST_METHOD" => "GET"
+    'HTTP_HOST'      => empty($param_host) ? 'disqus.com' : $param_host,
+    'SERVER_NAME'    => empty($param_host) ? 'localhost'  : $param_host,
+    'REQUEST_URI'    => empty($param_uri)  ? '/'          : $param_uri,
+    'REQUEST_METHOD' => 'GET',
+    'SCRIPT_NAME'    => '',
+    'PHP_SELF'       => __FILE__
 );
+
 require_once(ABSPATH . 'wp-config.php');
 
 // swap out the object cache due to memory constraints

@@ -282,7 +282,7 @@ function dsq_sync_comments($comments) {
 
         // and follow up using legacy Disqus agent
         if (!$commentdata) {
-            $commentdata = $wpdb->get_row($wpdb->prepare( "SELECT comment_ID, comment_parent FROM $wpdb->comments WHERE comment_agent = 'Disqus/1.0:{$comment->id}' LIMIT 1"), ARRAY_A);
+            $commentdata = $wpdb->get_row($wpdb->prepare( "SELECT comment_ID, comment_parent FROM $wpdb->comments WHERE comment_agent = 'Disqus/1.0:%d' LIMIT 1", $comment->id), ARRAY_A);
         }
         if (!$commentdata) {
             // Comment doesnt exist yet, lets insert it
@@ -301,6 +301,7 @@ function dsq_sync_comments($comments) {
                 'comment_approved' => $approved,
                 'comment_agent' => 'Disqus/1.1('.DISQUS_VERSION.'):'.intval($comment->id),
                 'comment_type' => '',
+                'comment_parent' => 0
             );
             if ($comment->is_anonymous) {
                 $commentdata['comment_author'] = $comment->anonymous_author->name;
@@ -336,7 +337,7 @@ function dsq_sync_comments($comments) {
 
             $commentdata['comment_ID'] = wp_insert_comment($commentdata);
             if (DISQUS_DEBUG) {
-                echo "inserted {$comment->id}: id is {$commentdata[comment_ID]}\n";
+                echo "inserted {$comment->id}: id is {$commentdata['comment_ID']}\n";
             }
         }
         if (!$commentdata['comment_parent'] && $comment->parent_post) {
