@@ -228,9 +228,11 @@ case 1:
 <?php
     break;
 case 0:
+    $base = is_ssl() ? 'https://' : 'http://';
     $url = get_option('disqus_forum_url');
-    if ($url) { $mod_url = 'http://'.$url.'.'.DISQUS_DOMAIN.'/admin/moderate/'; }
+    if ($url) { $mod_url = $base.$url.'.'.DISQUS_DOMAIN.'/admin/moderate/'; }
     else { $mod_url = DISQUS_URL.'admin/moderate/'; }
+
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
             <h2><a href="<?php echo $mod_url ?>"><img src="<?php echo DSQ_PLUGIN_URL; ?>/media/images/logo.png"></a></h2>
@@ -268,7 +270,7 @@ case 0:
         <form method="POST" enctype="multipart/form-data">
         <?php wp_nonce_field('dsq-advanced'); ?>
         <table class="form-table">
-            
+
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('<h3>General</h3>'); ?></th>
             </tr>
@@ -367,24 +369,24 @@ case 0:
 
                     <?php if ( version_compare($wp_version, '3.5', '>=') ) {
                         // HACK: Use WP's new (as of WP 3.5), streamlined, much-improved built-in media uploader
-                        
+
                         // Use WP 3.5's new consolidated call to get all necessary media uploader scripts and styles
                         wp_enqueue_media(); ?>
 
                         <script type="text/javascript">
                         // Uploading files
                         var file_frame;
-                         
+
                           jQuery('.upload_image_button').live('click', function( event ){
-                         
+
                             event.preventDefault();
-                         
+
                             // If the media frame already exists, reopen it.
                             if ( file_frame ) {
                               file_frame.open();
                               return;
                             }
-                         
+
                             // Create the media frame.
                             file_frame = wp.media.frames.file_frame = wp.media({
                               title: jQuery( this ).data( 'uploader_title' ),
@@ -393,16 +395,16 @@ case 0:
                               },
                               multiple: false  // Set to true to allow multiple files to be selected
                             });
-                         
+
                             // When an image is selected, run a callback.
                             file_frame.on( 'select', function() {
                               // We set multiple to false so only get one image from the uploader
                               attachment = file_frame.state().get('selection').first().toJSON();
-                         
+
                               // Do something with attachment.id and/or attachment.url here
                               jQuery('#disqus_sso_button').val(attachment.url);
                             });
-                         
+
                             // Finally, open the modal
                             file_frame.open();
                           });
@@ -427,24 +429,24 @@ case 0:
                     <?php } ?>
                     <?php if ( version_compare($wp_version, '3.5', '>=') ) {
                         // HACK: Use WP's new (as of WP 3.5), streamlined, much-improved built-in media uploader
-                        
+
                         // Use WP 3.5's new consolidated call to get all necessary media uploader scripts and styles
                         wp_enqueue_media(); ?>
 
                         <script type="text/javascript">
                         // Uploading files
                         var file_frame2;
-                         
+
                           jQuery('.upload_image_button2').live('click', function( event ){
-                         
+
                             event.preventDefault();
-                         
+
                             // If the media frame already exists, reopen it.
                             if ( file_frame2 ) {
                               file_frame2.open();
                               return;
                             }
-                         
+
                             // Create the media frame.
                             file_frame2 = wp.media.frames.file_frame = wp.media({
                               title: jQuery( this ).data( 'uploader_title' ),
@@ -453,16 +455,16 @@ case 0:
                               },
                               multiple: false  // Set to true to allow multiple files to be selected
                             });
-                         
+
                             // When an image is selected, run a callback.
                             file_frame2.on( 'select', function() {
                               // We set multiple to false so only get one image from the uploader
                               attachment = file_frame2.state().get('selection').first().toJSON();
-                         
+
                               // Do something with attachment.id and/or attachment.url here
                               jQuery('#disqus_sso_icon').val(attachment.url);
                             });
-                         
+
                             // Finally, open the modal
                             file_frame2.open();
                           });
