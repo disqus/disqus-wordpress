@@ -1237,7 +1237,7 @@ $dsq_prev_permalinks = array();
 
 function dsq_prev_permalink($post_id) {
 // if post not published, return
-    $post = &get_post($post_id);
+    $post = get_post($post_id);
     if ($post->post_status != 'publish') {
         return;
     }
