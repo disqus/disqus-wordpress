@@ -282,7 +282,7 @@ function dsq_sync_comments($comments) {
 
         // and follow up using legacy Disqus agent
         if (!$commentdata) {
-            $commentdata = $wpdb->get_row($wpdb->prepare( "SELECT comment_ID, comment_parent FROM $wpdb->comments WHERE comment_agent = 'Disqus/1.0:%s' LIMIT 1", $comment->id), ARRAY_A);
+            $commentdata = $wpdb->get_row($wpdb->prepare( "SELECT comment_ID, comment_parent FROM $wpdb->comments WHERE comment_agent = %s LIMIT 1", 'Disqus/1.0:'.$comment->id), ARRAY_A);
         }
         if (!$commentdata) {
             // Comment doesnt exist yet, lets insert it
