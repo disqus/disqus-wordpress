@@ -99,7 +99,7 @@ if (DISQUS_DEBUG) {
         'trackbacks': [
 <?php
     $count = 0;
-    foreach ($comments as $comment) {
+    foreach ((array)$comments as $comment) {
         $comment_type = get_comment_type();
         if ( $comment_type != 'comment' ) {
             if( $count ) { echo ','; }
