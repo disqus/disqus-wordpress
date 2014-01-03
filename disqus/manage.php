@@ -535,9 +535,21 @@ case 0:
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
         <p><?php echo dsq_i('Having problems with the plugin? Check out our <a href="%s" onclick="window.open(this.href); return false">WordPress Troubleshooting</a> documentation. You can also <a href="%s">drop us a line</a> including the following details and we\'ll do what we can.', 'http://docs.disqus.com/help/87/', 'mailto:help+wp@disqus.com'); ?></p>
         <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?>
+
 PHP Version: <?php echo phpversion(); ?>
+
 Version: <?php echo $wp_version; ?>
-Active Theme: <?php $theme = get_theme(get_current_theme()); echo $theme['Name'].' '.$theme['Version']; ?>
+
+Active Theme: <?php
+    if ( !function_exists('wp_get_theme') ) {
+        $theme = get_theme(get_current_theme());
+        echo $theme['Name'] . ' ' . $theme['Version'];
+    } else {
+        $theme = wp_get_theme();
+        echo $theme->Name . ' ' . $theme->Version;
+    }
+?>
+
 URLOpen Method: <?php echo dsq_url_method(); ?>
 
 Plugin Version: <?php echo DISQUS_VERSION; ?>
