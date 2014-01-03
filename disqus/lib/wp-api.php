@@ -87,7 +87,8 @@ class DisqusWordPressAPI {
                     'wxr' => $wxr,
                     'timestamp' => $timestamp,
                     'eof' => (int)$eof
-                )
+                ),
+                'timeout' => '60'
             )
         );
         if ($response->errors) {
