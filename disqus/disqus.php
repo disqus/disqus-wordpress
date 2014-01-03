@@ -1236,8 +1236,12 @@ add_action('wp_footer', 'dsq_output_footer_comment_js');
 $dsq_prev_permalinks = array();
 
 function dsq_prev_permalink($post_id) {
-// if post not published, return
-    $post = &get_post($post_id);
+    if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+        $post = get_post($post_id);
+    } else {
+        $post = &get_post($post_id);
+    }
+    // if post not published, return
     if ($post->post_status != 'publish') {
         return;
     }
