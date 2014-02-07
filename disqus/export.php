@@ -156,7 +156,7 @@ $wp_query->in_the_loop = true;  // Fake being in the loop.
 setup_postdata($post); ?>
 <item>
 <title><?php echo apply_filters('the_title_rss', $post->post_title); ?></title>
-<link><?php the_permalink_rss() ?></link>
+<link><?php echo dsq_link_for_post($post); ?></link>
 <pubDate><?php echo mysql2date('D, d M Y H:i:s +0000', get_post_time('Y-m-d H:i:s', true), false); ?></pubDate>
 <dc:creator><?php echo dsq_export_wxr_cdata(get_the_author()); ?></dc:creator>
 <guid isPermaLink="false"><?php the_guid(); ?></guid>
