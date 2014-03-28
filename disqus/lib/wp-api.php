@@ -37,7 +37,7 @@ class DisqusWordPressAPI {
         $this->short_name = $short_name;
         $this->forum_api_key = $forum_api_key;
         $this->user_api_key = $user_api_key;
-        $this->api = new DisqusAPI($user_api_key, $forum_api_key, DISQUS_API_URL);
+        $this->api = new WP_DisqusAPI($user_api_key, $forum_api_key, DISQUS_API_URL);
     }
 
     function get_last_error() {
@@ -104,4 +104,58 @@ class DisqusWordPressAPI {
     }
 }
 
-?>
+class WP_DisqusAPI extends DisqusAPI {
+
+	/**
+	 * Wrapper to the WordPress HTTP API for making an HTTP request.
+	 *
+	 * @param	string	$url		URL to make request to.
+	 * @param	array	$postdata	(optional) If postdata is provided, the request
+	 *								method is POST with the key/value pairs as
+	 *								the data.
+	 * @param	array	$file		(optional) Should provide associative array
+	 *								with two keys: name and field.  Name should
+	 *								be the name of the file and field is the name
+	 *								of the field to POST.
+	 */
+	function urlopen($url, $postdata=false, $file=false) {
+		$response = array(
+			'data' => '',
+			'code' => 0
+		);
+
+		if ( $file ) {
+			extract( $file, EXTR_PREFIX_ALL, 'file' );
+		}
+
+		$args = array(
+			'user-agent' => USER_AGENT,
+			'timeout'    => SOCKET_TIMEOUT,
+			'method'     => ( $postdata ) ? 'POST' : 'GET',
+		);
+
+		if ( !empty( $file_name ) && !empty( $file_field ) ) {
+			if ( !$postdata ) {
+				$postdata = array();
+			}
+			$postdata[$file_field] = '@' . $file_name;
+		}
+
+		if ( $postdata ) {
+			$args['body'] = $postdata;
+		}
+
+		$request = wp_remote_request( $url, $args );
+
+		if ( is_wp_error( $request ) ) {
+			return $response;
+		}
+
+		$response['code']    = wp_remote_retrieve_response_code( $request );
+		$response['headers'] = wp_remote_retrieve_headers( $request );
+		$response['data']    = wp_remote_retrieve_body( $request );
+
+		return $response;
+	}
+
+}
