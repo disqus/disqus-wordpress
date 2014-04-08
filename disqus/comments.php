@@ -56,6 +56,9 @@ if (DISQUS_DEBUG) {
         var config = this; // Access to the config object
         config.language = '<?php echo esc_js(apply_filters('disqus_language_filter', '')) ?>';
 
+        /* Add the ability to add javascript callbacks */
+        <?php do_action( 'disqus_config' ); ?>
+
         /*
            All currently supported events:
             * preData — fires just before we request for initial data
