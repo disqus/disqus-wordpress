@@ -248,6 +248,7 @@ case 0:
     $dsq_user_api_key = get_option('disqus_user_api_key');
     $dsq_partner_key = get_option('disqus_partner_key');
     $dsq_cc_fix = get_option('disqus_cc_fix');
+    $disqus_onclick = get_option('disqus_onclick');
     $dsq_manual_sync = get_option('disqus_manual_sync');
     $dsq_disable_ssr = get_option('disqus_disable_ssr');
     $dsq_public_key = get_option('disqus_public_key');
@@ -296,6 +297,14 @@ case 0:
                     </select>
                     <br />
                     <?php echo dsq_i('Your WordPress comments will never be lost.'); ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('Load Disqus Comments on Click'); ?></th>
+                <td>
+                    <input type="checkbox" name="disqus_onclick" class="disqus-onclick" <?php if($disqus_onclick){echo 'checked="checked"';}?> >
+                    <label for="disqus_onclick"><?php echo dsq_i('Disable client-side rendering of comments until a button is clicked'); ?></label>
+                    <br /><?php echo dsq_i('Your WordPress comments will show when your users click a button instead of on page load.'); ?>
                 </td>
             </tr>
 
