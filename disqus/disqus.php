@@ -861,7 +861,7 @@ function dsq_comments_text($comment_text) {
 
 function dsq_bloginfo_url($url) {
     if ( get_feed_link('comments_rss2') == $url && dsq_can_replace() ) {
-        return 'http://' . strtolower(get_option('disqus_forum_url')) . '.' . DISQUS_DOMAIN . DISQUS_RSS_PATH;
+        return 'https://' . strtolower(get_option('disqus_forum_url')) . '.' . DISQUS_DOMAIN . DISQUS_RSS_PATH;
     } else {
         return $url;
     }

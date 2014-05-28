@@ -132,7 +132,7 @@ if ( 2 == $step && isset($_POST['dsq_username']) && isset($_POST['dsq_password']
             dsq_manage_dialog($dsq_api->get_last_error(), true);
         } else if ( !$dsq_sites ) {
             $step = 1;
-            dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'http://disqus.com/admin/register/'), true);
+            dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'https://disqus.com/admin/register/'), true);
         }
     }
 }
@@ -206,14 +206,14 @@ case 1:
                     <th scope="row" valign="top"><?php echo dsq_i('Username'); ?></th>
                     <td>
                         <input id="dsq-username" name="dsq_username" tabindex="1" type="text" />
-                        <a href="http://disqus.com/profile/signup/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
+                        <a href="https://disqus.com/profile/signup/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" valign="top"><?php echo dsq_i('Password'); ?></th>
                     <td>
                         <input type="password" id="dsq-password" name="dsq_password" tabindex="2">
-                        <a href="http://disqus.com/forgot/"><?php echo dsq_i('(forgot your password?)'); ?></a>
+                        <a href="https://disqus.com/forgot/"><?php echo dsq_i('(forgot your password?)'); ?></a>
                     </td>
                 </tr>
             </table>
@@ -348,7 +348,7 @@ case 0:
                 <td>
                     <input type="text" name="disqus_public_key" value="<?php echo esc_attr($dsq_public_key); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
+                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','https://disqus.com/api/applications/'); ?>
                 </td>
             </tr>
             <tr>
@@ -356,7 +356,7 @@ case 0:
                 <td>
                     <input type="text" name="disqus_secret_key" value="<?php echo esc_attr($dsq_secret_key); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','http://disqus.com/api/applications/'); ?>
+                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','https://disqus.com/api/applications/'); ?>
                 </td>
             </tr>
             <tr>
@@ -416,7 +416,7 @@ case 0:
                         <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
                     <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-button.png'); ?>
+                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','https://disqus-cloudfront.s3.amazonaws.com/docs/sso-button.png'); ?>
                     <?php echo dsq_i('<br />See <a href="%s">our SSO button documentation</a> for a template to create your own button.','http://help.disqus.com/customer/portal/articles/236206#sso-login-button'); ?>
                 </td>
             </tr>
@@ -476,7 +476,7 @@ case 0:
                         <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2">
                     <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds an icon to the Disqus Classic log-in modal. This does not apply for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','http://content.disqus.com/docs/sso-icon.png'); ?>
+                    <?php echo dsq_i('Adds an icon to the Disqus Classic log-in modal. This does not apply for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','https://disqus-cloudfront.s3.amazonaws.com/docs/sso-icon.png'); ?>
                     <?php echo dsq_i('<br />Dimensions: 16x16.'); ?>
                 </td>
             </tr>
@@ -534,20 +534,22 @@ case 0:
 
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
         <p><?php echo dsq_i('Having problems with the plugin? Check out our <a href="%s" onclick="window.open(this.href); return false">WordPress Troubleshooting</a> documentation. You can also <a href="%s">drop us a line</a> including the following details and we\'ll do what we can.', 'http://docs.disqus.com/help/87/', 'mailto:help+wp@disqus.com'); ?></p>
-        <textarea style="width:90%; height:200px;">URL: <?php echo get_option('siteurl'); ?>
+        <textarea style="width:90%; height:200px;">
+URL: <?php echo get_option('siteurl'); ?>
 
 PHP Version: <?php echo phpversion(); ?>
 
 Version: <?php echo $wp_version; ?>
 
-Active Theme: <?php
-    if ( !function_exists('wp_get_theme') ) {
-        $theme = get_theme(get_current_theme());
-        echo $theme['Name'] . ' ' . $theme['Version'];
-    } else {
-        $theme = wp_get_theme();
-        echo $theme->Name . ' ' . $theme->Version;
-    }
+Active Theme: 
+<?php
+if ( !function_exists('wp_get_theme') ) {
+	$theme = get_theme(get_current_theme());
+	echo $theme['Name'] . ' ' . $theme['Version'];
+} else {
+	$theme = wp_get_theme();
+	echo $theme->Name . ' ' . $theme->Version;
+}
 ?>
 
 URLOpen Method: <?php echo dsq_url_method(); ?>
@@ -555,23 +557,22 @@ URLOpen Method: <?php echo dsq_url_method(); ?>
 Plugin Version: <?php echo DISQUS_VERSION; ?>
 
 Settings:
-
 dsq_is_installed: <?php echo dsq_is_installed(); ?>
-
 <?php foreach (dsq_options() as $opt) {
-    echo $opt.': '.get_option($opt)."\n";
-} ?>
+	echo $opt.': '.get_option($opt)."\n";
+} 
+?>
 
 Plugins:
-
 <?php
 foreach (get_plugins() as $key => $plugin) {
-    $isactive = "";
-    if (is_plugin_active($key)) {
-        $isactive = "(active)";
-    }
-    echo $plugin['Name'].' '.$plugin['Version'].' '.$isactive."\n";
+	$isactive = "";
+	if (is_plugin_active($key)) {
+		$isactive = "(active)";
+	}
+	echo $plugin['Name'].' '.$plugin['Version'].' '.$isactive."\n";
 }
-?></textarea><br/>
+?>
+		</textarea><br/>
     </div>
 </div>
