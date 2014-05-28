@@ -92,7 +92,7 @@ if ( !defined('PLUGINDIR') ) {
     define('PLUGINDIR', 'wp-content/plugins'); // Relative to ABSPATH.  For back compat.
 }
 
-define('DSQ_PLUGIN_URL', WP_CONTENT_URL . '/plugins/' . dsq_plugin_basename(__FILE__));
+define('DSQ_PLUGIN_URL', plugins_url() . '/' . dsq_plugin_basename(__FILE__));
 
 $mt_disqus_version = '2.01';
 /**
