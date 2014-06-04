@@ -65,6 +65,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Bump supported WordPress version to 3.8.
 * Properly encode site name for SSO login button.
 * Increased timeout for comment exporter to 60 seconds.
+* Use https: for admin pages
 * Miscellaneous bug fixes and improvements.
 
 2.74
