@@ -416,7 +416,7 @@ case 0:
                         <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
                     <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','https://disqus-cloudfront.s3.amazonaws.com/docs/sso-button.png'); ?>
+                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','https://d8v2sqslxfuhj.cloudfront.net/docs/sso-button.png'); ?>
                     <?php echo dsq_i('<br />See <a href="%s">our SSO button documentation</a> for a template to create your own button.','http://help.disqus.com/customer/portal/articles/236206#sso-login-button'); ?>
                 </td>
             </tr>
@@ -476,7 +476,7 @@ case 0:
                         <input type="file" name="disqus_sso_icon" value="<?php echo esc_attr($dsq_sso_icon); ?>" tabindex="2">
                     <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds an icon to the Disqus Classic log-in modal. This does not apply for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','https://disqus-cloudfront.s3.amazonaws.com/docs/sso-icon.png'); ?>
+                    <?php echo dsq_i('Adds an icon to the Disqus Classic log-in modal. This does not apply for sites using Disqus 2012. (<a href="%s">Example screenshot</a>.)','https://d8v2sqslxfuhj.cloudfront.net/docs/sso-icon.png'); ?>
                     <?php echo dsq_i('<br />Dimensions: 16x16.'); ?>
                 </td>
             </tr>
