@@ -85,14 +85,9 @@ function dsq_plugin_basename($file) {
     return !empty($pieces[count($pieces)-1]) ? $pieces[count($pieces)-1] : $pieces[count($pieces)-2];
 }
 
-if ( !defined('WP_CONTENT_URL') ) {
-    define('WP_CONTENT_URL', get_option('siteurl') . '/wp-content');
-}
 if ( !defined('PLUGINDIR') ) {
     define('PLUGINDIR', 'wp-content/plugins'); // Relative to ABSPATH.  For back compat.
 }
-
-define('DSQ_PLUGIN_URL', plugins_url() . '/' . dsq_plugin_basename(__FILE__));
 
 $mt_disqus_version = '2.01';
 /**
@@ -977,7 +972,7 @@ function dsq_manage() {
 function dsq_admin_head() {
     if (isset($_GET['page']) && $_GET['page'] == 'disqus') {
 ?>
-<link rel='stylesheet' href='<?php echo DSQ_PLUGIN_URL; ?>/media/styles/manage.css' type='text/css' />
+<link rel='stylesheet' href='<?php echo plugins_url( 'media/styles/manage.css', __FILE__ ); ?>' type='text/css' />
 <style type="text/css">
 .dsq-importing, .dsq-imported, .dsq-import-fail, .dsq-exporting, .dsq-exported, .dsq-export-fail {
     background: url(<?php echo admin_url('images/loading.gif'); ?>) left center no-repeat;
@@ -1100,7 +1095,7 @@ dsq_import_comments = function(wipe) {
 // HACK: Our own styles for older versions of WordPress.
         global $wp_version;
         if ( version_compare($wp_version, '2.5', '<') ) {
-            echo "<link rel='stylesheet' href='" . DSQ_PLUGIN_URL . "/media/styles/manage-pre25.css' type='text/css' />";
+            echo "<link rel='stylesheet' href='" . plugins_url( 'media/styles/manage-pre25.css', __FILE__ ) . "' type='text/css' />";
         }
     }
 }
