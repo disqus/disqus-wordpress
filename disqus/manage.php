@@ -235,7 +235,7 @@ case 0:
 
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
-            <h2><a href="<?php echo $mod_url ?>"><img src="<?php echo DSQ_PLUGIN_URL; ?>/media/images/logo.png"></a></h2>
+            <h2><a href="<?php echo $mod_url ?>"><img src="<?php echo plugins_url( '/media/images/logo.png', __FILE__ ); ?>"></a></h2>
             <iframe src="<?php echo $mod_url ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
         </div>
 <?php } ?>
