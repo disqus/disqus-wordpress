@@ -21,7 +21,7 @@ if (defined('DISQUS_LOCAL')) { // DISQUS defines this for local development purp
     define('DISQUS_IMPORTER_URL',   'http://dev.disqus.org:8001/');
 } else {
     define('DISQUS_DOMAIN',         'disqus.com');
-    define('DISQUS_IMPORTER_URL',   'http://import.disqus.com/');
+    define('DISQUS_IMPORTER_URL',   'https://import.disqus.com/');
 }
 define('DISQUS_URL',                'http://' . DISQUS_DOMAIN . '/');
 define('DISQUS_MEDIA_URL',          'http://' . DISQUS_DOMAIN . '/media/');
