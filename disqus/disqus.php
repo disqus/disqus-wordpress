@@ -4,7 +4,7 @@ Plugin Name: Disqus Comment System
 Plugin URI: http://disqus.com/
 Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your DISQUS Comment System.
 Author: Disqus <team@disqus.com>
-Version: 2.75
+Version: 2.77
 Author URI: http://disqus.com/
 */
 
@@ -31,7 +31,7 @@ define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
     define('DISQUS_DEBUG',          false);
 }
-define('DISQUS_VERSION',            '2.75');
+define('DISQUS_VERSION',            '2.77');
 define('DISQUS_SYNC_TIMEOUT',       30);
 
 /**
@@ -963,7 +963,7 @@ function dsq_manage() {
         dsq_install();
     }
 
-    if (dsq_does_need_update() && isset($_POST['reset'])) {
+    if (dsq_does_need_update() && !isset($_POST['reset'])) {
         include_once(dirname(__FILE__) . '/upgrade.php');
     } else {
         include_once(dirname(__FILE__) . '/manage.php');
@@ -1478,9 +1478,9 @@ function dsq_install($allow_database_install=true) {
 
     // if this is a new install, we should not set disqus active
     if ($version == '0') {
-        add_option('disqus_active', 0);
+        add_option('disqus_active', '0');
     } else {
-        add_option('disqus_active', 1);
+        add_option('disqus_active', '1');
     }
 
     update_option('disqus_version', DISQUS_VERSION);
