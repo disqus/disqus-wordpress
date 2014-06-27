@@ -1211,8 +1211,8 @@ function dsq_output_footer_comment_js() {
                 if (nodes[i].className.indexOf('dsq-postid') != -1) {
                     nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
                     url = nodes[i].parentNode.href.split('#', 1);
-                    if (url.length == 1) url = url[0];
-                    else url = url[1]
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
                     nodes[i].parentNode.href = url + '#disqus_thread';
                 }
             }
