@@ -349,6 +349,7 @@ case 0:
     $dsq_user_api_key = get_option('disqus_user_api_key');
     $dsq_partner_key = get_option('disqus_partner_key');
     $dsq_cc_fix = get_option('disqus_cc_fix');
+    $disqus_onclick = get_option('disqus_onclick');
     $dsq_manual_sync = get_option('disqus_manual_sync');
     $dsq_disable_ssr = get_option('disqus_disable_ssr');
     $dsq_public_key = get_option('disqus_public_key');
@@ -399,6 +400,14 @@ case 0:
                         if ($dsq_replace == 'closed') echo '<p class="dsq-alert">'.dsq_i('You have selected to only enable Disqus on posts with closed comments. If you aren\'t seeing Disqus on new posts, change this option to <strong>All blog posts</strong>.').'</p>';
                         else echo dsq_i('Shows comments on either all blog posts, or ones with closed comments. Select the <strong>Blog posts with closed comments only</strong> option if you plan on disabling Disqus, but want to keep it on posts which already have comments.'); 
                     ?>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('Load Disqus Comments on Click'); ?></th>
+                <td>
+                    <input type="checkbox" name="disqus_onclick" class="disqus-onclick" <?php if($disqus_onclick){echo 'checked="checked"';}?> >
+                    <label for="disqus_onclick"><?php echo dsq_i('Disable client-side rendering of comments until a button is clicked'); ?></label>
+                    <br /><?php echo dsq_i('Your WordPress comments will show when your users click a button instead of on page load.'); ?>
                 </td>
             </tr>
 

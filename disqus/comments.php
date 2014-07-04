@@ -11,6 +11,12 @@ if (DISQUS_DEBUG) {
         //     include(TEMPLATEPATH . '/comments.php');
         // }
         ?>
+<?php if (get_option('disqus_onclick')): ?>
+        <div id="dsq-onclick">
+            <a href="javascript:dsq_onclick();" title="<?php echo dsq_i('Join the Discussion') ?>"><?php echo dsq_i('Join the Discussion') ?></a>
+        </div>
+<?php endif; // check for on click functionality ?>
+
         <div id="dsq-content">
 
 <?php if (get_comment_pages_count() > 1 && get_option('page_comments')): // Are there comments to navigate through? ?>
@@ -41,11 +47,23 @@ if (DISQUS_DEBUG) {
     <?php endif; ?>
 </div>
 
+<?php if (get_option('disqus_onclick')): ?>
+<script type="text/javascript">
+/* <![CDATA[ */
+    function dsq_onclick() {
+        dsq_show();
+        return false;
+    }
+/* ]]> */
+</script>
+<?php endif; // check for on click functionality ?>
+
 <script type="text/javascript">
 /* <![CDATA[ */
     var disqus_url = '<?php echo get_permalink(); ?>';
     var disqus_identifier = '<?php echo dsq_identifier_for_post($post); ?>';
     var disqus_container_id = 'disqus_thread';
+    var disqus_content_id = 'dsq-content';
     var disqus_domain = '<?php echo DISQUS_DOMAIN; ?>';
     var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
     var disqus_title = <?php echo cf_json_encode(dsq_title_for_post($post)); ?>;
@@ -65,10 +83,12 @@ if (DISQUS_DEBUG) {
             * onReady - everything is done
          */
 
+        <?php if (!get_option('disqus_onclick')): ?>
         config.callbacks.preData.push(function() {
             // clear out the container (its filled for SEO/legacy purposes)
             document.getElementById(disqus_container_id).innerHTML = '';
         });
+        <?php endif; ?>
         <?php if (!get_option('disqus_manual_sync')): ?>
         config.callbacks.onReady.push(function() {
             // sync comments in the background so we don't block the page
@@ -124,11 +144,20 @@ if (DISQUS_DEBUG) {
 
 <script type="text/javascript">
 /* <![CDATA[ */
+<?php if (!get_option('disqus_onclick')): ?>
 (function() {
+<?php else: ?>
+document.getElementById(disqus_content_id).innerHTML = '';
+function dsq_show() {
+<?php endif; // check for on click functionality ?>
     var dsq = document.createElement('script'); dsq.type = 'text/javascript';
     dsq.async = true;
     dsq.src = '//' + disqus_shortname + '.' + '<?php echo DISQUS_DOMAIN; ?>' + '/' + 'embed' + '.js' + '?pname=wordpress&pver=<?php echo DISQUS_VERSION; ?>';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+<?php if (!get_option('disqus_onclick')): ?>
 })();
+<?php else: ?> 
+}
+<?php endif; // check for on click functionality ?>
 /* ]]> */
 </script>
