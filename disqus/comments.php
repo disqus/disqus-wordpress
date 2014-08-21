@@ -49,12 +49,12 @@ if (DISQUS_DEBUG) {
     var disqus_domain = '<?php echo DISQUS_DOMAIN; ?>';
     var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
     var disqus_title = <?php echo cf_json_encode(dsq_title_for_post($post)); ?>;
-    <?php if (false && get_option('disqus_developer')): ?>
-        var disqus_developer = 1;
-    <?php endif; ?>
     var disqus_config = function () {
         var config = this; // Access to the config object
         config.language = '<?php echo esc_js(apply_filters('disqus_language_filter', '')) ?>';
+
+        /* Add the ability to add javascript callbacks */
+        <?php do_action( 'disqus_config' ); ?>
 
         /*
            All currently supported events:
@@ -99,7 +99,7 @@ if (DISQUS_DEBUG) {
         'trackbacks': [
 <?php
     $count = 0;
-    foreach ($comments as $comment) {
+    foreach ((array)$comments as $comment) {
         $comment_type = get_comment_type();
         if ( $comment_type != 'comment' ) {
             if( $count ) { echo ','; }
@@ -127,7 +127,7 @@ if (DISQUS_DEBUG) {
 (function() {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.' + '<?php echo DISQUS_DOMAIN; ?>' + '/embed.js?pname=wordpress&pver=<?php echo DISQUS_VERSION; ?>';
+    dsq.src = '//' + disqus_shortname + '.' + '<?php echo DISQUS_DOMAIN; ?>' + '/' + 'embed' + '.js' + '?pname=wordpress&pver=<?php echo DISQUS_VERSION; ?>';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();
 /* ]]> */

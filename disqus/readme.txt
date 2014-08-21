@@ -2,8 +2,8 @@
 Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 2.8
-Tested up to: 3.5
-Stable tag: 2.74
+Tested up to: 3.9.1
+Stable tag: 2.77
 
 The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus.
 
@@ -59,6 +59,28 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 3. Inline Moderation Interface
 
 == Changes ==
+
+2.77
+
+* Fixes login by email issue
+* Make sure Disqus is enabled after installation
+* Additional security fixes
+
+2.76
+
+* Security fixes (Thanks to Nik Cubrilovic, Alexander Concha and Marc-Alexandre Montpas)
+* Bump tested Wordpress version to 3.9.1
+* Remove obsolete SSO button uploader
+* Enable 'Output javascript in footer' by default during installation
+* Fix for 'Reset' function not completely working the first time
+
+2.75
+
+* Bump supported WordPress version to 3.8.
+* Properly encode site name for SSO login button.
+* Increased timeout for comment exporter to 60 seconds.
+* Use https: for admin pages
+* Miscellaneous bug fixes and improvements.
 
 2.74
 
