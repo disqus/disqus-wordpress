@@ -1435,7 +1435,7 @@ function dsq_hmacsha1($data, $key) {
 }
 
 function dsq_identifier_for_post($post) {
-    return $post->ID . ' ' . $post->guid;
+    return apply_filters('dsq_identifier', $post->ID . ' ' . $post->guid);
 }
 
 function dsq_title_for_post($post) {
@@ -1445,7 +1445,7 @@ function dsq_title_for_post($post) {
 }
 
 function dsq_link_for_post($post) {
-    return get_permalink($post);
+    return apply_filters('dsq_url', get_permalink($post));
 }
 
 function dsq_does_need_update() {
