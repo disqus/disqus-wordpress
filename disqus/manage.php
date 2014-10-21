@@ -13,7 +13,7 @@ if ( !current_user_can('moderate_comments') ) {
 }
 
 function has_valid_nonce() {
-    $nonce_actions = array('upgrade', 'reset', 'install', 'settings');
+    $nonce_actions = array('upgrade', 'reset', 'install', 'settings', 'active');
     $nonce_form_prefix = 'dsq-form_nonce_';
     $nonce_action_prefix = 'dsq-wpnonce_';
 
@@ -183,7 +183,7 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
 }
 
 // handle disqus_active
-if ( isset($_GET['active']) ) {
+if ( isset($_POST['active']) && isset($_GET['active']) ) {
     update_option('disqus_active', ($_GET['active'] == '1' ? '1' : '0'));
 }
 
@@ -354,19 +354,25 @@ case 0:
     $dsq_public_key = get_option('disqus_public_key');
     $dsq_secret_key = get_option('disqus_secret_key');
     $dsq_sso_button = get_option('disqus_sso_button');
+    $disqus_enabled = get_option('disqus_active') == '1';
+    $disqus_enabled_state = $disqus_enabled ? 'enabled' : 'disabled';
 ?>
     <!-- Settings -->
     <div id="dsq-advanced" class="dsq-content dsq-advanced"<?php if (!$show_advanced) echo ' style="display:none;"'; ?>>
         <h2><?php echo dsq_i('Settings'); ?></h2>
         <p><?php echo dsq_i('Version: %s', esc_html(DISQUS_VERSION)); ?></p>
-        <?php
-        if (get_option('disqus_active') == '0') {
-            // disqus is not active
-            echo dsq_i('<p class="status">Disqus comments are currently <span class="dsq-disabled-text">disabled</span>. (<a href="?page=disqus&amp;active=1">Enable</a>)</p>');
-        } else {
-            echo dsq_i('<p class="status">Disqus comments are currently <span class="dsq-enabled-text">enabled</span>. (<a href="?page=disqus&amp;active=0">Disable</a>)</p>');
-        }
-        ?>
+
+        <!-- Enable/disable Disqus toggle -->
+        <form method="POST" action="?page=disqus&amp;active=<?php echo (string)((int)($disqus_enabled != true)); ?>">
+        <?php wp_nonce_field('dsq-wpnonce_active', 'dsq-form_nonce_active'); ?>
+            <p class="status">
+                <?php echo dsq_i('Disqus comments are currently '); ?>
+                <span class="dsq-<?php echo $disqus_enabled_state; ?>-text"><?php echo dsq_i($disqus_enabled_state); ?></span>
+            </p>
+            <input type="submit" name="active" value="<?php echo dsq_i($disqus_enabled ? 'Disable' : 'Enable'); ?>" />
+        </form>
+
+        <!-- Configuration form -->
         <form method="POST" enctype="multipart/form-data">
         <?php wp_nonce_field('dsq-wpnonce_settings', 'dsq-form_nonce_settings'); ?>
         <table class="form-table">
