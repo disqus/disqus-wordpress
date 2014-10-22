@@ -334,7 +334,7 @@ function dsq_sync_comments($comments) {
                 echo "inserted {$comment->id}: id is {$commentdata[comment_ID]}\n";
             }
         }
-        if (!$commentdata['comment_parent'] && $comment->parent_post) {
+        if ((isset($commentdata['comment_parent']) && !$commentdata['comment_parent']) && $comment->parent_post) {
             $parent_id = $wpdb->get_var($wpdb->prepare( "SELECT comment_id FROM $wpdb->commentmeta WHERE meta_key = 'dsq_post_id' AND meta_value = %s LIMIT 1", $comment->parent_post));
             if ($parent_id) {
                 $wpdb->query($wpdb->prepare( "UPDATE $wpdb->comments SET comment_parent = %s WHERE comment_id = %s", $parent_id, $commentdata['comment_ID']));
