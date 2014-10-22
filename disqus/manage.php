@@ -289,7 +289,7 @@ endforeach;
 
             <p class="submit" style="text-align: left">
                 <input type="hidden" name="dsq_user_api_key" value="<?php echo htmlspecialchars($dsq_user_api_key); ?>"/>
-                <input name="submit" type="submit" value="Next &raquo;" />
+                <input name="submit" type="submit" class="button-primary button" value="Next &raquo;" />
             </p>
             </form>
         </div>
@@ -320,7 +320,7 @@ case 1:
             </table>
 
             <p class="submit" style="text-align: left">
-                <input name="submit" type="submit" value="Next &raquo;" tabindex="3">
+                <input name="submit" type="submit" class="button-primary button" value="Next &raquo;" tabindex="3">
             </p>
 
             <script type="text/javascript"> document.getElementById('dsq-username').focus(); </script>
@@ -369,7 +369,7 @@ case 0:
                 <?php echo dsq_i('Disqus comments are currently '); ?>
                 <span class="dsq-<?php echo $disqus_enabled_state; ?>-text"><?php echo dsq_i($disqus_enabled_state); ?></span>
             </p>
-            <input type="submit" name="active" value="<?php echo dsq_i($disqus_enabled ? 'Disable' : 'Enable'); ?>" />
+            <input type="submit" name="active" class="button" value="<?php echo dsq_i($disqus_enabled ? 'Disable' : 'Enable'); ?>" />
         </form>
 
         <!-- Configuration form -->

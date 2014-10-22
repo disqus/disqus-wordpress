@@ -15,7 +15,7 @@ $step = (isset($_GET['step']) ? $_GET['step'] : null);
         <p><?php echo dsq_i('You need to upgrade your database to continue.'); ?></p>
 
         <p class="submit" style="text-align: left">
-            <input type="submit" name="upgrade" value="Upgrade &raquo;" />
+            <input type="submit" name="upgrade" class="button-primary button" value="Upgrade &raquo;" />
         </p>
     </form>
 </div>
