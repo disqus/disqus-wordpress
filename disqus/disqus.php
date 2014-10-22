@@ -54,7 +54,6 @@ function dsq_options() {
         'disqus_public_key',
         'disqus_secret_key',
         'disqus_sso_button',
-        'disqus_sso_icon',
         # disables automatic sync via cron
         'disqus_manual_sync',
         # disables server side rendering
@@ -1431,11 +1430,9 @@ function dsq_sso_login() {
     $sitename = get_bloginfo('name');
     $siteurl = site_url();
     $button = get_option('disqus_sso_button');
-    $icon = get_option('disqus_sso_icon');
     $sso_login_str = 'this.sso = {
           name: "'.wp_specialchars_decode($sitename, ENT_QUOTES).'",
           button: "'.$button.'",
-          icon: "'.$icon.'",
           url: "'.$siteurl.'/wp-login.php",
           logout: "'.$siteurl.'/wp-login.php?action=logout",
           width: "800",

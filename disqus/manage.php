@@ -167,11 +167,11 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
     update_option('disqus_disable_ssr', isset($_POST['disqus_disable_ssr']));
     update_option('disqus_public_key', $_POST['disqus_public_key']);
     update_option('disqus_secret_key', $_POST['disqus_secret_key']);
-    // Handle any SSO button and icon uploads
+    // Handle SSO button uploads
     if ( version_compare($wp_version, '3.5', '>=') ) {
         // Use WP 3.5's new, streamlined, much-improved built-in media uploader
 
-        // Only update if a value is actually POSTed, otherwise any time the form is saved the button and icon will be un-set
+        // Only update if a value is actually POSTed, otherwise any time the form is saved the button will be un-set
         if ($_POST['disqus_sso_button']) { update_option('disqus_sso_button', $_POST['disqus_sso_button']); }
     } else {
         // WP is older than 3.5, use legacy, less-elegant media uploader
