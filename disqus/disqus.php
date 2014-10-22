@@ -439,7 +439,7 @@ function dsq_request_handler() {
                         $post = $post[0];
                         $post_id = $post->ID;
                         $max_post_id = $wpdb->get_var($wpdb->prepare("
-                            SELECT MAX(ID)
+                            SELECT MAX(%d)
                             FROM $wpdb->posts
                             WHERE post_type != 'revision'
                             AND post_status = 'publish'
