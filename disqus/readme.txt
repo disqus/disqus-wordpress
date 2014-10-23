@@ -56,26 +56,26 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 
 1. Disqus Comments
 2. Discovery Box (part of Disqus Comments)
-3. Inline Moderation Interface
+3. Moderation Interface
 
-== Changes ==
+== Changelog ==
 
-2.79
+= 2.79 =
 
 * Reinstate changes removed by 2.78
 
-2.78
+= 2.78 =
 
 * Security fixes
 * Compatibility for Wordpress version 4.0
 
-2.77
+= 2.77 =
 
 * Fixes login by email issue
 * Make sure Disqus is enabled after installation
 * Additional security fixes
 
-2.76
+= 2.76 =
 
 * Security fixes (Thanks to Nik Cubrilovic, Alexander Concha and Marc-Alexandre Montpas)
 * Bump tested Wordpress version to 3.9.1
@@ -83,7 +83,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Enable 'Output javascript in footer' by default during installation
 * Fix for 'Reset' function not completely working the first time
 
-2.75
+= 2.75 =
 
 * Bump supported WordPress version to 3.8.
 * Properly encode site name for SSO login button.
@@ -91,7 +91,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Use https: for admin pages
 * Miscellaneous bug fixes and improvements.
 
-2.74
+= 2.74 =
 
 * Updated settings UI
 * Add filter hook for setting custom Disqus language
@@ -103,7 +103,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Added a check to avoid a missing key notice when WP_DEBUG=TRUE (thanks Jason Lengstorf)
 * Prevent 404 errors for embed.js from being reported by Google Webmaster Tools (missed in 2.73 README)
 
-2.73
+= 2.73 =
 
 * Apply CDATA patch from Wordpress 3.4 to dsq_export_wxr_cdata() (thanks Artem
   Russakovskii for the patch).
@@ -115,12 +115,12 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Load second count.js (output-in-footer version) reference via SSL too
 * Added screenshots
 
-2.72
+= 2.72 =
 
 * Load count.js via SSL when page is accessed via HTTPS
 * Fixed styling issue with Disqus admin.
 
-2.71
+= 2.71 =
 
 * Fixed issue where embed wasn't using SSL if page was loaded via HTTPS
 * Fixed issue with syncing where to user's without a display_name would
@@ -128,7 +128,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Fixed issue where Google Webmaster Tools would incorrectly report 404s.
 * Fixed issue with Disqus admin display issues.
 
-2.70
+= 2.70 =
 
 * Properly uninstall disqus_dupecheck index when uninstalling plugin.
 * Fixed issue with syncing where to user's without a display_name would
@@ -137,11 +137,11 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Allow non-Administrators (e.g., editors) to see Disqus Moderate panel
   inline (fixes GH-3)
 
-2.69
+= 2.69 =
 
 * Bumped version number.
 
-2.68
+= 2.68 =
 
 * Removed debugging information from web requests in CLI scripts (thanks
   Ryan Dewhurst for the report).
@@ -149,7 +149,7 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Fixed an issue which was not allowing pending posts (for sync) to clear.
 * Fixed an issue with CLI scripts when used with certain caching plugins.
 
-2.67
+= 2.67 =
 
 * Bumped synchronization timer delays to 5 minutes.
 * wp-cli.php now requires php_sapi_name to be set to 'cli' for execution.
@@ -159,20 +159,20 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * dsq_sync_forum will now handle all pending post metadata updates (formerly a separate
   cron task, dsq_sync_post).
 
-2.66
+= 2.66 =
 
 * Fixed issue with jQuery usage which conflicted with updated jQuery version.
 
-2.65
+= 2.65 =
 
 * Corrected a bug that was causing posts to not appear due to invalid references.
 
-2.64
+= 2.64 =
 
 * Added an option to disable Disqus without deactivating the plugin.
 * Added a second check for comment sync to prevent stampede race conditions in WP cron.
 
-2.63
+= 2.63 =
 
 * Added command line script to import comments from DISQUS (scripts/import-comments.php).
 * Added command line script to export comments to DISQUS (scripts/export-comments.php).
@@ -180,36 +180,36 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * The exporter now only sends required attributes to DISQUS.
 * Moved media into its own directory.
 
-2.62
+= 2.62 =
 
 * Changed legacy query to use = operator instead of LIKE so it can be indexed.
 
-2.61
+= 2.61 =
 
 * Fixed an issue which was causing invalid information to be presented in RSS feeds.
 
-2.60
+= 2.60 =
 
 * Added support for new Single Sign-On (API version 3.0).
 * Improved support for legacy Single Sign-On.
 
-2.55
+= 2.55 =
 
 * Added support for get_comments_number in templates.
 
-2.54
+= 2.54 =
 
 * Updated URL to forum moderation.
 
-2.53
+= 2.53 =
 
 * Fixed an issue with fsockopen and GET requests (only affects certain users).
 
-2.52
+= 2.52 =
 
 * Fixed issue with Disqus-API package not getting updated (only affecting PHP4).
 
-2.51
+= 2.51 =
 
 * Added CDATA comments for JavaScript.
 * Syncing comments will now restore missing thread information from old imports.
@@ -218,11 +218,11 @@ Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
 * Fixed an issue that could cause duplicate comments in some places.
 * Added an option to remove existing imported comments when importing.
 
-2.50
+= 2.50 =
 
 * Added missing file.
 
-2.49
+= 2.49 =
 
 * Database usage has been optimized for storing comment meta data.
 
@@ -232,19 +232,19 @@ you have a large database, you may do this by hand:
 CREATE INDEX disqus_dupecheck ON `wp_commentmeta` (meta_key, meta_value(11));
 INSERT INTO `wp_options` (blog_id, option_name, option_value, autoload) VALUES (0, 'disqus_version', '2.49', 'yes') ON DUPLICATE KEY UPDATE option_value = VALUES(option_value);
 
-2.48
+= 2.48 =
 
 * Comment synchronization has been optimized to be a single call per-site.
 * disqus.css will now only load when displaying comments
 
-2.47
+= 2.47 =
 
 * Fixed a security hole with comment importing.
 * Reverted ability to use default template comments design.
 * Comments will now store which version they were imported under.
 * Added an option to disable server side rendering.
 
-2.46
+= 2.46 =
 
 * Better debugging information for export errors.
 * Added the ability to manual import Disqus comments into Wordpress.
@@ -253,33 +253,33 @@ INSERT INTO `wp_options` (blog_id, option_name, option_value, autoload) VALUES (
 * Fixed a bug which was causing the import process to not grab only the latest set of comments.
 * Added an option to disable automated synchronization with Disqus.
 
-2.45
+= 2.45 =
 
 * Comments should now store thread information as well as certain other meta data.
 * Optimize get_thread polling to only pull comments which aren't stored properly.
 
-2.44
+= 2.44 =
 
 * Fixed JavaScript response for comments sync call.
 * Comments are now marked as closed while showing the embed (fixes showing default respond form).
 
-2.43
+= 2.43 =
 
 * Fixed a JavaScript syntax error which would cause linting to fail.
 * Correct an issue that was causing comments.php to throw a syntax error under some configurations.
 
-2.42
+= 2.42 =
 
 * Correct a bug with saving disqus_user_api_key (non-critical).
 * Added settings to Debug Information.
 * Adjusting all includes to use absolute paths.
 * Adjusted JSON usage to solve a problem for some clients.
 
-2.41
+= 2.41 =
 
 * Correct a bug with double urlencoding titles.
 
-2.40
+= 2.40 =
 
 * Comments are now synced with Disqus as a delayed asynchronous cron event.
 * Comment count code has been updated to use the new widget. (Comment counts
