@@ -1077,12 +1077,13 @@ var dsq_export_comments = function() {
 };
 
 var dsq_fire_import = function() {
-    var $ = jQuery;
-    $('#dsq_import a.button, #dsq_import_retry').unbind().click(function() {
-        var wipe = $('#dsq_import_wipe').is(':checked');
-        $('#dsq_import .status').removeClass('dsq-import-fail').addClass('dsq-importing').html('Processing...');
-        dsq_import_comments(wipe);
-        return false;
+    jQuery(function($) {
+        $('#dsq_import a.button, #dsq_import_retry').unbind().click(function() {
+            var wipe = $('#dsq_import_wipe').is(':checked');
+            $('#dsq_import .status').removeClass('dsq-import-fail').addClass('dsq-importing').html('Processing...');
+            dsq_import_comments(wipe);
+            return false;
+        });
     });
 };
 
