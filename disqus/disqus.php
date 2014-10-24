@@ -175,7 +175,7 @@ function load_dashboard_scripts() {
  * Adds a simple WordPress pointer to Comments menu, to remind the user to configure the plugin
  */
 function load_pointer_script_style() {
-    
+
     // Assume pointer shouldn't be shown
     $enqueue_pointer_script_style = false;
 
@@ -502,12 +502,15 @@ function dsq_request_handler() {
             break;
             case 'export_comments':
                 if (current_user_can('manage_options') && DISQUS_CAN_EXPORT) {
+                    $msg = '';
+                    $result = '';
+                    $response = null;
+
                     $timestamp = intval($_GET['timestamp']);
                     $post_id = intval($_GET['post_id']);
                     if ( isset($_GET['_dsqexport_wpnonce']) === false ) {
                         $msg = dsq_i('Unable to export comments. Make sure you are accessing this page from the Wordpress dashboard.');
                         $result = 'fail';
-                        $response = null;
                     }
                     else {
 
@@ -544,7 +547,6 @@ function dsq_request_handler() {
                             $msg = dsq_i('Processed comments on post #%s&hellip;', $post_id);
                         }
                         $result = 'fail';
-                        $response = null;
                         if ($post) {
                             require_once(dirname(__FILE__) . '/export.php');
                             $wxr = dsq_export_wp($post);
@@ -573,10 +575,13 @@ function dsq_request_handler() {
             break;
             case 'import_comments':
                 if (current_user_can('manage_options')) {
+                    $msg = '';
+                    $result = '';
+                    $response = null;
+
                     if ( isset($_GET['_dsqimport_wpnonce']) === false ) {
                         $msg = dsq_i('Unable to import comments. Make sure you are accessing this page from the Wordpress dashboard.');
                         $result = 'fail';
-                        $response = null;
                     }
                     else
                     {
