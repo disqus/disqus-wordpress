@@ -120,6 +120,88 @@ $DSQ_QUERY_COMMENTS = false;
  */
 $DSQ_QUERY_POST_IDS = array();
 
+/** 
+ * Admin scripts
+ */
+
+add_action('wp_dashboard_setup', 'dsq_wp_dashboard_setup');
+add_action( 'admin_enqueue_scripts', 'load_admin_scripts' );
+
+function load_admin_scripts($hook) {
+
+    // Only show the pointer when Disqus isn't already configured
+    if ( dsq_is_installed() === false ) {
+        add_action( 'admin_enqueue_scripts', 'load_pointer_script_style' );
+    }
+
+    // Only load these scripts on the Disqus admin page
+    if ( 'comments_page_disqus' != $hook ) {
+        return;
+    }
+
+    $admin_vars = array(
+        'indexUrl' => admin_url('index.php'),
+    );
+
+    wp_register_script( 'admin_script', plugins_url( '/media/js/admin.js', __FILE__ ) );
+    wp_localize_script( 'admin_script', 'adminVars', $admin_vars );
+    wp_enqueue_script( 'admin_script', plugins_url( '/media/js/admin.js', __FILE__ ), array( 'jQuery') );
+
+    wp_register_script( 'upload_script', plugins_url( '/media/js/upload.js', __FILE__) );
+    wp_enqueue_script( 'upload_script', plugins_url( '/media/js/upload.js', __FILE__), array( 'jQuery') );
+}
+
+function dsq_wp_dashboard_setup() {
+    add_action('admin_enqueue_scripts', 'load_dashboard_scripts');
+}
+
+function load_dashboard_scripts() {
+    $stats = get_dash_comment_counts();
+    $dashboard_vars = array(
+        'stats' => array(
+            'totalComments' => number_format($stats->total_comments),
+            'approved' => number_format($stats->approved),
+            'moderated' => number_format($stats->moderated),
+            'spam' => number_format($stats->spam),
+        ),
+    );
+
+    wp_register_script( 'dashboard_script', plugins_url( '/media/js/dashboard.js', __FILE__ ) );
+    wp_localize_script( 'dashboard_script', 'dashboardVars', $dashboard_vars );
+    wp_enqueue_script( 'dashboard_script', plugins_url( '/media/js/dashboard.js', __FILE__ ), array( 'jQuery') );
+}
+
+/**
+ * Adds a simple WordPress pointer to Comments menu, to remind the user to configure the plugin
+ */
+function load_pointer_script_style() {
+    
+    // Assume pointer shouldn't be shown
+    $enqueue_pointer_script_style = false;
+
+    // Get array list of dismissed pointers for current user and convert it to array
+    $dismissed_pointers = explode( ',', get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+
+    // Check if our pointer is not among dismissed ones
+    if( !in_array( 'disqus_settings_pointer', $dismissed_pointers ) ) {
+        $enqueue_pointer_script_style = true;
+        
+        // Add footer scripts using callback function
+        $pointer_content  = '<h3>'.dsq_i('Disqus needs to be configured').'</h3>';
+        $pointer_content .= '<p>'.dsq_i('Configure Disqus by clicking Comments to the left.').'</p>';
+
+        wp_register_script( 'pointer_script', plugins_url( '/media/js/pointer.js', __FILE__ ) );
+        wp_localize_script( 'pointer_script', 'pointerContent', $pointer_content );
+        wp_enqueue_script( 'pointer_script', plugins_url( '/media/js/pointer.js', __FILE__ ), array( 'jQuery') );
+    }
+
+    // Enqueue pointer CSS and JS files, if needed
+    if( $enqueue_pointer_script_style ) {
+        wp_enqueue_style( 'wp-pointer' );
+        wp_enqueue_script( 'wp-pointer' );
+    }
+}
+
 /**
  * Helper functions.
  */
@@ -129,7 +211,14 @@ $DSQ_QUERY_POST_IDS = array();
  * @return bool
  */
 function dsq_is_installed() {
-    return get_option('disqus_forum_url') && get_option('disqus_api_key');
+    $disqus_forum_url = get_option('disqus_forum_url');
+    $disqus_api_key = get_option('disqus_api_key');
+    if ( strlen( $disqus_forum_url ) > 0 && strlen( $disqus_api_key ) > 0 ) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 /**
@@ -185,7 +274,7 @@ function dsq_manage_dialog($message, $error = false) {
         . 'class="updated fade'
         . ( (version_compare($wp_version, '2.5', '<') && $error) ? '-ff0000' : '' )
         . '"><p><strong>'
-        . $message
+        . esc_attr($message)
         . '</strong></p></div>';
 }
 
@@ -923,24 +1012,8 @@ function dsq_add_pages() {
 }
 add_action('admin_menu', 'dsq_add_pages', 10);
 
-// a little jQuery goodness to get comments menu working as desired
-function dsq_menu_admin_head() {
-?>
-<script type="text/javascript">
-jQuery(function($) {
-    // fix menu
-    var mc = $('#menu-comments');
-    mc.find('a.wp-has-submenu').attr('href', 'edit-comments.php?page=disqus').end().find('.wp-submenu  li:has(a[href="edit-comments.php?page=disqus"])').prependTo(mc.find('.wp-submenu ul'));
-    // fix admin bar
-    $('#wp-admin-bar-comments').find('a.ab-item').attr('href', 'edit-comments.php?page=disqus');
-});
-</script>
-<?php
-}
-add_action('admin_head', 'dsq_menu_admin_head');
-
 // only active on dashboard
-function dsq_dash_comment_counts() {
+function get_dash_comment_counts() {
     global $wpdb;
 // taken from wp-includes/comment.php - WP 2.8.5
     $count = $wpdb->get_results("
@@ -964,21 +1037,8 @@ function dsq_dash_comment_counts() {
         if ( empty($stats[$key]) )
             $stats[$key] = 0;
     }
-    $stats = (object) $stats;
-?>
-<script type="text/javascript">
-jQuery(function($) {
-    $('#dashboard_right_now').find('.b-comments a').html('<?php echo number_format($stats->total_comments); ?>').end().find('.b_approved a').html('<?php echo number_format($stats->approved); ?>').end().find('.b-waiting a').html('<?php echo number_format($stats->moderated); ?>').end().find('.b-spam a').html('<?php echo number_format($stats->spam); ?>');
-    $('#dashboard_recent_comments div.trackback').remove();
-    $('#dashboard_right_now .inside table td.last a, #dashboard_recent_comments .inside .textright a.button').attr('href', 'edit-comments.php?page=disqus');
-});
-</script>
-<?php
+    return (object) $stats;
 }
-function dsq_wp_dashboard_setup() {
-    add_action('admin_head', 'dsq_dash_comment_counts');
-}
-add_action('wp_dashboard_setup', 'dsq_wp_dashboard_setup');
 
 function dsq_manage() {
     if (dsq_does_need_update() && isset($_POST['upgrade'])) {
@@ -1014,117 +1074,6 @@ p.status {
     background: url(<?php echo admin_url('images/no.png'); ?>) left center no-repeat;
 }
 </style>
-<script type="text/javascript">
-jQuery(function($) {
-    $('#dsq-tabs li').click(function() {
-        $('#dsq-tabs li.selected').removeClass('selected');
-        $(this).addClass('selected');
-        $('.dsq-main, .dsq-advanced').hide();
-        $('.' + $(this).attr('rel')).show();
-    });
-    if (location.href.indexOf('#adv') != -1) {
-        $('#dsq-tab-advanced').click();
-    }
-    dsq_fire_export();
-    dsq_fire_import();
-});
-
-var dsq_fire_export = function() {
-    jQuery(function($) {
-        $('#dsq_export a.button').unbind().click(function() {
-            $('#dsq_export .status').removeClass('dsq-export-fail').addClass('dsq-exporting').html('Processing...');
-            dsq_export_comments();
-            return false;
-        });
-    });
-};
-
-var dsq_export_comments = function() {
-    jQuery(function($) {
-        var status = $('#dsq_export .status');
-        var nonce = $('#dsq-form_nonce_export').val();
-        var export_info = (status.attr('rel') || '0|' + (new Date().getTime()/1000)).split('|');        
-        $.get(
-            '<?php echo admin_url("index.php"); ?>',
-            {
-                cf_action: 'export_comments',
-                post_id: export_info[0],
-                timestamp: export_info[1],
-                _dsqexport_wpnonce: nonce
-            },
-            function(response) {
-                switch (response.result) {
-                    case 'success':
-                        status.html(response.msg).attr('rel', response.post_id + '|' + response.timestamp);
-                        switch (response.status) {
-                            case 'partial':
-                                dsq_export_comments();
-                            break;
-                            case 'complete':
-                                status.removeClass('dsq-exporting').addClass('dsq-exported');
-                            break;
-                        }
-                    break;
-                    case 'fail':
-                        status.parent().html(response.msg);
-                        dsq_fire_export();
-                    break;
-                }
-            },
-            'json'
-        );
-    });
-};
-
-var dsq_fire_import = function() {
-    jQuery(function($) {
-        $('#dsq_import a.button, #dsq_import_retry').unbind().click(function() {
-            var wipe = $('#dsq_import_wipe').is(':checked');
-            $('#dsq_import .status').removeClass('dsq-import-fail').addClass('dsq-importing').html('Processing...');
-            dsq_import_comments(wipe);
-            return false;
-        });
-    });
-};
-
-var dsq_import_comments = function(wipe) {
-    jQuery(function($) {
-        var status = $('#dsq_import .status');
-        var nonce = $('#dsq-form_nonce_import').val();
-        var last_comment_id = status.attr('rel') || '0';
-        $.get(
-            '<?php echo admin_url('index.php'); ?>',
-            {
-                cf_action: 'import_comments',
-                last_comment_id: last_comment_id,
-                wipe: (wipe ? 1 : 0),
-                _dsqimport_wpnonce: nonce
-            },
-            function(response) {
-                switch (response.result) {
-                    case 'success':
-                        status.html(response.msg).attr('rel', response.last_comment_id);
-                        switch (response.status) {
-                            case 'partial':
-                                dsq_import_comments(false);
-                                break;
-                            case 'complete':
-                                status.removeClass('dsq-importing').addClass('dsq-imported');
-                                break;
-                        }
-                    break;
-                    case 'fail':
-                        status.parent().html(response.msg);
-                        dsq_fire_import();
-                    break;
-                }
-            },
-            'json'
-        );
-    });
-};
-
-</script>
 <?php
 // HACK: Our own styles for older versions of WordPress.
         global $wp_version;
@@ -1515,67 +1464,6 @@ function dsq_install($allow_database_install=true) {
     }
 
     update_option('disqus_version', DISQUS_VERSION);
-}
-
-/**
- * Adds a simple WordPress pointer to Comments menu, to remind the user to configure the plugin
- */
-function dsq_enqueue_pointer_script_style( $hook_suffix ) {
-    
-    // Assume pointer shouldn't be shown
-    $enqueue_pointer_script_style = false;
-
-    // Get array list of dismissed pointers for current user and convert it to array
-    $dismissed_pointers = explode( ',', get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-
-    // Check if our pointer is not among dismissed ones
-    if( !in_array( 'disqus_settings_pointer', $dismissed_pointers ) ) {
-        $enqueue_pointer_script_style = true;
-        
-        // Add footer scripts using callback function
-        add_action( 'admin_print_footer_scripts', 'dsq_pointer_print_scripts' );
-    }
-
-    // Enqueue pointer CSS and JS files, if needed
-    if( $enqueue_pointer_script_style ) {
-        wp_enqueue_style( 'wp-pointer' );
-        wp_enqueue_script( 'wp-pointer' );
-    }
-    
-}
-if (!dsq_is_installed()) {
-    // Only show the pointer when Disqus isn't already configured
-    add_action( 'admin_enqueue_scripts', 'dsq_enqueue_pointer_script_style' );
-}
-
-function dsq_pointer_print_scripts() {
-
-    $pointer_content  = '<h3>DISQUS needs to be configured</h3>';
-    $pointer_content .= '<p>Configure DISQUS by clicking Comments to the left.</p>';
-?>
-    
-    <script type="text/javascript">
-    //<![CDATA[
-    jQuery(document).ready( function($) {
-        $('#menu-comments').pointer({
-            content:        '<?php echo $pointer_content; ?>',
-            position:       {
-                                edge:   'left', // arrow direction
-                                align:  'center' // vertical alignment
-                            },
-            pointerWidth:   350,
-            close:          function() {
-                                $.post( ajaxurl, {
-                                        pointer: 'disqus_settings_pointer', // pointer ID
-                                        action: 'dismiss-wp-pointer'
-                                });
-                            }
-        }).pointer('open');
-    });
-    //]]>
-    </script>
-
-<?php
 }
 
 /**

@@ -57,6 +57,7 @@ if ( isset($_POST['reset']) ) {
     unset($_POST);
     dsq_reset_database();
 ?>
+
 <div class="wrap">
     <h2><?php echo dsq_i('Disqus Reset'); ?></h2>
     <form method="POST" action="?page=disqus">
@@ -302,28 +303,26 @@ case 1:
 
             <form method="POST" action="?page=disqus&amp;step=2">
             <?php wp_nonce_field('dsq-wpnonce_install', 'dsq-form_nonce_install'); ?>
-            <table class="form-table">
-                <tr>
-                    <th scope="row" valign="top"><?php echo dsq_i('Username or email'); ?></th>
-                    <td>
-                        <input id="dsq-username" name="dsq_username" tabindex="1" type="text" />
-                        <a href="https://disqus.com/profile/signup/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" valign="top"><?php echo dsq_i('Password'); ?></th>
-                    <td>
-                        <input type="password" id="dsq-password" name="dsq_password" tabindex="2">
-                        <a href="https://disqus.com/forgot/"><?php echo dsq_i('(forgot your password?)'); ?></a>
-                    </td>
-                </tr>
-            </table>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row" valign="top"><?php echo dsq_i('Username or email'); ?></th>
+                        <td>
+                            <input id="dsq-username" name="dsq_username" tabindex="1" type="text" />
+                            <a href="https://disqus.com/profile/signup/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" valign="top"><?php echo dsq_i('Password'); ?></th>
+                        <td>
+                            <input type="password" id="dsq-password" name="dsq_password" tabindex="2">
+                            <a href="https://disqus.com/forgot/"><?php echo dsq_i('(forgot your password?)'); ?></a>
+                        </td>
+                    </tr>
+                </table>
 
-            <p class="submit" style="text-align: left">
-                <input name="submit" type="submit" class="button-primary button" value="Next &raquo;" tabindex="3">
-            </p>
-
-            <script type="text/javascript"> document.getElementById('dsq-username').focus(); </script>
+                <p class="submit" style="text-align: left">
+                    <input name="submit" type="submit" class="button-primary button" value="Next &raquo;" tabindex="3">
+                </p>
             </form>
         </div>
 <?php
@@ -480,44 +479,8 @@ case 0:
                         // HACK: Use WP's new (as of WP 3.5), streamlined, much-improved built-in media uploader
 
                         // Use WP 3.5's new consolidated call to get all necessary media uploader scripts and styles
-                        wp_enqueue_media(); ?>
-
-                        <script type="text/javascript">
-                        // Uploading files
-                        var file_frame;
-
-                          jQuery('.upload_image_button').live('click', function( event ){
-
-                            event.preventDefault();
-
-                            // If the media frame already exists, reopen it.
-                            if ( file_frame ) {
-                              file_frame.open();
-                              return;
-                            }
-
-                            // Create the media frame.
-                            file_frame = wp.media.frames.file_frame = wp.media({
-                              title: jQuery( this ).data( 'uploader_title' ),
-                              button: {
-                                text: jQuery( this ).data( 'uploader_button_text' ),
-                              },
-                              multiple: false  // Set to true to allow multiple files to be selected
-                            });
-
-                            // When an image is selected, run a callback.
-                            file_frame.on( 'select', function() {
-                              // We set multiple to false so only get one image from the uploader
-                              attachment = file_frame.state().get('selection').first().toJSON();
-
-                              // Do something with attachment.id and/or attachment.url here
-                              jQuery('#disqus_sso_button').val(attachment.url);
-                            });
-
-                            // Finally, open the modal
-                            file_frame.open();
-                          });
-                        </script>
+                        wp_enqueue_media();
+                    ?>
 
                         <input type="button" value="<?php echo ($dsq_sso_button ? dsq_i('Change') : dsq_i('Choose')).' '.dsq_i('button'); ?>" class="button upload_image_button" tabindex="2">
                         <input type="hidden" name="disqus_sso_button" id="disqus_sso_button" value=""/>
