@@ -131,7 +131,7 @@ function load_admin_scripts($hook) {
 
     // Only show the pointer when Disqus isn't already configured
     if ( dsq_is_installed() === false ) {
-        add_action( 'admin_enqueue_scripts', 'load_pointer_script_style' );
+        add_action( 'admin_print_footer_scripts', 'load_pointer_script_style' );
     }
 
     // Only load these scripts on the Disqus admin page
