@@ -51,7 +51,8 @@ if (DISQUS_DEBUG) {
     var disqus_title = <?php echo cf_json_encode(dsq_title_for_post($post)); ?>;
     var disqus_config = function () {
         var config = this; // Access to the config object
-        config.language = '<?php echo esc_js(apply_filters('disqus_language_filter', '')) ?>';
+        <?php $wplang = get_bloginfo('language'); ?>
+        config.language = '<?php echo (!empty($wplang)) ? $wplang : esc_js(apply_filters('disqus_language_filter', '')) ?>';
 
         /* Add the ability to add javascript callbacks */
         <?php do_action( 'disqus_config' ); ?>
