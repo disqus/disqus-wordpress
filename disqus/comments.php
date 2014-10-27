@@ -59,9 +59,22 @@ $embed_vars = array(
 // Add SSO vars if enabled
 $sso = dsq_sso();
 if ($sso) {
+    global $current_site;
+
     foreach ($sso as $k=>$v) {
         $embed_vars['disqusConfig'][$k] = $v;
     }
+
+    $siteurl = site_url();
+    $sitename = get_bloginfo('name');
+    $embed_vars['disqusConfig']['sso'] = array(
+        'name' => wp_specialchars_decode($sitename, ENT_QUOTES),
+        'button' => get_option('disqus_sso_button'),
+        'url' => $siteurl.'/wp-login.php',
+        'logout' => $siteurl.'/wp-login.php?action=logout',
+        'width' => '800',
+        'height' => '700',
+    );
 }
 
 wp_register_script( 'dsq_embed_script', plugins_url( '/media/js/disqus.js', __FILE__ ) );

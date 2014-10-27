@@ -1349,22 +1349,6 @@ function dsq_sso() {
     }
 }
 
-function dsq_sso_login() {
-    global $current_site;
-    $sitename = get_bloginfo('name');
-    $siteurl = site_url();
-    $button = get_option('disqus_sso_button');
-    $sso_login_str = 'this.sso = {
-          name: "'.wp_specialchars_decode($sitename, ENT_QUOTES).'",
-          button: "'.$button.'",
-          url: "'.$siteurl.'/wp-login.php",
-          logout: "'.$siteurl.'/wp-login.php?action=logout",
-          width: "800",
-          height: "700"
-    }';
-    return $sso_login_str;
-}
-
 // from: http://www.php.net/manual/en/function.sha1.php#39492
 // Calculate HMAC-SHA1 according to RFC2104
 // http://www.ietf.org/rfc/rfc2104.txt
