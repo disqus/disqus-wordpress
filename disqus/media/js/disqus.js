@@ -4,6 +4,7 @@ var disqus_identifier = embedVars.disqusIdentifier;
 var disqus_container_id = 'disqus_thread';
 var disqus_shortname = embedVars.disqusShortname;
 var disqus_title = embedVars.disqusTitle;
+var disqus_config_custom = window.disqus_config;
 var disqus_config = function () {
     /*
     All currently supported events:
@@ -43,8 +44,8 @@ var disqus_config = function () {
         }
     });
 
-    if (typeof(window.exports.disqus_config) == 'function') {
-        window.exports.disqus_config.call(this);
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
     }
 };
 
