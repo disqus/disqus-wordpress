@@ -1154,64 +1154,33 @@ add_action('loop_end', 'dsq_loop_end');
 // prevents duplicate calls to count.js
 $_HAS_COUNTS = false;
 
+function dsq_output_count_js() {
+    $count_vars = array(
+        'disqusDomain' => DISQUS_DOMAIN ,
+        'disqusShortname' => strtolower( get_option( 'disqus_forum_url' ) ),
+    );
+
+    wp_register_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
+    wp_localize_script( 'dsq_count_script', 'countVars', $embed_vars );
+    wp_enqueue_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
+}
+
 function dsq_output_loop_comment_js($post_ids = null) {
     global $_HAS_COUNTS;
     if ($_HAS_COUNTS) return;
     $_HAS_COUNTS = true;
     if (count($post_ids)) {
-?>
-    <script type="text/javascript">
-    // <![CDATA[
-        var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
-        (function () {
-            var nodes = document.getElementsByTagName('span');
-            for (var i = 0, url; i < nodes.length; i++) {
-                if (nodes[i].className.indexOf('dsq-postid') != -1) {
-                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
-                    url = nodes[i].parentNode.href.split('#', 1);
-                    if (url.length == 1) { url = url[0]; }
-                    else { url = url[1]; }
-                    nodes[i].parentNode.href = url + '#disqus_thread';
-                }
-            }
-            var s = document.createElement('script'); s.async = true;
-            s.type = 'text/javascript';
-            s.src = '//' + disqus_shortname + '.<?php echo DISQUS_DOMAIN; ?>/count.js';
-            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-        }());
-    //]]>
-    </script>
-<?php
+        dsq_output_count_js();
     }
 }
 
 function dsq_output_footer_comment_js() {
     if (!dsq_can_replace()) return;
     if (get_option('disqus_cc_fix') != '1') return;
-?>
-    <script type="text/javascript">
-    // <![CDATA[
-        var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
-        (function () {
-            var nodes = document.getElementsByTagName('span');
-            for (var i = 0, url; i < nodes.length; i++) {
-                if (nodes[i].className.indexOf('dsq-postid') != -1) {
-                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
-                    url = nodes[i].parentNode.href.split('#', 1);
-                    if (url.length == 1) { url = url[0]; }
-                    else { url = url[1]; }
-                    nodes[i].parentNode.href = url + '#disqus_thread';
-                }
-            }
-            var s = document.createElement('script'); s.async = true;
-            s.type = 'text/javascript';
-            s.src = '//' + disqus_shortname + '.<?php echo DISQUS_DOMAIN; ?>/count.js';
-            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-        }());
-    //]]>
-    </script>
-<?php
+
+    dsq_output_count_js();
 }
+
 add_action('wp_footer', 'dsq_output_footer_comment_js');
 
 // UPDATE DSQ when a permalink changes
