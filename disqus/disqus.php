@@ -1161,7 +1161,7 @@ function dsq_output_count_js() {
     );
 
     wp_register_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
-    wp_localize_script( 'dsq_count_script', 'countVars', $embed_vars );
+    wp_localize_script( 'dsq_count_script', 'countVars', $count_vars );
     wp_enqueue_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
 }
 
