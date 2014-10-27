@@ -283,7 +283,7 @@ foreach ( $dsq_sites as $counter => $dsq_site ):
 endforeach;
 ?>
                         <hr />
-                        <a href="<?php echo DISQUS_URL; ?>comments/register/"><?php echo dsq_i('Or register a new one on the Disqus website.'); ?></a>
+                        <a href="https://disqus.com/admin/signup/"><?php echo dsq_i('Or register a new one on the Disqus website.'); ?></a>
                     </td>
                 </tr>
             </table>
@@ -328,10 +328,9 @@ case 1:
 <?php
     break;
 case 0:
-    $base = is_ssl() ? 'https://' : 'http://';
     $url = get_option('disqus_forum_url');
-    if ($url) { $mod_url = $base.$url.'.'.DISQUS_DOMAIN.'/admin/moderate/'; }
-    else { $mod_url = DISQUS_URL.'admin/moderate/'; }
+    if ($url) { $mod_url = 'https://'.$url.'.disqus.com/admin/moderate/'; }
+    else { $mod_url = 'https://disqus.com/admin/moderate/'; }
 
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>

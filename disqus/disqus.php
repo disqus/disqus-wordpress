@@ -16,16 +16,9 @@ Author URI: http://disqus.com/
 
 require_once(dirname(__FILE__) . '/lib/wp-api.php');
 
-if (defined('DISQUS_LOCAL')) { // DISQUS defines this for local development purposes
-    define('DISQUS_DOMAIN',         'dev.disqus.org:8000');
-    define('DISQUS_IMPORTER_URL',   'http://dev.disqus.org:8001/');
-} else {
-    define('DISQUS_DOMAIN',         'disqus.com');
-    define('DISQUS_IMPORTER_URL',   'https://import.disqus.com/');
-}
-define('DISQUS_URL',                'http://' . DISQUS_DOMAIN . '/');
-define('DISQUS_MEDIA_URL',          'http://' . DISQUS_DOMAIN . '/media/');
-define('DISQUS_API_URL',            'http://' . DISQUS_DOMAIN . '/api/');
+define('DISQUS_DOMAIN',             'disqus.com');
+define('DISQUS_IMPORTER_URL',       'https://import.disqus.com/');
+define('DISQUS_API_URL',            'https://disqus.com/api/');
 define('DISQUS_RSS_PATH',           '/latest.rss');
 define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
@@ -973,7 +966,7 @@ function dsq_comments_text($comment_text) {
 
 function dsq_bloginfo_url($url) {
     if ( get_feed_link('comments_rss2') == $url && dsq_can_replace() ) {
-        return 'https://' . strtolower(get_option('disqus_forum_url')) . '.' . DISQUS_DOMAIN . DISQUS_RSS_PATH;
+        return 'https://' . strtolower(get_option('disqus_forum_url')) . '.disqus.com' . DISQUS_RSS_PATH;
     } else {
         return $url;
     }
@@ -1156,7 +1149,6 @@ $_HAS_COUNTS = false;
 
 function dsq_output_count_js() {
     $count_vars = array(
-        'disqusDomain' => DISQUS_DOMAIN ,
         'disqusShortname' => strtolower( get_option( 'disqus_forum_url' ) ),
     );
 
