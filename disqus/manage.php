@@ -161,13 +161,13 @@ function is_valid_dsq_key($value, $min=1, $max=64) {
 
 // Handle advanced options.
 if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
-    update_option('disqus_partner_key', trim(stripslashes($_POST['disqus_partner_key'])));
-    update_option('disqus_replace', $_POST['disqus_replace']);
+    update_option('disqus_partner_key', isset($_POST['disqus_partner_key']) ? trim(stripslashes($_POST['disqus_partner_key'])) : '');
+    update_option('disqus_replace', isset($_POST['disqus_replace']) ? $_POST['disqus_replace'] : 'all');
     update_option('disqus_cc_fix', isset($_POST['disqus_cc_fix']));
     update_option('disqus_manual_sync', isset($_POST['disqus_manual_sync']));
     update_option('disqus_disable_ssr', isset($_POST['disqus_disable_ssr']));
-    update_option('disqus_public_key', $_POST['disqus_public_key']);
-    update_option('disqus_secret_key', $_POST['disqus_secret_key']);
+    update_option('disqus_public_key', isset($_POST['disqus_public_key']) ? $_POST['disqus_public_key'] : '');
+    update_option('disqus_secret_key', isset($_POST['disqus_secret_key']) ? $_POST['disqus_secret_key'] : '');
     // Handle SSO button uploads
     if ( version_compare($wp_version, '3.5', '>=') ) {
         // Use WP 3.5's new, streamlined, much-improved built-in media uploader
