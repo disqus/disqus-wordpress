@@ -18,7 +18,7 @@ require_once(dirname(__FILE__) . '/lib/wp-api.php');
 
 define('DISQUS_DOMAIN',             'disqus.com');
 define('DISQUS_IMPORTER_URL',       'https://import.disqus.com/');
-define('DISQUS_API_URL',            'https://disqus.com/api/');
+define('DISQUS_API_URL',            'http://disqus.com/api/');
 define('DISQUS_RSS_PATH',           '/latest.rss');
 define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
