@@ -331,7 +331,7 @@ case 0:
     $base = is_ssl() ? 'https://' : 'http://';
     $url = get_option('disqus_forum_url');
     if ($url) { $mod_url = $base.$url.'.disqus.com/admin/moderate/'; }
-    else { $mod_url = DISQUS_URL.'admin/moderate/'; }
+    else { $mod_url = 'https://disqus.com/admin/moderate/'; }
 
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
