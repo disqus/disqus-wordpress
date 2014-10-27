@@ -2,7 +2,6 @@
 var disqus_url = embedVars.disqusUrl;
 var disqus_identifier = embedVars.disqusIdentifier;
 var disqus_container_id = 'disqus_thread';
-var disqus_domain = embedVars.disqusDomain;
 var disqus_shortname = embedVars.disqusShortname;
 var disqus_title = embedVars.disqusTitle;
 var disqus_config = function () {
@@ -52,7 +51,7 @@ var disqus_config = function () {
 (function() {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.' + embedVars.disqusDomain + '/' + 'embed' + '.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();
 /* ]]> */

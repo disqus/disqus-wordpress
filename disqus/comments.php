@@ -45,7 +45,6 @@ $embed_vars = array(
         'platform' => 'wordpress@'.$wp_version,
         'language' => apply_filters( 'disqus_language_filter', '' ),
     ),
-    'disqusDomain' => DISQUS_DOMAIN ,
     'disqusIdentifier' => dsq_identifier_for_post( $post ),
     'disqusShortname' => strtolower( get_option( 'disqus_forum_url' ) ),
     'disqusTitle' => dsq_title_for_post( $post ),
