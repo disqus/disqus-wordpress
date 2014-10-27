@@ -303,7 +303,8 @@ function dsq_sync_comments($comments) {
                 // we know identifier starts with post_ID
                 if ($post_ID = (int)substr($identifier, 0, strpos($identifier, ' '))) {
                     $thread_map[$comment->thread->id] = $post_ID;
-                    update_post_meta($post_ID, 'dsq_thread_id', $comment->thread->id);
+                    $cleaned_thread_id = sanitize_meta( 'dsq_thread_id', $comment->thread->id, 'post' );
+                    update_post_meta($post_ID, 'dsq_thread_id', $cleaned_thread_id);
                     if (DISQUS_DEBUG) {
                         echo "updated post {$post_ID}: dsq_thread_id set to {$comment->thread->id}\n";
                     }
@@ -766,7 +767,8 @@ function dsq_update_permalink($post) {
         'url' => dsq_link_for_post($post)
     ));
 
-    update_post_meta($post->ID, 'dsq_thread_id', $response->id);
+    $cleaned_thread_id = sanitize_meta( 'dsq_thread_id', $response->id, 'post' );
+    update_post_meta($post->ID, 'dsq_thread_id', $cleaned_thread_id);
 
     return $response;
 }
