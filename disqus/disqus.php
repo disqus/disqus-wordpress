@@ -1066,7 +1066,7 @@ function dsq_admin_head() {
 <link rel='stylesheet' href='<?php echo plugins_url( 'media/styles/manage.css', __FILE__ ); ?>' type='text/css' />
 <style type="text/css">
 .dsq-importing, .dsq-imported, .dsq-import-fail, .dsq-exporting, .dsq-exported, .dsq-export-fail {
-    background: url(<?php echo admin_url('images/loading.gif'); ?>) left center no-repeat;
+    background: url(<?php echo esc_url( admin_url('images/loading.gif') ); ?>) left center no-repeat;
     line-height: 16px;
     padding-left: 20px;
 }
@@ -1076,10 +1076,10 @@ p.status {
     margin: 0;
 }
 .dsq-imported, .dsq-exported {
-    background: url(<?php echo admin_url('images/yes.png'); ?>) left center no-repeat;
+    background: url(<?php echo esc_url( admin_url('images/yes.png') ); ?>) left center no-repeat;
 }
 .dsq-import-fail, .dsq-export-fail {
-    background: url(<?php echo admin_url('images/no.png'); ?>) left center no-repeat;
+    background: url(<?php echo esc_url( admin_url('images/no.png') ); ?>) left center no-repeat;
 }
 </style>
 <?php
