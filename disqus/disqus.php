@@ -530,13 +530,13 @@ function dsq_request_handler() {
                         ", $post_id));
                         $post = $post[0];
                         $post_id = $post->ID;
-                        $max_post_id = $wpdb->get_var($wpdb->prepare("
-                            SELECT MAX(%d)
+                        $max_post_id = $wpdb->get_var("
+                            SELECT MAX(Id)
                             FROM $wpdb->posts
                             WHERE post_type != 'revision'
                             AND post_status = 'publish'
                             AND comment_count > 0
-                        ", $post_id));
+                        ");
                         $eof = (int)($post_id == $max_post_id);
                         if ($eof) {
                             $status = 'complete';
