@@ -284,7 +284,12 @@ function dsq_sync_comments($comments) {
     }
     $thread_ids = "'" . implode("', '", array_keys($thread_map)) . "'";
 
-    $results = $wpdb->get_results( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = 'dsq_thread_id' AND meta_value IN ({$thread_ids}) LIMIT 1");
+    $results = $wpdb->get_results($wpdb->prepare("
+        SELECT post_id, meta_value 
+        FROM $wpdb->postmeta 
+        WHERE meta_key = 'dsq_thread_id' AND meta_value IN (%s) 
+        LIMIT 1
+    ", $thread_ids));
     foreach ( $results as $result ) {
         $thread_map[$result->meta_value] = $result->post_id;
     }
@@ -666,7 +671,10 @@ function dsq_clear_pending_post_ids($post_ids) {
     global $wpdb;
 
     $post_ids_query = "'" . implode("', '", $post_ids) . "'";
-    $wpdb->query("DELETE FROM {$wpdb->postmeta} WHERE meta_key = 'dsq_needs_sync' AND post_id IN ({$post_ids_query})");
+    $wpdb->query($wpdb->prepare("
+        DELETE FROM {$wpdb->postmeta} 
+        WHERE meta_key = 'dsq_needs_sync' AND post_id IN (%s)
+    ", $post_ids_query));
 
     update_meta_cache('dsq_needs_sync', $post_ids);
 }
