@@ -328,9 +328,8 @@ case 1:
 <?php
     break;
 case 0:
-    $base = is_ssl() ? 'https://' : 'http://';
     $url = get_option('disqus_forum_url');
-    if ($url) { $mod_url = $base.$url.'.disqus.com/admin/moderate/'; }
+    if ($url) { $mod_url = 'https://'.$url.'.disqus.com/admin/moderate/'; }
     else { $mod_url = 'https://disqus.com/admin/moderate/'; }
 
 ?>
