@@ -277,7 +277,7 @@ case 2:
 foreach ( $dsq_sites as $counter => $dsq_site ):
 ?>
                         <input name="dsq_forum" type="radio" id="dsq-site-<?php echo $counter; ?>" value="<?php echo $dsq_site->id; ?>:<?php echo $dsq_site->shortname; ?>" />
-                        <label for="dsq-site-<?php echo $counter; ?>"><strong><?php echo htmlspecialchars($dsq_site->name); ?></strong> (<u><?php echo $dsq_site->shortname; ?>.disqus.com</u>)</label>
+                        <label for="dsq-site-<?php echo $counter; ?>"><strong><?php echo esc_attr($dsq_site->name); ?></strong> (<u><?php echo $dsq_site->shortname; ?>.disqus.com</u>)</label>
                         <br />
 <?php
 endforeach;
@@ -289,7 +289,7 @@ endforeach;
             </table>
 
             <p class="submit" style="text-align: left">
-                <input type="hidden" name="dsq_user_api_key" value="<?php echo htmlspecialchars($dsq_user_api_key); ?>"/>
+                <input type="hidden" name="dsq_user_api_key" value="<?php echo esc_attr($dsq_user_api_key); ?>"/>
                 <input name="submit" type="submit" class="button-primary button" value="Next &raquo;" />
             </p>
             </form>

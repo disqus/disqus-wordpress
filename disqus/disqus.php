@@ -602,7 +602,7 @@ function dsq_request_handler() {
                             $status = 'error';
                             $result = 'fail';
                             $error = $dsq_api->get_last_error();
-                            $msg = '<p class="status dsq-export-fail">'.dsq_i('There was an error downloading your comments from Disqus.').'<br/>'.htmlspecialchars($error).'</p>';
+                            $msg = '<p class="status dsq-export-fail">'.dsq_i('There was an error downloading your comments from Disqus.').'<br/>'.esc_attr($error).'</p>';
                         } else {
                             list($comments, $last_comment_id) = $response;
                             if (!$comments) {
@@ -825,7 +825,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
         $string = preg_replace( '/&(#?x?[0-9a-z]+);/i', '|wp_entity|$1|/wp_entity|', $string );
     }
 
-    $string = @htmlspecialchars( $string, $quote_style, $charset );
+    $string = @esc_attr( $string, $quote_style, $charset );
 
     // Handle double encoding ourselves
     if ( !$double_encode ) {
@@ -968,7 +968,7 @@ function dsq_comments_text($comment_text) {
     global $post;
 
     if ( dsq_can_replace() ) {
-        return '<span class="dsq-postid" rel="'.htmlspecialchars(dsq_identifier_for_post($post)).'">'.$comment_text.'</span>';
+        return '<span class="dsq-postid" rel="'.esc_attr(dsq_identifier_for_post($post)).'">'.$comment_text.'</span>';
     } else {
         return $comment_text;
     }
