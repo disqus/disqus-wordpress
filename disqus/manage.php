@@ -161,19 +161,21 @@ function is_valid_dsq_key($value, $min=1, $max=64) {
 
 // Handle advanced options.
 if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
-    update_option('disqus_partner_key', isset($_POST['disqus_partner_key']) ? trim(stripslashes($_POST['disqus_partner_key'])) : '');
-    update_option('disqus_replace', isset($_POST['disqus_replace']) ? $_POST['disqus_replace'] : 'all');
+    update_option('disqus_partner_key', isset($_POST['disqus_partner_key']) ? esc_attr( trim(stripslashes($_POST['disqus_partner_key'])) ) : '');
+    update_option('disqus_replace', isset($_POST['disqus_replace']) ? esc_attr( $_POST['disqus_replace'] ) : 'all');
     update_option('disqus_cc_fix', isset($_POST['disqus_cc_fix']));
     update_option('disqus_manual_sync', isset($_POST['disqus_manual_sync']));
     update_option('disqus_disable_ssr', isset($_POST['disqus_disable_ssr']));
-    update_option('disqus_public_key', isset($_POST['disqus_public_key']) ? $_POST['disqus_public_key'] : '');
-    update_option('disqus_secret_key', isset($_POST['disqus_secret_key']) ? $_POST['disqus_secret_key'] : '');
+    update_option('disqus_public_key', isset($_POST['disqus_public_key']) ? esc_attr( $_POST['disqus_public_key'] ) : '');
+    update_option('disqus_secret_key', isset($_POST['disqus_secret_key']) ? esc_attr( $_POST['disqus_secret_key'] ) : '');
     // Handle SSO button uploads
     if ( version_compare($wp_version, '3.5', '>=') ) {
         // Use WP 3.5's new, streamlined, much-improved built-in media uploader
 
         // Only update if a value is actually POSTed, otherwise any time the form is saved the button will be un-set
-        if ($_POST['disqus_sso_button']) { update_option('disqus_sso_button', $_POST['disqus_sso_button']); }
+        if ( $_POST['disqus_sso_button'] ) { 
+            update_option('disqus_sso_button', isset($_POST['disqus_sso_button']) ? esc_url( $_POST['disqus_sso_button'] ), ''); 
+        }
     } else {
         // WP is older than 3.5, use legacy, less-elegant media uploader
         if(isset($_FILES['disqus_sso_button'])) {
@@ -199,15 +201,15 @@ $step = (dsq_is_installed()) ? 0 : ($step ? $step : 1);
 // Handle installation process.
 if ( 3 == $step && isset($_POST['dsq_forum']) && isset($_POST['dsq_user_api_key']) ) {
     list($dsq_forum_id, $dsq_forum_url) = explode(':', $_POST['dsq_forum']);
-    update_option('disqus_forum_url', $dsq_forum_url);
+    update_option('disqus_forum_url', esc_attr( $dsq_forum_url ) );
     update_option('disqus_cc_fix', '1'); 
     $api_key = $dsq_api->get_forum_api_key($_POST['dsq_user_api_key'], $dsq_forum_id);
     if ( !$api_key || $api_key < 0 ) {
         update_option('disqus_replace', 'replace');
         dsq_manage_dialog(dsq_i('There was an error completing the installation of Disqus. If you are still having issues, refer to the <a href="https://help.disqus.com/customer/portal/articles/472005-wordpress-troubleshooting">WordPress help page</a>.'), true);
     } else {
-        update_option('disqus_api_key', $api_key);
-        update_option('disqus_user_api_key', $_POST['dsq_user_api_key']);
+        update_option('disqus_api_key', esc_attr( $api_key ));
+        update_option('disqus_user_api_key', esc_attr( $_POST['dsq_user_api_key']) );
         update_option('disqus_replace', 'all');
         update_option('disqus_active', '1');
     }
@@ -276,8 +278,8 @@ case 2:
 <?php
 foreach ( $dsq_sites as $counter => $dsq_site ):
 ?>
-                        <input name="dsq_forum" type="radio" id="dsq-site-<?php echo $counter; ?>" value="<?php echo $dsq_site->id; ?>:<?php echo $dsq_site->shortname; ?>" />
-                        <label for="dsq-site-<?php echo $counter; ?>"><strong><?php echo esc_attr($dsq_site->name); ?></strong> (<u><?php echo $dsq_site->shortname; ?>.disqus.com</u>)</label>
+                        <input name="dsq_forum" type="radio" id="dsq-site-<?php echo esc_attr($counter); ?>" value="<?php echo esc_attr($dsq_site->id); ?>:<?php echo esc_attr($dsq_site->shortname); ?>" />
+                        <label for="dsq-site-<?php echo esc_attr($counter); ?>"><strong><?php echo esc_attr($dsq_site->name); ?></strong> (<u><?php echo esc_attr($dsq_site->shortname); ?>.disqus.com</u>)</label>
                         <br />
 <?php
 endforeach;
@@ -334,7 +336,7 @@ case 0:
 
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
-            <h2><a href="<?php echo $mod_url ?>"><img src="<?php echo plugins_url( '/media/images/logo.png', __FILE__ ); ?>"></a></h2>
+            <h2><a href="<?php echo $mod_url ?>"><img src="<?php echo esc_url( plugins_url( '/media/images/logo.png', __FILE__ ) ); ?>"></a></h2>
             <iframe src="<?php echo $mod_url ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
         </div>
 <?php } ?>
