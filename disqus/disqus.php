@@ -200,6 +200,14 @@ function load_pointer_script_style() {
  */
 
 /**
+ * Tests if site is running on Wordpress VIP
+ * @return bool
+ */
+function is_wp_vip() {
+    return defined( 'WPCOM_IS_VIP_ENV' ) && WPCOM_IS_VIP_ENV;
+}
+
+/**
  * Tests if required options are configured to display the Disqus embed.
  * @return bool
  */
@@ -1432,14 +1440,14 @@ function dsq_install($allow_database_install=true) {
 function dsq_install_database($version=0) {
     global $wpdb;
 
-    if (version_compare($version, '2.49', '<')) {
+    if ( version_compare($version, '2.49', '<') && !is_wp_vip() ) {
         $wpdb->query("CREATE INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta` (meta_key, meta_value(11));");
     }
 }
 function dsq_reset_database($version=0) {
     global $wpdb;
     
-    if (version_compare($version, '2.49', '>=')) {
+    if ( version_compare($version, '2.49', '>=') && !is_wp_vip() ) {
         $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta`;");
     }
 }
