@@ -547,11 +547,13 @@ function dsq_request_handler() {
                         $eof = (int)($post_id == $max_post_id);
                         if ($eof) {
                             $status = 'complete';
-                            $msg = dsq_i('Your comments have been sent to Disqus and queued for import!<br/><a href="'.DISQUS_IMPORTER_URL.'" target="_blank">See the status of your import at Disqus</a>');
+                            $msg = dsq_i('Your comments have been sent to Disqus and queued for import!');
+                            $msg .= '<br/><a href="'.DISQUS_IMPORTER_URL.'" target="_blank">';
+                            $msg .= dsq_i('See the status of your import at Disqus') . '</a>';
                         }
                         else {
                             $status = 'partial';
-                            $msg = dsq_i('Processed comments on post #%s&hellip;', $post_id);
+                            $msg = dsq_i('Processed comments on post') . ' #'. $post_id . '&hellip;';
                         }
                         $result = 'fail';
                         if ($post) {
@@ -560,13 +562,21 @@ function dsq_request_handler() {
                             $response = $dsq_api->import_wordpress_comments($wxr, $timestamp, $eof);
                             if (!($response['group_id'] > 0)) {
                                 $result = 'fail';
-                                $msg = '<p class="status dsq-export-fail">'. dsq_i('Sorry, something unexpected happened with the export. Please try again.</p><p>If your API key has changed, you may need to reinstall Disqus (deactivate the plugin and then reactivate it). If you are still having issues, refer to the <a href="%s" onclick="window.open(this.href); return false">WordPress help page</a>.', 'http://disqus.com/help/wordpress'). '</p>';
+                                $msg = '<p class="status dsq-export-fail">'; 
+                                $msg .= dsq_i('Sorry, something unexpected happened with the export. Please try again.');
+                                $msg .= '</p><p>';
+                                $msg .= dsq_i('If your API key has changed, you may need to reinstall Disqus (deactivate the plugin and then reactivate it).');
+                                $msg .= dsq_i('If you are still having issues, refer to the %s WordPress help page', 
+                                    '<a href="https://help.disqus.com/customer/portal/articles/472005" onclick="window.open(this.href); return false">');
+                                $msg .= '</a></p>';
                                 $response = $dsq_api->get_last_error();
                             }
                             else {
                                 if ($eof) {
-                                    $msg = dsq_i('Your comments have been sent to Disqus and queued for import!<br/><a href="%s" target="_blank">See the status of your import at Disqus</a>', $response['link']);
-
+                                    $msg = dsq_i('Your comments have been sent to Disqus and queued for import!');
+                                    $msg .= '<br/><a href="' . $response['link'] . '" target="_blank">';
+                                    $msg .= dsq_i('See the status of your import at Disqus');
+                                    $msg .= '</a>';
                                 }
                                 $result = 'success';
                             }
@@ -618,7 +628,7 @@ function dsq_request_handler() {
                                 $msg = dsq_i('Your comments have been downloaded from Disqus and saved in your local database.');
                             } else {
                                 $status = 'partial';
-                                $msg = dsq_i('Import in progress (last post id: %s) &hellip;', $last_comment_id);
+                                $msg = dsq_i('Import in progress (last post id: %s)', $last_comment_id) . ' &hellip;';
                             }
                             $result = 'success';
                         }
@@ -957,7 +967,7 @@ function dsq_comment( $comment, $args, $depth ) {
         case 'trackback' :
     ?>
     <li class="post pingback">
-        <p><?php echo dsq_i('Pingback:'); ?> <?php comment_author_link(); ?><?php edit_comment_link(dsq_i('(Edit)'), ' '); ?></p>
+        <p><?php echo dsq_i('Pingback:'); ?> <?php comment_author_link(); ?>(<?php edit_comment_link(dsq_i('Edit'), ' '); ?>)</p>
     </li>
     <?php
             break;
@@ -1147,7 +1157,13 @@ function dsq_add_query_posts($posts) {
 
 // check to see if the posts in the loop match the original request or an explicit request, if so output the JS
 function dsq_loop_end($query) {
-    if ( get_option('disqus_cc_fix') == '1' || !count($query->posts) || is_single() || is_page() || is_feed() || !dsq_can_replace() ) {
+    if ( get_option('disqus_cc_fix') == '1' || 
+        !count($query->posts) || 
+        is_single() || 
+        is_page() || 
+        is_feed() || 
+        !dsq_can_replace() 
+        ) {
         return;
     }
     global $DSQ_QUERY_POST_IDS;
@@ -1210,7 +1226,9 @@ add_action('pre_post_update', 'dsq_prev_permalink');
 
 function dsq_check_permalink($post_id) {
     global $dsq_prev_permalinks;
-    if (!empty($dsq_prev_permalinks['post_'.$post_id]) && $dsq_prev_permalinks['post_'.$post_id] != get_permalink($post_id)) {
+    if (!empty($dsq_prev_permalinks['post_'.$post_id]) && 
+        $dsq_prev_permalinks['post_'.$post_id] != get_permalink($post_id)
+        ) {
         $post = get_post($post_id);
         dsq_update_permalink($post);
     }
