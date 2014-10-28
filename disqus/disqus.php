@@ -8,12 +8,6 @@ Version: 2.80
 Author URI: http://disqus.com/
 */
 
-/*.
-    require_module 'standard';
-    require_module 'pcre';
-    require_module 'mysql';
-.*/
-
 require_once(dirname(__FILE__) . '/lib/wp-api.php');
 
 define('DISQUS_DOMAIN',             'disqus.com');
@@ -1249,10 +1243,9 @@ add_filter('bloginfo_url', 'dsq_bloginfo_url');
  */
 if(!function_exists('cf_json_encode')) {
     function cf_json_encode($data) {
-// json_encode is sending an application/x-javascript header on Joyent servers
-// for some unknown reason.
-//         if(function_exists('json_encode')) { return json_encode($data); }
-//         else { return cfjson_encode($data); }
+        
+        // json_encode is sending an application/x-javascript header on Joyent servers
+        // for some unknown reason.
         return cfjson_encode($data);
     }
 
