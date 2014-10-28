@@ -337,7 +337,7 @@ case 0:
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
             <h2><a href="<?php echo esc_attr( $mod_url ) ?>"><img src="<?php echo esc_attr( plugins_url( '/media/images/logo.png', __FILE__ ) ); ?>"></a></h2>
-            <iframe src="<?php echo esc_attr( $mod_url ) ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
+            <a class="button-primary button" href="<?php echo esc_attr( $mod_url ) ?>" target="_blank"><?php echo dsq_i('Go to Disqus Moderation'); ?></a>
         </div>
 <?php } ?>
     </div>
