@@ -174,7 +174,7 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
 
         // Only update if a value is actually POSTed, otherwise any time the form is saved the button will be un-set
         if ( $_POST['disqus_sso_button'] ) { 
-            update_option('disqus_sso_button', isset($_POST['disqus_sso_button']) ? esc_url( $_POST['disqus_sso_button'] ), ''); 
+            update_option('disqus_sso_button', isset($_POST['disqus_sso_button']) ? esc_url( $_POST['disqus_sso_button'] ) : ''); 
         }
     } else {
         // WP is older than 3.5, use legacy, less-elegant media uploader
