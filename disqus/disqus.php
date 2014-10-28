@@ -1071,7 +1071,7 @@ function dsq_manage() {
 function dsq_admin_head() {
     if (isset($_GET['page']) && $_GET['page'] == 'disqus') {
 ?>
-<link rel='stylesheet' href='<?php echo plugins_url( 'media/styles/manage.css', __FILE__ ); ?>' type='text/css' />
+<link rel='stylesheet' href='<?php echo esc_url( plugins_url( 'media/styles/manage.css', __FILE__ ) ); ?>' type='text/css' />
 <style type="text/css">
 .dsq-importing, .dsq-imported, .dsq-import-fail, .dsq-exporting, .dsq-exported, .dsq-export-fail {
     background: url(<?php echo esc_url( admin_url('images/loading.gif') ); ?>) left center no-repeat;
@@ -1094,7 +1094,7 @@ p.status {
 // HACK: Our own styles for older versions of WordPress.
         global $wp_version;
         if ( version_compare($wp_version, '2.5', '<') ) {
-            echo "<link rel='stylesheet' href='" . plugins_url( 'media/styles/manage-pre25.css', __FILE__ ) . "' type='text/css' />";
+            echo "<link rel='stylesheet' href='" . esc_url( plugins_url( 'media/styles/manage-pre25.css', __FILE__ ) ) . "' type='text/css' />";
         }
     }
 }

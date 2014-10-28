@@ -336,8 +336,8 @@ case 0:
 
 ?>
         <div class="dsq-main"<?php if ($show_advanced) echo ' style="display:none;"'; ?>>
-            <h2><a href="<?php echo $mod_url ?>"><img src="<?php echo esc_url( plugins_url( '/media/images/logo.png', __FILE__ ) ); ?>"></a></h2>
-            <iframe src="<?php echo $mod_url ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
+            <h2><a href="<?php echo esc_attr( $mod_url ) ?>"><img src="<?php echo esc_attr( plugins_url( '/media/images/logo.png', __FILE__ ) ); ?>"></a></h2>
+            <iframe src="<?php echo esc_attr( $mod_url ) ?>?template=wordpress" style="width: 100%; height: 80%; min-height: 600px;"></iframe>
         </div>
 <?php } ?>
     </div>
@@ -367,9 +367,9 @@ case 0:
         <?php wp_nonce_field('dsq-wpnonce_active', 'dsq-form_nonce_active'); ?>
             <p class="status">
                 <?php echo dsq_i('Disqus comments are currently '); ?>
-                <span class="dsq-<?php echo $disqus_enabled_state; ?>-text"><?php echo dsq_i($disqus_enabled_state); ?></span>
+                <span class="dsq-<?php echo esc_attr( $disqus_enabled_state ); ?>-text"><?php echo dsq_i($disqus_enabled_state); ?></span>
             </p>
-            <input type="submit" name="active" class="button" value="<?php echo dsq_i($disqus_enabled ? 'Disable' : 'Enable'); ?>" />
+            <input type="submit" name="active" class="button" value="<?php echo $disqus_enabled ? dsq_i('Disable') : dsq_i('Enable'); ?>" />
         </form>
 
         <!-- Configuration form -->
@@ -378,7 +378,7 @@ case 0:
         <table class="form-table">
 
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('<h3>General</h3>'); ?></th>
+                <th scope="row" valign="top"><?php echo '<h3>' . dsq_i('General') . '</h3>'; ?></th>
             </tr>
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Forum Shortname'); ?></th>
@@ -391,7 +391,7 @@ case 0:
             </tr>
 
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('<h3>Appearance</h3>'); ?></th>
+                <th scope="row" valign="top"><?php echo '<h3>' . dsq_i('Appearance') . '</h3>'; ?></th>
             </tr>
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Use Disqus Comments on'); ?></th>
@@ -403,13 +403,13 @@ case 0:
                     <br />
                     <?php 
                         if ($dsq_replace == 'closed') echo '<p class="dsq-alert">'.dsq_i('You have selected to only enable Disqus on posts with closed comments. If you aren\'t seeing Disqus on new posts, change this option to <strong>All blog posts</strong>.').'</p>';
-                        else echo dsq_i('Shows comments on either all blog posts, or ones with closed comments. Select the <strong>Blog posts with closed comments only</strong> option if you plan on disabling Disqus, but want to keep it on posts which already have comments.'); 
+                        else echo dsq_i('Shows comments on either all blog posts, or ones with closed comments. Select the "Blog posts with closed comments only" option if you plan on disabling Disqus, but want to keep it on posts which already have comments.'); 
                     ?>
                 </td>
             </tr>
 
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('<h3>Sync</h3>'); ?></th>
+                <th scope="row" valign="top"><?php echo '<h3>' . dsq_i('Sync') . '</h3>'; ?></th>
             </tr>
             <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Comment Importing'); ?></th>
@@ -429,7 +429,7 @@ case 0:
             </tr>
 
             <tr>
-                <th scope="row" valign="top"><?php echo dsq_i('<h3>Patches</h3>'); ?></th>
+                <th scope="row" valign="top"><?php echo '<h3>' . dsq_i('Patches') . '</h3>'; ?></th>
             </tr>
 
             <tr>
@@ -557,31 +557,31 @@ case 0:
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
         <p><?php echo dsq_i('Having problems with the plugin? Check out our <a href="%s" onclick="window.open(this.href); return false">WordPress Troubleshooting</a> documentation. You can also <a href="%s">drop us a line</a> including the following details and we\'ll do what we can.', 'https://help.disqus.com/customer/portal/articles/472005-wordpress-troubleshooting', 'mailto:help+wp@disqus.com'); ?></p>
         <textarea style="width:90%; height:200px;">
-URL: <?php echo esc_attr(get_option('siteurl')); ?>
+URL: <?php echo esc_url( get_option('siteurl') ); ?>
 
-PHP Version: <?php echo phpversion(); ?>
+PHP Version: <?php echo esc_html( phpversion() ); ?>
 
-Version: <?php echo $wp_version; ?>
+Version: <?php echo esc_html( $wp_version ); ?>
 
 Active Theme: 
 <?php
 if ( !function_exists('wp_get_theme') ) {
     $theme = get_theme(get_current_theme());
-    echo $theme['Name'] . ' ' . $theme['Version'];
+    echo esc_html( $theme['Name'] . ' ' . $theme['Version'] );
 } else {
     $theme = wp_get_theme();
-    echo $theme->Name . ' ' . $theme->Version;
+    echo esc_html( $theme->Name . ' ' . $theme->Version );
 }
 ?>
 
-URLOpen Method: <?php echo dsq_url_method(); ?>
+URLOpen Method: <?php echo esc_html( dsq_url_method() ); ?>
 
-Plugin Version: <?php echo DISQUS_VERSION; ?>
+Plugin Version: <?php echo esc_html( DISQUS_VERSION ); ?>
 
 Settings:
-dsq_is_installed: <?php echo dsq_is_installed(); ?>
+dsq_is_installed: <?php echo esc_html( dsq_is_installed() ); ?>
 <?php foreach (dsq_options() as $opt) {
-    echo $opt.': '.esc_attr(get_option($opt))."\n";
+    echo esc_html( $opt.': '.get_option($opt)."\n" );
 } 
 ?>
 
@@ -592,7 +592,7 @@ foreach (get_plugins() as $key => $plugin) {
     if (is_plugin_active($key)) {
         $isactive = "(active)";
     }
-    echo $plugin['Name'].' '.$plugin['Version'].' '.$isactive."\n";
+    echo esc_html( $plugin['Name'].' '.$plugin['Version'].' '.$isactive."\n" );
 }
 ?>
         </textarea><br/>
