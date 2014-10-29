@@ -2,7 +2,7 @@
 /*
 Plugin Name: Disqus Comment System
 Plugin URI: http://disqus.com/
-Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your DISQUS Comment System.
+Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your Disqus Comment System.
 Author: Disqus <team@disqus.com>
 Version: 2.80
 Author URI: http://disqus.com/
@@ -22,7 +22,7 @@ define('DISQUS_VERSION',            '2.80');
 define('DISQUS_SYNC_TIMEOUT',       30);
 
 /**
- * Returns an array of all option identifiers used by DISQUS.
+ * Returns an array of all option identifiers used by Disqus.
  * @return array[int]string
  */
 function dsq_options() {
@@ -92,7 +92,7 @@ $dsq_response = '';
 $dsq_api = new DisqusWordPressAPI(get_option('disqus_forum_url'), get_option('disqus_api_key'));
 
 /**
- * DISQUS currently unsupported dev toggle to output comments for this query.
+ * Disqus currently unsupported dev toggle to output comments for this query.
  *
  * @global    bool    $DSQ_QUERY_COMMENTS
  * @since    ?
@@ -100,7 +100,7 @@ $dsq_api = new DisqusWordPressAPI(get_option('disqus_forum_url'), get_option('di
 $DSQ_QUERY_COMMENTS = false;
 
 /**
- * DISQUS array to store post_ids from WP_Query for comment JS output.
+ * Disqus array to store post_ids from WP_Query for comment JS output.
  *
  * @global    array    $DSQ_QUERY_POST_IDS
  * @since    2.2
