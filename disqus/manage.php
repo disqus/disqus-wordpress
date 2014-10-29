@@ -67,7 +67,10 @@ if ( isset($_POST['reset']) ) {
             <li><?php echo dsq_i('Local settings for the plugin were removed.') ?></li>
             <li><?php echo dsq_i('Database changes by Disqus were reverted.') ?></li>
         </ul>
-        <p><?php echo dsq_i('If you wish to <a href="?page=disqus&amp;step=1">reinstall</a>, you can do that now.') ?></p>
+        <p>
+            <?php echo dsq_i('If you wish to reinstall, you can do that now.') ?>
+            <a href="?page=disqus&amp;step=1">&nbsp;<?php echo dsq_i('Reinstall') ?></a>
+        </p>
     </form>
 </div>
 <?php
@@ -206,7 +209,15 @@ if ( 3 == $step && isset($_POST['dsq_forum']) && isset($_POST['dsq_user_api_key'
     $api_key = $dsq_api->get_forum_api_key($_POST['dsq_user_api_key'], $dsq_forum_id);
     if ( !$api_key || $api_key < 0 ) {
         update_option('disqus_replace', 'replace');
-        dsq_manage_dialog(dsq_i('There was an error completing the installation of Disqus. If you are still having issues, refer to the <a href="https://help.disqus.com/customer/portal/articles/472005-wordpress-troubleshooting">WordPress help page</a>.'), true);
+        dsq_manage_dialog(
+            dsq_i('There was an error completing the installation of Disqus.') 
+            . ' '
+            . dsq_i('If you are still having issues, refer to the help documentation.')
+            . ' '
+            . '<a href="https://help.disqus.com/customer/portal/articles/472005" target="_blank">'
+            . dsq_i('WordPress Help Page')
+            . '</a>', 
+            true);
     } else {
         update_option('disqus_api_key', esc_attr( $api_key ));
         update_option('disqus_user_api_key', esc_attr( $_POST['dsq_user_api_key']) );
@@ -236,7 +247,13 @@ if ( 2 == $step && isset($_POST['dsq_username']) && isset($_POST['dsq_password']
             dsq_manage_dialog($dsq_api->get_last_error(), true);
         } else if ( !$dsq_sites ) {
             $step = 1;
-            dsq_manage_dialog(dsq_i('There aren\'t any sites associated with this account. Maybe you want to <a href="%s">create a site</a>?', 'https://disqus.com/admin/register/'), true);
+            dsq_manage_dialog(
+                dsq_i('There aren\'t any sites associated with this account. Maybe you want to create a site?')
+                . ' '
+                . '<a href="https://disqus.com/admin/register/" target="_blank">'
+                . dsq_i('Create a site')
+                . '</a>', 
+                true);
         }
     }
 }
@@ -246,8 +263,12 @@ $show_advanced = (isset($_GET['t']) && $_GET['t'] == 'adv');
 ?>
 <div class="wrap" id="dsq-wrap">
     <ul id="dsq-tabs">
-        <li<?php if (!$show_advanced) echo ' class="selected"'; ?> id="dsq-tab-main" rel="dsq-main"><?php echo (dsq_is_installed() ? dsq_i('Moderate') : dsq_i('Install')); ?></li>
-        <li<?php if ($show_advanced) echo ' class="selected"'; ?> id="dsq-tab-advanced" rel="dsq-advanced"><?php echo dsq_i('Plugin Settings'); ?></li>
+        <li<?php if (!$show_advanced) echo ' class="selected"'; ?> id="dsq-tab-main" rel="dsq-main">
+            <?php echo (dsq_is_installed() ? dsq_i('Moderate') : dsq_i('Install')); ?>
+        </li>
+        <li<?php if ($show_advanced) echo ' class="selected"'; ?> id="dsq-tab-advanced" rel="dsq-advanced">
+            <?php echo dsq_i('Plugin Settings'); ?>
+        </li>
     </ul>
 
     <div id="dsq-main" class="dsq-content">
@@ -259,7 +280,10 @@ case 3:
             <h2><?php echo dsq_i('Install Disqus Comments'); ?></h2>
 
             <p><?php echo dsq_i('Disqus has been installed on your blog.'); ?></p>
-            <p><?php echo dsq_i('If you have existing comments, you may wish to <a href="?page=disqus&amp;t=adv#export">export them</a> now. Otherwise, you\'re all set, and the Disqus network is now powering comments on your blog.'); ?></p>
+            <p>
+                <?php echo dsq_i('If you have existing comments, you may wish to export them now.') ?>&nbsp;
+                <?php echo dsq_i('Otherwise, you\'re all set, and the Disqus network is now powering comments on your site.'); ?>
+            </p>
             <p><a href="edit-comments.php?page=disqus"><?php echo dsq_i('Continue to the moderation dashboard'); ?></a></p>
         </div>
 <?php
@@ -310,14 +334,14 @@ case 1:
                         <th scope="row" valign="top"><?php echo dsq_i('Username or email'); ?></th>
                         <td>
                             <input id="dsq-username" name="dsq_username" tabindex="1" type="text" />
-                            <a href="https://disqus.com/profile/signup/"><?php echo dsq_i('(don\'t have a Disqus Profile yet?)'); ?></a>
+                            (<a href="https://disqus.com/profile/signup/"><?php echo dsq_i('don\'t have a Disqus Profile yet?'); ?></a>)
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" valign="top"><?php echo dsq_i('Password'); ?></th>
                         <td>
                             <input type="password" id="dsq-password" name="dsq_password" tabindex="2">
-                            <a href="https://disqus.com/forgot/"><?php echo dsq_i('(forgot your password?)'); ?></a>
+                            (<a href="https://disqus.com/forgot/"><?php echo dsq_i('forgot your password?'); ?></a>)
                         </td>
                     </tr>
                 </table>
@@ -367,7 +391,7 @@ case 0:
         <?php wp_nonce_field('dsq-wpnonce_active', 'dsq-form_nonce_active'); ?>
             <p class="status">
                 <?php echo dsq_i('Disqus comments are currently '); ?>
-                <span class="dsq-<?php echo esc_attr( $disqus_enabled_state ); ?>-text"><?php echo dsq_i($disqus_enabled_state); ?></span>
+                <span class="dsq-<?php echo esc_attr( $disqus_enabled_state ); ?>-text"><?php echo $disqus_enabled_state; ?></span>
             </p>
             <input type="submit" name="active" class="button" value="<?php echo $disqus_enabled ? dsq_i('Disable') : dsq_i('Enable'); ?>" />
         </form>
@@ -402,7 +426,7 @@ case 0:
                     </select>
                     <br />
                     <?php 
-                        if ($dsq_replace == 'closed') echo '<p class="dsq-alert">'.dsq_i('You have selected to only enable Disqus on posts with closed comments. If you aren\'t seeing Disqus on new posts, change this option to <strong>All blog posts</strong>.').'</p>';
+                        if ($dsq_replace == 'closed') echo '<p class="dsq-alert">'.dsq_i('You have selected to only enable Disqus on posts with closed comments. If you aren\'t seeing Disqus on new posts, change this option to "All blog posts".').'</p>';
                         else echo dsq_i('Shows comments on either all blog posts, or ones with closed comments. Select the "Blog posts with closed comments only" option if you plan on disabling Disqus, but want to keep it on posts which already have comments.'); 
                     ?>
                 </td>
@@ -437,12 +461,21 @@ case 0:
                 <td>
                     <input type="checkbox" id="disqus_comment_count" name="disqus_cc_fix" <?php if($dsq_cc_fix == '1'){ echo 'checked="checked"'; } ?> >
                     <label for="disqus_comment_count"><?php echo dsq_i('Output JavaScript in footer'); ?></label>
-                    <br /><?php echo dsq_i('Enable this if you have problems with comment counts or other irregularities. For example: missing counts, counts always at 0, Disqus code showing on the page, broken image carousels, or longer-than-usual home page load times (<a href="%s" onclick="window.open(this.href); return false">more info</a>).', 'https://help.disqus.com/customer/portal/articles/472005-wordpress-troubleshooting'); ?>
+                    <br /><?php echo dsq_i('Enable this if you have problems with comment counts or other irregularities. For example: missing counts, counts always at 0, Disqus code showing on the page, broken image carousels, or longer-than-usual home page load times'); ?>
                 </td>
             </tr>
 
             <tr>
-                <th scope="row" valign="top" colspan="2"><?php echo dsq_i('<h3>Advanced</h3><h4>Single Sign-On</h4><p>Allows users to log in to Disqus via WordPress. (<a href="%s" onclick="window.open(this.href); return false">More info on SSO</a>)</p>', 'https://help.disqus.com/customer/portal/articles/684744'); ?></th>
+                <th scope="row" valign="top" colspan="2">
+                    <h3><?php echo dsq_i('Advanced'); ?></h3>
+                    <h4><?php echo dsq_i('Single Sign-On'); ?></h4>
+                    <p>
+                        <?php echo dsq_i('Allows users to log in to Disqus via WordPress.'); ?>
+                        <a href="https://help.disqus.com/customer/portal/articles/684744" target="_blank">
+                            <?php echo dsq_i('More info on SSO'); ?>
+                        </a>
+                    </p>
+                </th>
             </tr>
             <?php if (!empty($dsq_partner_key)) {// this option only shows if it was already present ?>
             <tr>
@@ -457,7 +490,7 @@ case 0:
                 <td>
                     <input type="text" name="disqus_public_key" value="<?php echo esc_attr($dsq_public_key); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','https://disqus.com/api/applications/'); ?>
+                    <a href="https://disqus.com/api/applications/" target="_blank"><?php echo dsq_i('Disqus API Applications'); ?></a>
                 </td>
             </tr>
             <tr>
@@ -465,7 +498,7 @@ case 0:
                 <td>
                     <input type="text" name="disqus_secret_key" value="<?php echo esc_attr($dsq_secret_key); ?>" tabindex="2">
                     <br />
-                    <?php echo dsq_i('Found at <a href="%s">Disqus API Applications</a>.','https://disqus.com/api/applications/'); ?>
+                    <a href="https://disqus.com/api/applications/" target="_blank"><?php echo dsq_i('Disqus API Applications'); ?></a>
                 </td>
             </tr>
             <tr>
@@ -489,8 +522,11 @@ case 0:
                         <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
                     <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds a button to the Disqus log-in interface. (<a href="%s">Example screenshot</a>.)','https://d8v2sqslxfuhj.cloudfront.net/docs/sso-button.png'); ?>
-                    <?php echo dsq_i('<br />See <a href="%s">our SSO button documentation</a> for a template to create your own button.','https://help.disqus.com/customer/portal/articles/236206#sso-login-button'); ?>
+                    <?php echo dsq_i('Adds a button to the Disqus log-in interface.'); ?> 
+                    (<a href="https://d8v2sqslxfuhj.cloudfront.net/docs/sso-button.png" target="_blank"><?php echo dsq_i('Example screenshot'); ?></a>)
+                    <br />
+                    <?php echo dsq_i('See our documentation for a template to create your own button.'); ?>&nbsp;
+                    <a href="https://help.disqus.com/customer/portal/articles/236206#sso-login-button"><?php echo dsq_i('SSO button documentation'); ?></a>
                 </td>
             </tr>
 
@@ -529,8 +565,15 @@ case 0:
                         <form method="POST" action="">
                         <?php wp_nonce_field('dsq-wpnonce_import', 'dsq-form_nonce_import'); ?>
                             <div class="status">
-                                <p><a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a>  <?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?></p>
-                                <label><input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/> <?php echo dsq_i('Remove all imported Disqus comments before syncing.'); ?></label><br/>
+                                <p>
+                                    <a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a>  
+                                    <?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?>
+                                </p>
+                                <label>
+                                    <input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/> 
+                                    <?php echo dsq_i('Remove all imported Disqus comments before syncing.'); ?>
+                                </label>
+                                <br/>
                             </div>
                         </form>
                     </div>
@@ -546,8 +589,11 @@ case 0:
                 <td>
                     <form action="?page=disqus" method="POST">
                         <?php wp_nonce_field('dsq-wpnonce_reset', 'dsq-form_nonce_reset'); ?>
-                        <p><input type="submit" value="Reset" name="reset" onclick="return confirm('<?php echo dsq_i('Are you sure you want to reset the Disqus plugin?'); ?>')" class="button" /> <?php echo dsq_i('This removes all Disqus-specific settings. Comments will remain unaffected.') ?></p>
-                        <?php echo dsq_i('If you have problems with resetting taking too long you may wish to first manually drop the <code>disqus_dupecheck</code> index from your <code>commentmeta</code> table.') ?>
+                        <p>
+                            <input type="submit" value="Reset" name="reset" onclick="return confirm('<?php echo dsq_i('Are you sure you want to reset the Disqus plugin?'); ?>')" class="button" /> 
+                            <?php echo dsq_i('This removes all Disqus-specific settings. Comments will remain unaffected.') ?>
+                        </p>
+                        <?php echo dsq_i('If you have problems with resetting taking too long you may wish to first manually drop the \'disqus_dupecheck\' index from your \'commentmeta\' table.') ?>
                     </form>
                 </td>
             </tr>
@@ -555,7 +601,12 @@ case 0:
         <br/>
 
         <h3><?php echo dsq_i('Debug Information'); ?></h3>
-        <p><?php echo dsq_i('Having problems with the plugin? Check out our <a href="%s" onclick="window.open(this.href); return false">WordPress Troubleshooting</a> documentation. You can also <a href="%s">drop us a line</a> including the following details and we\'ll do what we can.', 'https://help.disqus.com/customer/portal/articles/472005-wordpress-troubleshooting', 'mailto:help+wp@disqus.com'); ?></p>
+        <p>
+            <?php echo dsq_i('Having problems with the plugin? Check out our troubleshooting documentation.'); ?>&nbsp;
+            <a href="https://help.disqus.com/customer/portal/articles/472005" target="_blank"><?php echo dsq_i('WordPress troubleshooting ocumentation'); ?></a>
+            <?php echo dsq_i('You can also email us and include the debug info below.'); ?>&nbsp;
+            <a href="mailto:help+wp@disqus.com"><?php echo dsq_i('Contact support'); ?></a>
+        </p>
         <textarea style="width:90%; height:200px;">
 URL: <?php echo esc_url( get_option('siteurl') ); ?>
 
