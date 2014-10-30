@@ -305,5 +305,3 @@ INSERT INTO `wp_options` (blog_id, option_name, option_value, autoload) VALUES (
 * Visit http://disqus.com/help/wordpress for help documentation.
 
 * Visit http://help.disqus.com for help from our support team.
-
-* Disqus also recommends the [WordPress HelpCenter](http://wphelpcenter.com/) for extended help. Disqus is not associated with the WordPress HelpCenter in any way.
