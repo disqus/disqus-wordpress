@@ -693,7 +693,7 @@ function dsq_clear_pending_post_ids($post_ids) {
     // add as many placeholders as needed
     $sql = "
         DELETE FROM {$wpdb->postmeta} 
-        WHERE meta_key = 'dsq_needs_sync' AND post_id IN ((".implode(', ', array_fill(0, count($post_ids), '%s')).")
+        WHERE meta_key = 'dsq_needs_sync' AND post_id IN (".implode(', ', array_fill(0, count($post_ids), '%s')).")
     ";
 
     // Call $wpdb->prepare passing the values of the array as separate arguments
