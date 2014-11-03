@@ -284,14 +284,21 @@ function dsq_sync_comments($comments) {
     foreach ( $comments as $comment ) {
         $thread_map[$comment->thread->id] = null;
     }
-    $thread_ids = "'" . implode("', '", array_keys($thread_map)) . "'";
 
-    $results = $wpdb->get_results($wpdb->prepare("
+    $thread_ids = array_keys($thread_map);
+
+    // add as many placeholders as needed
+    $sql = "
         SELECT post_id, meta_value 
         FROM $wpdb->postmeta 
-        WHERE meta_key = 'dsq_thread_id' AND meta_value IN (%s) 
-        LIMIT 1
-    ", $thread_ids));
+        WHERE meta_key = 'dsq_thread_id' AND meta_value IN (".implode(', ', array_fill(0, count($thread_ids), '%s')).")
+    ";
+
+    // Call $wpdb->prepare passing the values of the array as separate arguments
+    $query = call_user_func_array(array($wpdb, 'prepare'), array_merge(array($sql), $thread_ids));
+
+    $results = $wpdb->get_results($query);
+    
     foreach ( $results as $result ) {
         $thread_map[$result->meta_value] = $result->post_id;
     }
@@ -683,11 +690,16 @@ function dsq_get_pending_post_ids() {
 function dsq_clear_pending_post_ids($post_ids) {
     global $wpdb;
 
-    $post_ids_query = "'" . implode("', '", $post_ids) . "'";
-    $wpdb->query($wpdb->prepare("
+    // add as many placeholders as needed
+    $sql = "
         DELETE FROM {$wpdb->postmeta} 
-        WHERE meta_key = 'dsq_needs_sync' AND post_id IN (%s)
-    ", $post_ids_query));
+        WHERE meta_key = 'dsq_needs_sync' AND post_id IN (".implode(', ', array_fill(0, count($post_ids), '%s')).")
+    ";
+
+    // Call $wpdb->prepare passing the values of the array as separate arguments
+    $query = call_user_func_array(array($wpdb, 'prepare'), array_merge(array($sql), $post_ids));
+
+    $wpdb->query($query);
 
     update_meta_cache('dsq_needs_sync', $post_ids);
 }
