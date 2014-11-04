@@ -1,6 +1,3 @@
-/**
- * Handles counting comments and other Wordpress dashboard tasks
- */
 jQuery(document).ready(function($) {
 	
     // fix menu

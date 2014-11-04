@@ -1,7 +1,3 @@
-/**
- * Scripts for Wordpress pointer
- */
-//<![CDATA[
 jQuery(document).ready( function($) {
     alert('pointer.js loaded');
     console.log('pointerContent', pointerContent);
@@ -21,4 +17,3 @@ jQuery(document).ready( function($) {
         }
     }).pointer('open');
 });
-//]]>

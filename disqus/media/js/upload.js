@@ -1,6 +1,3 @@
-/**
- * Handles uploading of button files
- */
 var file_frame;
 
 jQuery(document).ready(function($) {

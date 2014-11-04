@@ -1,6 +1,3 @@
-/**
- * Scripts used only on the Disqus admin page
- */
 jQuery(document).ready(function($) {
     
     // Replace comments dashboard link

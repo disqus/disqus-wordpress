@@ -1,4 +1,3 @@
-// <![CDATA[
 var disqus_shortname = countVars.disqusShortname;
 (function () {
     var nodes = document.getElementsByTagName('span');
@@ -16,4 +15,3 @@ var disqus_shortname = countVars.disqusShortname;
     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
 }());
-//]]>

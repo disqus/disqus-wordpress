@@ -1,4 +1,3 @@
-/* <![CDATA[ */
 var disqus_url = embedVars.disqusUrl;
 var disqus_identifier = embedVars.disqusIdentifier;
 var disqus_container_id = 'disqus_thread';
@@ -55,4 +54,3 @@ var disqus_config = function () {
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();
-/* ]]> */
