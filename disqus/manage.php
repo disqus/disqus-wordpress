@@ -167,6 +167,7 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
     update_option('disqus_partner_key', isset($_POST['disqus_partner_key']) ? esc_attr( trim(stripslashes($_POST['disqus_partner_key'])) ) : '');
     update_option('disqus_replace', isset($_POST['disqus_replace']) ? esc_attr( $_POST['disqus_replace'] ) : 'all');
     update_option('disqus_cc_fix', isset($_POST['disqus_cc_fix']));
+    update_option('dsq_external_js', isset($_POST['dsq_external_js']) ? '1' : '0');
     update_option('disqus_manual_sync', isset($_POST['disqus_manual_sync']));
     update_option('disqus_disable_ssr', isset($_POST['disqus_disable_ssr']));
     update_option('disqus_public_key', isset($_POST['disqus_public_key']) ? esc_attr( $_POST['disqus_public_key'] ) : '');
@@ -205,7 +206,13 @@ $step = (dsq_is_installed()) ? 0 : ($step ? $step : 1);
 if ( 3 == $step && isset($_POST['dsq_forum']) && isset($_POST['dsq_user_api_key']) ) {
     list($dsq_forum_id, $dsq_forum_url) = explode(':', $_POST['dsq_forum']);
     update_option('disqus_forum_url', esc_attr( $dsq_forum_url ) );
+
+    // Output javascript in external files by default
+    update_option('dsq_external_js', '1'); 
+
+    // Output Javascript in footer by default (no effect when dsq_external_js is enabld)
     update_option('disqus_cc_fix', '1'); 
+    
     $api_key = $dsq_api->get_forum_api_key($_POST['dsq_user_api_key'], $dsq_forum_id);
     if ( !$api_key || $api_key < 0 ) {
         update_option('disqus_replace', 'replace');
@@ -373,6 +380,7 @@ case 0:
     $dsq_user_api_key = get_option('disqus_user_api_key');
     $dsq_partner_key = get_option('disqus_partner_key');
     $dsq_cc_fix = get_option('disqus_cc_fix');
+    $dsq_external_js = get_option('dsq_external_js');
     $dsq_manual_sync = get_option('disqus_manual_sync');
     $dsq_disable_ssr = get_option('disqus_disable_ssr');
     $dsq_public_key = get_option('disqus_public_key');
@@ -457,9 +465,18 @@ case 0:
             </tr>
 
             <tr>
+                <th scope="row" valign="top"><?php echo dsq_i('External Javascript Files'); ?></th>
+                <td>
+                    <input type="checkbox" id="disqus_external_javascript" name="dsq_external_js" <?php if($dsq_external_js == '1'){ echo 'checked="checked"'; } ?> >
+                    <label for="disqus_external_javascript"><?php echo dsq_i('Render Javascript in external files'); ?></label>
+                    <br /><?php echo dsq_i('This will render the Disqus scripts as external files in the footer as recommended by Wordpress. Disable this if are not seeing Disqus appear on pages that normally have comments. This will fix the issue if your theme does not support the \'wp_enqueue_script\' function, are caching your site on a CDN.'); ?>
+                </td>
+            </tr>
+
+            <tr>
                 <th scope="row" valign="top"><?php echo dsq_i('Template Conflicts'); ?></th>
                 <td>
-                    <input type="checkbox" id="disqus_comment_count" name="disqus_cc_fix" <?php if($dsq_cc_fix == '1'){ echo 'checked="checked"'; } ?> >
+                    <input type="checkbox" id="disqus_comment_count" name="disqus_cc_fix" <?php if($dsq_external_js == '1'){ echo 'disabled '; } if($dsq_cc_fix == '1' || $dsq_external_js == '1'){ echo 'checked="checked"'; } ?> >
                     <label for="disqus_comment_count"><?php echo dsq_i('Output JavaScript in footer'); ?></label>
                     <br /><?php echo dsq_i('Enable this if you have problems with comment counts or other irregularities. For example: missing counts, counts always at 0, Disqus code showing on the page, broken image carousels, or longer-than-usual home page load times'); ?>
                 </td>

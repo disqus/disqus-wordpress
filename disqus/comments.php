@@ -88,8 +88,68 @@ if ($sso) {
     );
 }
 
-wp_register_script( 'dsq_embed_script', plugins_url( '/media/js/disqus.js', __FILE__ ) );
-wp_localize_script( 'dsq_embed_script', 'embedVars', $embed_vars );
-wp_enqueue_script( 'dsq_embed_script', plugins_url( '/media/js/disqus.js', __FILE__ ) );
+if ( get_option('dsq_external_js') == '1' ) {
+    wp_register_script( 'dsq_embed_script', plugins_url( '/media/js/disqus.js', __FILE__ ) );
+    wp_localize_script( 'dsq_embed_script', 'embedVars', $embed_vars );
+    wp_enqueue_script( 'dsq_embed_script', plugins_url( '/media/js/disqus.js', __FILE__ ) );
+}
+else {
+
+?>
+<script type="text/javascript">
+var disqus_url = '<?php echo get_permalink(); ?>';
+var disqus_identifier = '<?php echo dsq_identifier_for_post($post); ?>';
+var disqus_container_id = 'disqus_thread';
+var disqus_shortname = '<?php echo strtolower(get_option('disqus_forum_url')); ?>';
+var disqus_title = <?php echo cf_json_encode( dsq_title_for_post($post) ); ?>;
+var disqus_config_custom = window.disqus_config;
+var disqus_config = function () {
+    /*
+    All currently supported events:
+    onReady: fires when everything is ready,
+    onNewComment: fires when a new comment is posted,
+    onIdentify: fires when user is authenticated
+    */
+    
+    <?php
+    $sso = dsq_sso();
+    if ($sso) {
+        foreach ($sso as $k=>$v) {
+            echo esc_js( 'this.page.{$k} = \'{$v}\';\n' );
+        }
+        echo dsq_sso_login();
+    }
+    ?>
+
+    this.language = '<?php echo esc_js( apply_filters('disqus_language_filter', '') ) ?>';
+    <?php if (!get_option('disqus_manual_sync')): ?>
+    this.callbacks.onReady.push(function () {
+
+        // sync comments in the background so we don't block the page
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = '?cf_action=sync_comments&post_id=<?php echo esc_attr( $post->ID ); ?>';
+
+        var firstScript = document.getElementsByTagName('script')[0];
+        firstScript.parentNode.insertBefore(script, firstScript);
+    });
+    <?php endif; ?>
+
+    if (disqus_config_custom) {
+        disqus_config_custom.call(this);
+    }
+};
+
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+<?php
+
+}
 
 ?>

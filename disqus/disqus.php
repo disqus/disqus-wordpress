@@ -36,6 +36,7 @@ function dsq_options() {
         'disqus_user_api_key',
         'disqus_replace',
         'disqus_cc_fix',
+        'dsq_external_js',
         # SSO features
         'disqus_partner_key',
         'disqus_public_key',
