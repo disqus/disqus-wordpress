@@ -274,6 +274,10 @@ function dsq_manage_dialog($message, $error = false) {
 }
 
 function dsq_sync_comments($comments) {
+    if ( count($comments) < 1 ) {
+        return;
+    }
+    
     global $wpdb;
 
     // user MUST be logged out during this process
@@ -287,11 +291,13 @@ function dsq_sync_comments($comments) {
 
     $thread_ids = array_keys($thread_map);
 
+    $threads_query = implode(', ', array_fill(0, count($thread_ids), '%s'));
+
     // add as many placeholders as needed
     $sql = "
         SELECT post_id, meta_value 
         FROM $wpdb->postmeta 
-        WHERE meta_key = 'dsq_thread_id' AND meta_value IN (".implode(', ', array_fill(0, count($thread_ids), '%s')).")
+        WHERE meta_key = 'dsq_thread_id' AND meta_value IN (" . $threads_query . ")
     ";
 
     // Call $wpdb->prepare passing the values of the array as separate arguments
@@ -688,12 +694,18 @@ function dsq_get_pending_post_ids() {
 }
 
 function dsq_clear_pending_post_ids($post_ids) {
+    if ( count($post_ids) < 1 ) {
+        return;
+    }
+
     global $wpdb;
+
+    $posts_query = implode(', ', array_fill(0, count($post_ids), '%s'));
 
     // add as many placeholders as needed
     $sql = "
         DELETE FROM {$wpdb->postmeta} 
-        WHERE meta_key = 'dsq_needs_sync' AND post_id IN (".implode(', ', array_fill(0, count($post_ids), '%s')).")
+        WHERE meta_key = 'dsq_needs_sync' AND post_id IN (" . $posts_query . ")
     ";
 
     // Call $wpdb->prepare passing the values of the array as separate arguments
