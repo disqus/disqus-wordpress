@@ -278,7 +278,7 @@ function dsq_sync_comments($comments) {
     if ( count($comments) < 1 ) {
         return;
     }
-    
+
     global $wpdb;
 
     // user MUST be logged out during this process
@@ -1174,54 +1174,46 @@ function dsq_add_query_posts($posts) {
     }
 }
 
-// check to see if the posts in the loop match the original request or an explicit request, if so output the JS
-function dsq_loop_end($query) {
-    if ( get_option('disqus_cc_fix') == '1' || 
-        !count($query->posts) || 
-        is_single() || 
-        is_page() || 
-        is_feed() || 
-        !dsq_can_replace() 
-        ) {
-        return;
-    }
-    global $DSQ_QUERY_POST_IDS;
-    foreach ($query->posts as $post) {
-        $loop_ids[] = intval($post->ID);
-    }
-    $posts_key = md5(serialize($loop_ids));
-    if (isset($DSQ_QUERY_POST_IDS[$posts_key])) {
-        dsq_output_loop_comment_js($DSQ_QUERY_POST_IDS[$posts_key]);
-    }
-}
-add_action('loop_end', 'dsq_loop_end');
-
-// if someone has a better hack, let me know
-// prevents duplicate calls to count.js
-$_HAS_COUNTS = false;
-
 function dsq_output_count_js() {
-    $count_vars = array(
-        'disqusShortname' => strtolower( get_option( 'disqus_forum_url' ) ),
-    );
+    if ( get_option('dsq_external_js') == '1' ) {
+        $count_vars = array(
+            'disqusShortname' => strtolower( get_option( 'disqus_forum_url' ) ),
+        );
 
-    wp_register_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
-    wp_localize_script( 'dsq_count_script', 'countVars', $count_vars );
-    wp_enqueue_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
-}
-
-function dsq_output_loop_comment_js($post_ids = null) {
-    global $_HAS_COUNTS;
-    if ($_HAS_COUNTS) return;
-    $_HAS_COUNTS = true;
-    if (count($post_ids)) {
-        dsq_output_count_js();
+        wp_register_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
+        wp_localize_script( 'dsq_count_script', 'countVars', $count_vars );
+        wp_enqueue_script( 'dsq_count_script', plugins_url( '/media/js/count.js', __FILE__ ) );
+    }
+    else {
+        ?>
+        <script type="text/javascript">
+        // <![CDATA[
+        var disqus_shortname = '<?php echo strtolower( get_option('disqus_forum_url') ); ?>';
+        (function () {
+            var nodes = document.getElementsByTagName('span');
+            for (var i = 0, url; i < nodes.length; i++) {
+                if (nodes[i].className.indexOf('dsq-postid') != -1) {
+                    nodes[i].parentNode.setAttribute('data-disqus-identifier', nodes[i].getAttribute('rel'));
+                    url = nodes[i].parentNode.href.split('#', 1);
+                    if (url.length == 1) { url = url[0]; }
+                    else { url = url[1]; }
+                    nodes[i].parentNode.href = url + '#disqus_thread';
+                }
+            }
+            var s = document.createElement('script'); 
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.<?php echo DISQUS_DOMAIN; ?>/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+        // ]]>
+        </script>
+        <?php
     }
 }
 
 function dsq_output_footer_comment_js() {
     if (!dsq_can_replace()) return;
-    if (get_option('disqus_cc_fix') != '1') return;
 
     dsq_output_count_js();
 }
