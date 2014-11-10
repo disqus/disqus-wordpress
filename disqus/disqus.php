@@ -1345,6 +1345,22 @@ if(!function_exists('cf_json_encode')) {
 
 // Single Sign-on Integration
 
+function dsq_sso_login() {      
+    global $current_site;      
+    $sitename = get_bloginfo('name');      
+    $siteurl = site_url();     
+    $button = get_option('disqus_sso_button');     
+    $sso_login_str = 'this.sso = {     
+          name: "' . esc_js( $sitename ) . '",       
+          button: "' . $button . '",       
+          url: "' . $siteurl . '/wp-login.php",        
+          logout: "' . $siteurl . '/wp-login.php?action=logout",       
+          width: "800",        
+          height: "700"        
+    }';        
+    return $sso_login_str;     
+}
+
 function dsq_sso() {
     if ($key = get_option('disqus_partner_key')) {
         // use old style SSO
