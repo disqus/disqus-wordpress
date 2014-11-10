@@ -1357,7 +1357,7 @@ function dsq_sso_login() {
           logout: "' . $siteurl . '/wp-login.php?action=logout",       
           width: "800",        
           height: "700"        
-    }';        
+    };';        
     return $sso_login_str;     
 }
 
