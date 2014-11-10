@@ -115,7 +115,8 @@ var disqus_config = function () {
     $sso = dsq_sso();
     if ($sso) {
         foreach ($sso as $k=>$v) {
-            echo esc_js( 'this.page.{$k} = \'{$v}\';\n' );
+            echo 'this.page.' . esc_js($k) . ' = \'' . esc_js($v) . '\';';
+            echo "\n";
         }
         echo dsq_sso_login();
     }
