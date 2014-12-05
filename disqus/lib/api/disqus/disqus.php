@@ -59,7 +59,7 @@ if (!extension_loaded('json')) {
 class DisqusAPI {
 	var $user_api_key;
 	var $forum_api_key;
-	var $api_url = 'https://www.disqus.com/api/';
+	var $api_url = 'https://disqus.com/api/';
 	var $api_version = '1.1';
 
 	/**
@@ -72,7 +72,7 @@ class DisqusAPI {
 	 * @param $api_url
 	 *   (optional) The prefix URL to use when calling the Disqus API.
 	 */
-	function DisqusAPI($user_api_key, $forum_api_key, $api_url='https://www.disqus.com/api/') {
+	function DisqusAPI($user_api_key, $forum_api_key, $api_url='https://disqus.com/api/') {
 		$this->user_api_key = $user_api_key;
 		$this->forum_api_key = $forum_api_key;
 		$this->api_url = $api_url;
