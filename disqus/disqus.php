@@ -222,7 +222,9 @@ function dsq_is_installed() {
  */
 function dsq_can_replace() {
     global $id, $post;
-
+    
+    if (apply_filters( 'dsq_can_replace_filter', false )){ return false; }// NomadDevs 13-Dec-2014
+    
     if (get_option('disqus_active') === '0'){ return false; }
 
     $replace = get_option('disqus_replace');
