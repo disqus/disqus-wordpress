@@ -6,7 +6,7 @@
  *
  * @author		Disqus <team@disqus.com>
  * @copyright	2007-2010 Big Head Labs
- * @link		http://disqus.com/
+ * @link		https://disqus.com/
  * @package		Disqus
  * @version		1.1
  */

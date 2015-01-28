@@ -1,18 +1,18 @@
 <?php
 /*
 Plugin Name: Disqus Comment System
-Plugin URI: http://disqus.com/
+Plugin URI: https://disqus.com/
 Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your Disqus Comment System.
 Author: Disqus <team@disqus.com>
 Version: 2.84
-Author URI: http://disqus.com/
+Author URI: https://disqus.com/
 */
 
 require_once(dirname(__FILE__) . '/lib/wp-api.php');
 
 define('DISQUS_DOMAIN',             'disqus.com');
 define('DISQUS_IMPORTER_URL',       'https://import.disqus.com/');
-define('DISQUS_API_URL',            'http://disqus.com/api/');
+define('DISQUS_API_URL',            'https://disqus.com/api/');
 define('DISQUS_RSS_PATH',           '/latest.rss');
 define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {

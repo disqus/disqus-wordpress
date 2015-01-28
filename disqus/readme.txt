@@ -50,7 +50,7 @@ The Disqus for WordPress plugin seamlessly integrates using the Disqus API and b
 
 = More documentation =
 
-Go to [http://disqus.com/help/wordpress](http://disqus.com/help/wordpress)
+Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
 == Screenshots ==
 
@@ -320,6 +320,6 @@ INSERT INTO `wp_options` (blog_id, option_name, option_value, autoload) VALUES (
 
 == Support ==
 
-* Visit http://disqus.com/help/wordpress for help documentation.
+* Visit https://disqus.com/help/wordpress for help documentation.
 
-* Visit http://help.disqus.com for help from our support team.
+* Visit https://help.disqus.com for help from our support team.

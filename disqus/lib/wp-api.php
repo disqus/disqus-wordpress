@@ -4,7 +4,7 @@
  *
  * @author        Disqus <team@disqus.com>
  * @copyright    2007-2010 Big Head Labs
- * @link        http://disqus.com/
+ * @link        https://disqus.com/
  * @package        Disqus
  * @subpackage    DisqusWordPressAPI
  * @version        2.0
