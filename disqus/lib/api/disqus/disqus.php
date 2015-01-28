@@ -5,7 +5,7 @@
  * http://groups.google.com/group/disqus-dev/web/api-1-1
  *
  * @author		Disqus <team@disqus.com>
- * @copyright	2007-2010 Big Head Labs
+ * @copyright	2007-2015 Big Head Labs
  * @link		https://disqus.com/
  * @package		Disqus
  * @version		1.1
@@ -53,7 +53,7 @@ if (!extension_loaded('json')) {
  *
  * @package		Disqus
  * @author		DISQUS.com <team@disqus.com>
- * @copyright	2007-2010 Big Head Labs
+ * @copyright	2007-2015 Big Head Labs
  * @version		1.1
  */
 class DisqusAPI {
