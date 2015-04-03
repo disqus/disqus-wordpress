@@ -1,6 +1,4 @@
 jQuery(document).ready( function($) {
-    alert('pointer.js loaded');
-    console.log('pointerContent', pointerContent);
 
     $('#menu-comments').pointer({
         content: pointerContent,
