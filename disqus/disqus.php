@@ -804,8 +804,11 @@ function dsq_update_permalink($post) {
         'url' => dsq_link_for_post($post)
     ));
 
-    $cleaned_thread_id = sanitize_meta( 'dsq_thread_id', $response->id, 'post' );
-    update_post_meta($post->ID, 'dsq_thread_id', $cleaned_thread_id);
+    //Make sure that response exists so that warnings are not thrown
+    if (! empty($response)) {
+        $cleaned_thread_id = sanitize_meta( 'dsq_thread_id', $response->id, 'post' );
+        update_post_meta($post->ID, 'dsq_thread_id', $cleaned_thread_id);
+    }
 
     return $response;
 }
