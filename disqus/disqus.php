@@ -972,7 +972,7 @@ function dsq_comment( $comment, $args, $depth ) {
     <li <?php comment_class(); ?> id="dsq-comment-<?php echo comment_ID(); ?>">
         <div id="dsq-comment-header-<?php echo comment_ID(); ?>" class="dsq-comment-header">
             <cite id="dsq-cite-<?php echo comment_ID(); ?>">
-<?php if(comment_author_url()) : ?>
+<?php if(get_comment_author_url()) : ?>
                 <a id="dsq-author-user-<?php echo comment_ID(); ?>" href="<?php echo comment_author_url(); ?>" target="_blank" rel="nofollow"><?php echo comment_author(); ?></a>
 <?php else : ?>
                 <span id="dsq-author-user-<?php echo comment_ID(); ?>"><?php echo comment_author(); ?></span>
