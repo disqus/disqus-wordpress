@@ -511,7 +511,9 @@ function dsq_request_handler() {
                     }
                 } else {
                     $ts = time() + 300;
-                    wp_schedule_single_event($ts, 'dsq_sync_forum');
+                    if (!wp_next_scheduled('dsq_sync_forum')) {
+                        wp_schedule_event($ts, 'hourly', 'dsq_sync_forum');
+                    }
                     die('// sync scheduled');
                 }
             break;
