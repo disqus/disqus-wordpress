@@ -3,7 +3,7 @@
  * Implementation of the Disqus API designed for WordPress.
  *
  * @author        Disqus <team@disqus.com>
- * @copyright    2007-2015 Big Head Labs
+ * @copyright    2007-2016 Big Head Labs
  * @link        https://disqus.com/
  * @package        Disqus
  * @subpackage    DisqusWordPressAPI
