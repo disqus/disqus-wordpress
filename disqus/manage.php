@@ -83,37 +83,37 @@ $check_fields = array(
             'key_name' => 'dsq_user_api_key',
             'min' => 64,
             'max' => 64,
-        ), 
+        ),
     'disqus_api_key' => array(
             'key_name' => 'disqus_api_key',
             'min' => 64,
             'max' => 64,
-        ),  
+        ),
     'disqus_public_key' => array(
             'key_name' => 'disqus_public_key',
             'min' => 64,
             'max' => 64,
-        ),  
+        ),
     'disqus_secret_key' => array(
             'key_name' => 'disqus_secret_key',
             'min' => 64,
             'max' => 64,
-        ),  
+        ),
     'disqus_partner_key' => array(
             'key_name' => 'disqus_partner_key',
             'min' => 64,
             'max' => 64,
-        ), 
+        ),
     'dsq_forum' => array(
             'key_name' => 'dsq_forum',
             'min' => 1,
             'max' => 64,
-        ), 
+        ),
     'disqus_forum_url' => array(
             'key_name' => 'disqus_forum_url',
             'min' => 1,
             'max' => 64,
-        ), 
+        ),
     'disqus_replace' => array(
             'key_name' => 'disqus_replace',
             'min' => 3,
@@ -134,7 +134,7 @@ foreach ( $check_fields as $key ) {
         // Strip tags before checking
         $_POST[$key['key_name']] = trim(strip_tags($_POST[$key['key_name']]));
 
-        // Check usernames independently because they can have special characters 
+        // Check usernames independently because they can have special characters
         // or be email addresses
         if ( 'dsq_username' ===  $key['key_name'] ) {
             if ( !is_valid_dsq_username($_POST[$key['key_name']], $key['min'], $key['max']) ) {
@@ -177,8 +177,8 @@ if ( isset($_POST['disqus_forum_url']) && isset($_POST['disqus_replace']) ) {
         // Use WP 3.5's new, streamlined, much-improved built-in media uploader
 
         // Only update if a value is actually POSTed, otherwise any time the form is saved the button will be un-set
-        if ( $_POST['disqus_sso_button'] ) { 
-            update_option('disqus_sso_button', isset($_POST['disqus_sso_button']) ? esc_url( $_POST['disqus_sso_button'] ) : ''); 
+        if ( $_POST['disqus_sso_button'] ) {
+            update_option('disqus_sso_button', isset($_POST['disqus_sso_button']) ? esc_url( $_POST['disqus_sso_button'] ) : '');
         }
     } else {
         // WP is older than 3.5, use legacy, less-elegant media uploader
@@ -208,22 +208,22 @@ if ( 3 == $step && isset($_POST['dsq_forum']) && isset($_POST['dsq_user_api_key'
     update_option('disqus_forum_url', esc_attr( $dsq_forum_url ) );
 
     // Output javascript in external files by default
-    update_option('dsq_external_js', '1'); 
+    update_option('dsq_external_js', '1');
 
     // Output Javascript in footer by default (no effect when dsq_external_js is enabld)
-    update_option('disqus_cc_fix', '1'); 
-    
+    update_option('disqus_cc_fix', '1');
+
     $api_key = $dsq_api->get_forum_api_key($_POST['dsq_user_api_key'], $dsq_forum_id);
     if ( !$api_key || $api_key < 0 ) {
         update_option('disqus_replace', 'replace');
         dsq_manage_dialog(
-            dsq_i('There was an error completing the installation of Disqus.') 
+            dsq_i('There was an error completing the installation of Disqus.')
             . ' '
             . dsq_i('If you are still having issues, refer to the help documentation.')
             . ' '
             . '<a href="https://help.disqus.com/customer/portal/articles/472005" target="_blank">'
             . dsq_i('WordPress Help Page')
-            . '</a>', 
+            . '</a>',
             true);
     } else {
         update_option('disqus_api_key', esc_attr( $api_key ));
@@ -259,7 +259,7 @@ if ( 2 == $step && isset($_POST['dsq_username']) && isset($_POST['dsq_password']
                 . ' '
                 . '<a href="https://disqus.com/admin/register/" target="_blank">'
                 . dsq_i('Create a site')
-                . '</a>', 
+                . '</a>',
                 true);
         }
     }
@@ -433,9 +433,9 @@ case 0:
                         <option value="closed" <?php if('closed'==$dsq_replace){echo 'selected';}?>><?php echo dsq_i('Blog posts with closed comments only.'); ?></option>
                     </select>
                     <br />
-                    <?php 
+                    <?php
                         if ($dsq_replace == 'closed') echo '<p class="dsq-alert">'.dsq_i('You have selected to only enable Disqus on posts with closed comments. If you aren\'t seeing Disqus on new posts, change this option to "All blog posts".').'</p>';
-                        else echo dsq_i('Shows comments on either all blog posts, or ones with closed comments. Select the "Blog posts with closed comments only" option if you plan on disabling Disqus, but want to keep it on posts which already have comments.'); 
+                        else echo dsq_i('Shows comments on either all blog posts, or ones with closed comments. Select the "Blog posts with closed comments only" option if you plan on disabling Disqus, but want to keep it on posts which already have comments.');
                     ?>
                 </td>
             </tr>
@@ -539,7 +539,7 @@ case 0:
                         <input type="file" name="disqus_sso_button" value="<?php echo esc_attr($dsq_sso_button); ?>" tabindex="2">
                     <?php } ?>
                     <br />
-                    <?php echo dsq_i('Adds a button to the Disqus log-in interface.'); ?> 
+                    <?php echo dsq_i('Adds a button to the Disqus log-in interface.'); ?>
                     (<a href="https://d8v2sqslxfuhj.cloudfront.net/docs/sso-button.png" target="_blank"><?php echo dsq_i('Example screenshot'); ?></a>)
                     <br />
                     <?php echo dsq_i('See our documentation for a template to create your own button.'); ?>&nbsp;
@@ -567,7 +567,7 @@ case 0:
                         <form method="POST" action="">
                         <?php wp_nonce_field('dsq-wpnonce_export', 'dsq-form_nonce_export'); ?>
                             <p class="status">
-                                <a href="#" class="button"><?php echo dsq_i('Export Comments'); ?></a>  
+                                <a href="#" class="button"><?php echo dsq_i('Export Comments'); ?></a>
                                 <?php echo dsq_i('This will export your existing WordPress comments to Disqus'); ?>
                             </p>
                         </form>
@@ -583,11 +583,11 @@ case 0:
                         <?php wp_nonce_field('dsq-wpnonce_import', 'dsq-form_nonce_import'); ?>
                             <div class="status">
                                 <p>
-                                    <a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a>  
+                                    <a href="#" class="button"><?php echo dsq_i('Sync Comments'); ?></a>
                                     <?php echo dsq_i('This will download your Disqus comments and store them locally in WordPress'); ?>
                                 </p>
                                 <label>
-                                    <input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/> 
+                                    <input type="checkbox" id="dsq_import_wipe" name="dsq_import_wipe" value="1"/>
                                     <?php echo dsq_i('Remove all imported Disqus comments before syncing.'); ?>
                                 </label>
                                 <br/>
@@ -607,7 +607,7 @@ case 0:
                     <form action="?page=disqus" method="POST">
                         <?php wp_nonce_field('dsq-wpnonce_reset', 'dsq-form_nonce_reset'); ?>
                         <p>
-                            <input type="submit" value="Reset" name="reset" onclick="return confirm('<?php echo dsq_i('Are you sure you want to reset the Disqus plugin?'); ?>')" class="button" /> 
+                            <input type="submit" value="Reset" name="reset" onclick="return confirm('<?php echo dsq_i('Are you sure you want to reset the Disqus plugin?'); ?>')" class="button" />
                             <?php echo dsq_i('This removes all Disqus-specific settings. Comments will remain unaffected.') ?>
                         </p>
                         <?php echo dsq_i('If you have problems with resetting taking too long you may wish to first manually drop the \'disqus_dupecheck\' index from your \'commentmeta\' table.') ?>
@@ -631,7 +631,7 @@ PHP Version: <?php echo esc_html( phpversion() ); ?>
 
 Version: <?php echo esc_html( $wp_version ); ?>
 
-Active Theme: 
+Active Theme:
 <?php
 if ( !function_exists('wp_get_theme') ) {
     $theme = get_theme(get_current_theme());
@@ -647,20 +647,20 @@ URLOpen Method: <?php echo esc_html( dsq_url_method() ); ?>
 Plugin Version: <?php echo esc_html( DISQUS_VERSION ); ?>
 
 Settings:
-dsq_is_installed: <?php echo esc_html( dsq_is_installed() ); ?>
+dsq_is_installed: <?php echo esc_html( dsq_is_installed().'\n' ); ?>
 <?php foreach (dsq_options() as $opt) {
-    echo esc_html( $opt.': '.get_option($opt)."\n" );
-} 
+    echo esc_html( $opt.': '.get_option($opt).'\n' );
+}
 ?>
 
 Plugins:
 <?php
 foreach (get_plugins() as $key => $plugin) {
-    $isactive = "";
+    $isactive = '';
     if (is_plugin_active($key)) {
-        $isactive = "(active)";
+        $isactive = '(active)';
     }
-    echo esc_html( $plugin['Name'].' '.$plugin['Version'].' '.$isactive."\n" );
+    echo esc_html( $plugin['Name'].' '.$plugin['Version'].' '.$isactive.'\n' );
 }
 ?>
         </textarea><br/>
