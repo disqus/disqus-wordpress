@@ -4,7 +4,7 @@ Plugin Name: Disqus Comment System
 Plugin URI: https://disqus.com/
 Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your Disqus Comment System.
 Author: Disqus <team@disqus.com>
-Version: 2.84
+Version: 2.85
 Author URI: https://disqus.com/
 */
 
@@ -18,7 +18,7 @@ define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
     define('DISQUS_DEBUG',          false);
 }
-define('DISQUS_VERSION',            '2.84');
+define('DISQUS_VERSION',            '2.85');
 define('DISQUS_SYNC_TIMEOUT',       30);
 
 /**
@@ -108,7 +108,7 @@ $DSQ_QUERY_COMMENTS = false;
  */
 $DSQ_QUERY_POST_IDS = array();
 
-/** 
+/**
  * Admin scripts
  */
 
@@ -173,7 +173,7 @@ function load_pointer_script_style() {
     // Check if our pointer is not among dismissed ones
     if( !in_array( 'disqus_settings_pointer', $dismissed_pointers ) ) {
         $enqueue_pointer_script_style = true;
-        
+
         // Add footer scripts using callback function
         $pointer_content  = '<h3>'.dsq_i('Disqus needs to be configured').'</h3>';
         $pointer_content .= '<p>'.dsq_i('Configure Disqus by clicking Comments to the left.').'</p>';
@@ -296,8 +296,8 @@ function dsq_sync_comments($comments) {
 
     // add as many placeholders as needed
     $sql = "
-        SELECT post_id, meta_value 
-        FROM $wpdb->postmeta 
+        SELECT post_id, meta_value
+        FROM $wpdb->postmeta
         WHERE meta_key = 'dsq_thread_id' AND meta_value IN (" . $threads_query . ")
     ";
 
@@ -305,7 +305,7 @@ function dsq_sync_comments($comments) {
     $query = call_user_func_array(array($wpdb, 'prepare'), array_merge(array($sql), $thread_ids));
 
     $results = $wpdb->get_results($query);
-    
+
     foreach ( $results as $result ) {
         $thread_map[$result->meta_value] = $result->post_id;
     }
@@ -570,11 +570,11 @@ function dsq_request_handler() {
                             $response = $dsq_api->import_wordpress_comments($wxr, $timestamp, $eof);
                             if (!($response['group_id'] > 0)) {
                                 $result = 'fail';
-                                $msg = '<p class="status dsq-export-fail">'; 
+                                $msg = '<p class="status dsq-export-fail">';
                                 $msg .= dsq_i('Sorry, something unexpected happened with the export. Please try again.');
                                 $msg .= '</p><p>';
                                 $msg .= dsq_i('If your API key has changed, you may need to reinstall Disqus (deactivate the plugin and then reactivate it).');
-                                $msg .= dsq_i('If you are still having issues, refer to the %s WordPress help page', 
+                                $msg .= dsq_i('If you are still having issues, refer to the %s WordPress help page',
                                     '<a href="https://help.disqus.com/customer/portal/articles/472005" onclick="window.open(this.href); return false">');
                                 $msg .= '</a></p>';
                                 $response = $dsq_api->get_last_error();
@@ -590,7 +590,7 @@ function dsq_request_handler() {
                             }
                         }
                     }
-                    
+
                     // send AJAX response
                     $response = compact('result', 'timestamp', 'status', 'post_id', 'msg', 'eof', 'response');
                     header('Content-type: text/javascript');
@@ -668,7 +668,7 @@ function dsq_image_upload_handler($option_name) {
         // If the uploaded file is the right format
         if(in_array($uploaded_file_type, $allowed_file_types)) {
             // Options array for the wp_handle_upload function. 'test_upload' => false
-            $upload_overrides = array( 'test_form' => false ); 
+            $upload_overrides = array( 'test_form' => false );
             // Handle the upload using WP's wp_handle_upload function. Takes the posted file and an options array
             $uploaded_file = wp_handle_upload($_FILES[$option_name], $upload_overrides);
             // If the wp_handle_upload call returned a local path for the image
@@ -705,7 +705,7 @@ function dsq_clear_pending_post_ids($post_ids) {
 
     // add as many placeholders as needed
     $sql = "
-        DELETE FROM {$wpdb->postmeta} 
+        DELETE FROM {$wpdb->postmeta}
         WHERE meta_key = 'dsq_needs_sync' AND post_id IN (" . $posts_query . ")
     ";
 
@@ -1028,7 +1028,7 @@ function dsq_plugin_action_links($links, $file) {
         if (!dsq_is_installed()) {
             $settings_link = '<a href="edit-comments.php?page=disqus">'.dsq_i('Configure').'</a>';
         } else {
-            $settings_link = '<a href="edit-comments.php?page=disqus#adv">'.dsq_i('Settings').'</a>';    
+            $settings_link = '<a href="edit-comments.php?page=disqus#adv">'.dsq_i('Settings').'</a>';
         }
         array_unshift($links, $settings_link);
     }
@@ -1203,7 +1203,7 @@ function dsq_output_count_js() {
                     nodes[i].parentNode.href = url + '#disqus_thread';
                 }
             }
-            var s = document.createElement('script'); 
+            var s = document.createElement('script');
             s.async = true;
             s.type = 'text/javascript';
             s.src = '//' + disqus_shortname + '.<?php echo DISQUS_DOMAIN; ?>/count.js';
@@ -1240,7 +1240,7 @@ add_action('pre_post_update', 'dsq_prev_permalink');
 
 function dsq_check_permalink($post_id) {
     global $dsq_prev_permalinks;
-    if (!empty($dsq_prev_permalinks['post_'.$post_id]) && 
+    if (!empty($dsq_prev_permalinks['post_'.$post_id]) &&
         $dsq_prev_permalinks['post_'.$post_id] != get_permalink($post_id)
         ) {
         $post = get_post($post_id);
@@ -1263,7 +1263,7 @@ add_filter('bloginfo_url', 'dsq_bloginfo_url');
  */
 if(!function_exists('cf_json_encode')) {
     function cf_json_encode($data) {
-        
+
         // json_encode is sending an application/x-javascript header on Joyent servers
         // for some unknown reason.
         return cfjson_encode($data);
@@ -1348,20 +1348,20 @@ if(!function_exists('cf_json_encode')) {
 
 // Single Sign-on Integration
 
-function dsq_sso_login() {      
-    global $current_site;      
-    $sitename = get_bloginfo('name');      
-    $siteurl = site_url();     
-    $button = get_option('disqus_sso_button');     
-    $sso_login_str = 'this.sso = {     
-          name: "' . esc_js( $sitename ) . '",       
-          button: "' . $button . '",       
-          url: "' . $siteurl . '/wp-login.php",        
-          logout: "' . $siteurl . '/wp-login.php?action=logout",       
-          width: "800",        
-          height: "700"        
-    };';        
-    return $sso_login_str;     
+function dsq_sso_login() {
+    global $current_site;
+    $sitename = get_bloginfo('name');
+    $siteurl = site_url();
+    $button = get_option('disqus_sso_button');
+    $sso_login_str = 'this.sso = {
+          name: "' . esc_js( $sitename ) . '",
+          button: "' . $button . '",
+          url: "' . $siteurl . '/wp-login.php",
+          logout: "' . $siteurl . '/wp-login.php?action=logout",
+          width: "800",
+          height: "700"
+    };';
+    return $sso_login_str;
 }
 
 function dsq_sso() {
@@ -1493,7 +1493,7 @@ function dsq_install_database($version=0) {
 }
 function dsq_reset_database($version=0) {
     global $wpdb;
-    
+
     if ( version_compare($version, '2.49', '>=') && !is_wp_vip() ) {
         $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta`;");
     }
