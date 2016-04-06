@@ -5,7 +5,7 @@ if ( !current_user_can('manage_options') ) {
     die();
 }
 
-$step = (isset($_GET['step']) ? $_GET['step'] : null);
+$step = (isset($_GET['step']) ? $_GET['step'] : '1');
 
 ?>
 <div class="wrap">
