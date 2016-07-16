@@ -510,6 +510,7 @@ function dsq_request_handler() {
                         die('// synced '.$comments.' comments');
                     }
                 } else {
+                    wp_clear_scheduled_hook( 'dsq_sync_forum' );
                     $ts = time() + 300;
                     wp_schedule_single_event($ts, 'dsq_sync_forum');
                     die('// sync scheduled');
