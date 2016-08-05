@@ -258,7 +258,8 @@ function dsq_urlopen($url, $postdata=false, $file=false) {
 //
 
 	// Try curl, fsockopen, fopen + stream (PHP5 only), exec wget
-	if(function_exists('curl_init')) {
+	// Don't use cURL on IIS servers because it doesn't explicitly specify a CA bundle by default
+	if(function_exists('curl_init') && strpos($_SERVER['SERVER_SOFTWARE'], 'IIS') == false) {
 		if (!function_exists('curl_setopt_array')) {
 			function curl_setopt_array(&$ch, $curl_options)
 			{
