@@ -622,7 +622,7 @@ case 0:
             <?php echo dsq_i('Having problems with the plugin? Check out our troubleshooting documentation.'); ?>&nbsp;
             <a href="https://help.disqus.com/customer/portal/articles/472005" target="_blank"><?php echo dsq_i('WordPress troubleshooting ocumentation'); ?></a>
             <?php echo dsq_i('You can also email us and include the debug info below.'); ?>&nbsp;
-            <a href="mailto:help+wp@disqus.com"><?php echo dsq_i('Contact support'); ?></a>
+            <a href="https://disqus.com/support"><?php echo dsq_i('Contact support'); ?></a>
         </p>
         <textarea style="width:90%; height:200px;">
 URL: <?php echo esc_url( get_option('siteurl') ); ?>
