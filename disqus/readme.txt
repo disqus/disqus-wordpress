@@ -2,8 +2,8 @@
 Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 3.2
-Tested up to: 4.5
-Stable tag: 2.85
+Tested up to: 4.6.1
+Stable tag: 2.86
 
 The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus.
 
@@ -59,6 +59,13 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 3. Moderation Interface
 
 == Changelog ==
+
+= 2.86 =
+
+* Don't attempt to use cURL on IIS servers
+* Check is dsq_sync_forum is scheduled before scheduling
+* Add updates for Travis CI
+* Fixes a bug in the upgrade process
 
 = 2.85 =
 
