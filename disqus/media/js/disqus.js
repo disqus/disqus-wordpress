@@ -33,7 +33,7 @@ var disqus_config = function () {
     this.language = embedVars.disqusConfig.language;
     this.callbacks.onReady.push(function () {
         if (!embedVars.options.manualSync) {
-            // sync comments in the background so we don't block the page
+            /* sync comments in the background so we don't block the page */
             var script = document.createElement('script');
             script.async = true;
             script.src = '?cf_action=sync_comments&post_id=' + embedVars.postId;
