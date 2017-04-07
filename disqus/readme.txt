@@ -5,35 +5,59 @@ Requires at least: 3.2
 Tested up to: 4.6.1
 Stable tag: 2.86
 
-The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus.
+Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
 
 == Description ==
 
-Disqus, pronounced "discuss", is a service and tool for web comments and
-discussions. Disqus makes commenting easier and more interactive,
-while connecting websites and commenters across a thriving discussion
-community.
+[Disqus](https://disqus.com/) is the web’s most popular commenting system trusted by millions of publishers to increase reader engagement, grow audience and traffic, and monetize content. Disqus helps publishers of all sizes engage directly with their audiences to build loyalty, retain readers, and foster thriving communities. 
 
-The Disqus for WordPress plugin seamlessly integrates using the Disqus API and by syncing with WordPress comments.
+The Disqus for WordPress plugin lets site owners and developers easily add Disqus to their sites, replacing the default WordPress comment system. Disqus installs in minutes and automatically imports your existing comments.
 
-= Disqus for WordPress =
+= Why Disqus? =
 
-* Uses the Disqus API
-* Comments indexable by search engines (SEO-friendly)
-* Support for importing existing comments
-* Auto-sync (backup) of comments with Disqus and WordPress database
+* Simple one-click installation that seamlessly integrates with WordPress without ever needing to edit a single line of code or losing any of your existing comments
+* Keep users engaged on your site longer with a commenting experience readers love
+* Bring users back to your site with web and email notifications and personalized digests
+* Improve SEO ranking with user generated content
+* Keep spam out with our best-in-class anti-spam filter powered by Akismet
+* Single profile for commenting on over 4 million sites including social login support for Facebook, Twitter, and Google accounts
+* Trusted by sites like Wired, The Atlantic, and EW
 
 = Disqus Features =
 
-* Threaded comments and replies
-* Notifications and reply by email
-* Subscribe and RSS options
-* Aggregated comments and social mentions
-* Powerful moderation and admin tools
-* Full spam filtering, blacklists and whitelists
-* Support for Disqus community widgets
-* Connected with a large discussion community
-* Increased exposure and readership
+* Syncs comments automatically to WordPress for backup and flexibility if you ever decide to switch to a different platform
+* Loads asynchronously with advanced caching so that Disqus doesn’t affect your site’s performance
+* Monetization options to grow revenue
+* Export comments to WordPress-compatible XML to backup or migrate to another system
+* Analytics dashboard for measuring overall engagement on your site
+* Mobile responsive design
+
+= Engagement Features =
+
+* Realtime comments system with fun discussion interactions: voting, photo and video upload, rich media embed (Youtube, Twitter, Vimeo, and more), spoiler tags, mentions
+* Comment text formatting (e.g. bold, link, italics, quote) using HTML tags as well as code syntax highlighting
+* Threaded comment display (nested 3 levels) with ability to collapse individual threads
+* Sort discussion by oldest, newest, and best comments
+* Flexible login options - Social login with Facebook, Twitter, and Google, SSO, and guest commenting support
+* Instant activity notifications, email notifications, and digests pull readers back in
+* User profiles that show you recent comment history and frequented communities
+* Discovery widget that shows active discussions happening elsewhere on your site
+
+= Moderation Features =
+
+* Automatic anti-spam filter powered by Akismet
+* Automated pre-moderation controls to flag comments based on links, user reputation
+* Moderate directly in the discussion, via email, or moderation panel
+* Email notifications for newly posted comments, replies 
+* Moderation Panel that lets you search, filter, sort, and manage your comments
+* Self-moderation tools like user blocking, comment flagging
+
+== Support ==
+
+* Search our [Knowledge Base](https://help.disqus.com/) for solutions to common troubleshooting questions
+* Check out our support community, [Discuss Disqus](https://disqus.com/home/channel/discussdisqus/), to see if your question has been answered
+* Talk to our Support team at [disqus.com/support](disqus.com/support)
+* Visit our [Getting Started](https://help.disqus.com/customer/en/portal/articles/1264625-getting-started) page to learn the basics of Disqus
 
 == Installation ==
 
@@ -48,7 +72,7 @@ The Disqus for WordPress plugin seamlessly integrates using the Disqus API and b
 2. From your blog administration, click on Comments to change settings
    (WordPress 2.0 users can find the settings under Options > Disqus.)
 
-= More documentation =
+= Installation trouble? =
 
 Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 
