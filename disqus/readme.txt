@@ -1,5 +1,5 @@
 === Disqus Comment System ===
-Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12
+Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, ryanv12, iamfrancisyo, brevityness
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 3.2
 Tested up to: 4.6.1
@@ -59,6 +59,32 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Talk to our Support team at [disqus.com/support](disqus.com/support)
 * Visit our [Getting Started](https://help.disqus.com/customer/en/portal/articles/1264625-getting-started) page to learn the basics of Disqus
 
+== Frequently Asked Questions ==
+
+= Is Disqus free to use on my site? =
+
+Yes! Disqus is free to use. We also provide [subscription plans](https://help.disqus.com/customer/en/portal/articles/2759918-disqus-pricing-and-plans) for larger, commercial sites that want access to more powerful moderation and audience tools and customization.
+
+= How do I customize the look-and-feel of Disqus? =
+
+Disqus automatically checks your site's font and background color and adapts to either a light or dark color scheme, along with a serif or sans-serif font. If these are detected incorrectly, you can [override them](https://help.disqus.com/customer/en/portal/articles/545277-disqus-appearance-tweaks) in your Settings.
+
+= Will I lose comments if I deactivate Disqus? =
+
+The Disqus for WordPress plugin automatically syncs comments back to WordPress. These comments will remain in WordPress should Disqus be deactivated or removed. You can also [export your comments](https://help.disqus.com/customer/en/portal/articles/1104797-importing-exporting#exporting) from Disqus at any time.
+
+= Can I import my existing WordPress comments into Disqus? = 
+
+Yes, you can import your existing WordPress comments into Disqus during installation.
+
+= How do I set up Single Sign-On (SSO)? =
+
+SSO allows users in your database to comment without requiring them to register with Disqus. Access to SSO is currently available as an add-on for users with a [Pro subscription](https://help.disqus.com/customer/en/portal/articles/2759918-disqus-pricing-and-plans#pro-plan). If you would like to enable this feature, [contact our Support team](https://disqus.com/support/?article=contact_SSO). Also check out our guide for [setting up SSO on WordPress](https://help.disqus.com/customer/portal/articles/1148635).
+
+= I’m experiencing an issue with my installation of Disqus. =
+
+Check out our [WordPress Troubleshooting guide](https://help.disqus.com/customer/portal/articles/472005-wordpress-troubleshooting) with specific solutions for potential problems you might be experiencing.
+
 == Installation ==
 
 **NOTE: It is recommended that you [backup your database](http://codex.wordpress.org/Backing_Up_Your_Database) before installing the plugin.**
@@ -79,8 +105,16 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 == Screenshots ==
 
 1. Disqus Comments
-2. Discovery Box (part of Disqus Comments)
-3. Moderation Interface
+2. Comment Reply
+3. Disqus Audience Platform
+4. Featured Comment
+5. Discovery Box (part of Disqus Comments)
+6. Mentions
+7. Real-time Comments
+8. Commenter User Profile
+9. Moderation Panel
+10. Moderation Panel Comments
+11. Moderate by Email Notifications
 
 == Changelog ==
 
