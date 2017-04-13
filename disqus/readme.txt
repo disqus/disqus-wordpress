@@ -11,7 +11,7 @@ Disqus is the web's most popular comment system. Use Disqus to increase engageme
 
 [Disqus](https://disqus.com/) is the web’s most popular commenting system trusted by millions of publishers to increase reader engagement, grow audience and traffic, and monetize content. Disqus helps publishers of all sizes engage directly with their audiences to build loyalty, retain readers, and foster thriving communities. 
 
-The Disqus for WordPress plugin lets site owners and developers easily add Disqus to their sites, replacing the default WordPress comment system. Disqus installs in minutes and automatically imports your existing comments.
+The Disqus for WordPress plugin lets site owners and developers easily add Disqus to their sites, replacing the default WordPress comment system. Disqus installs in minutes and imports your existing comments so you don’t lose any.
 
 = Why Disqus? =
 
@@ -21,7 +21,7 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 * Improve SEO ranking with user generated content
 * Keep spam out with our best-in-class anti-spam filter powered by Akismet
 * Single profile for commenting on over 4 million sites including social login support for Facebook, Twitter, and Google accounts
-* Trusted by sites like Wired, The Atlantic, and EW
+* Trusted by sites like Wired, The Atlantic, and Entertainment Weekly
 
 = Disqus Features =
 
