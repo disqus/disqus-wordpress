@@ -3,8 +3,9 @@
  * Adapted from WordPress 2.8
  */
 @set_time_limit(0);
-@ini_set('memory_limit', '256M');
 define('WXR_VERSION', '1.0');
+define('DISQUS_MEMORY_LIMIT', '256M');
+@ini_set('memory_limit', apply_filters('disqus_memory_limit', DISQUS_MEMORY_LIMIT));
 
 /**
  * {@internal Missing Short Description}}
