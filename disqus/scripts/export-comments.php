@@ -100,7 +100,7 @@ print_line('---------------------------------------------------------');
 print_line('Done (processing took %.2fs)! %d comments were sent to DISQUS', $total_time, $total_exported);
 if ($group_id) {
     print_line('');
-    print_line('Status available at http://import.disqus.com/group/%d/', $group_id);
+    print_line('Status available at https://import.disqus.com/group/%d/', $group_id);
 }
 print_line('---------------------------------------------------------');
 ?>

@@ -1,3 +1,5 @@
+.. image:: https://travis-ci.org/disqus/disqus-wordpress.svg
+
 See disqus/readme.txt for more information
 
 Packaging

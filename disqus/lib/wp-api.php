@@ -3,8 +3,8 @@
  * Implementation of the Disqus API designed for WordPress.
  *
  * @author        Disqus <team@disqus.com>
- * @copyright    2007-2010 Big Head Labs
- * @link        http://disqus.com/
+ * @copyright    2007-2016 Big Head Labs
+ * @link        https://disqus.com/
  * @package        Disqus
  * @subpackage    DisqusWordPressAPI
  * @version        2.0
@@ -33,7 +33,7 @@ class DisqusWordPressAPI {
     var $short_name;
     var $forum_api_key;
 
-    function DisqusWordPressAPI($short_name=null, $forum_api_key=null, $user_api_key=null) {
+    function __construct($short_name=null, $forum_api_key=null, $user_api_key=null) {
         $this->short_name = $short_name;
         $this->forum_api_key = $forum_api_key;
         $this->user_api_key = $user_api_key;
@@ -79,6 +79,7 @@ class DisqusWordPressAPI {
             DISQUS_IMPORTER_URL . 'api/import-wordpress-comments/',
             array(
                 'method' => 'POST',
+                'timeout' => 60,
                 'body' => array(
                     'forum_url' => $this->short_name,
                     'forum_api_key' => $this->forum_api_key,
@@ -86,10 +87,10 @@ class DisqusWordPressAPI {
                     'wxr' => $wxr,
                     'timestamp' => $timestamp,
                     'eof' => (int)$eof
-                )
+                ),
             )
         );
-        if ($response->errors) {
+        if ($response['response']['code'] !== 200) {
             // hack
             $this->api->last_error = $response->errors;
             return -1;

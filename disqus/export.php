@@ -3,8 +3,9 @@
  * Adapted from WordPress 2.8
  */
 @set_time_limit(0);
-@ini_set('memory_limit', '256M');
 define('WXR_VERSION', '1.0');
+define('DISQUS_MEMORY_LIMIT', '256M');
+@ini_set('memory_limit', apply_filters('disqus_memory_limit', DISQUS_MEMORY_LIMIT));
 
 /**
  * {@internal Missing Short Description}}
@@ -139,7 +140,7 @@ function dsq_export_wp($post, $comments=null) {
 <rss version="2.0"
     xmlns:excerpt="http://wordpress.org/export/<?php echo WXR_VERSION; ?>/excerpt/"
     xmlns:content="http://purl.org/rss/1.0/modules/content/"
-    xmlns:dsq="http://www.disqus.com/"
+    xmlns:dsq="https://disqus.com/"
     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:wp="http://wordpress.org/export/<?php echo WXR_VERSION; ?>/"
