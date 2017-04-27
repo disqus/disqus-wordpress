@@ -1446,7 +1446,7 @@ function dsq_title_for_post($post) {
 }
 
 function dsq_link_for_post($post) {
-    return get_permalink($post);
+    return apply_filters('dsq_link_for_post', get_permalink($post));
 }
 
 function dsq_does_need_update() {
