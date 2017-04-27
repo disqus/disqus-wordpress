@@ -96,7 +96,7 @@ if ( get_option('dsq_external_js') == '1' ) {
 else {
 
 ?>
-<script type="text/javascript">
+<script defer type="text/javascript">
 var disqus_url = '<?php echo get_permalink(); ?>';
 var disqus_identifier = '<?php echo dsq_identifier_for_post($post); ?>';
 var disqus_container_id = 'disqus_thread';
@@ -110,7 +110,7 @@ var disqus_config = function () {
     onNewComment: fires when a new comment is posted,
     onIdentify: fires when user is authenticated
     */
-    
+
     <?php
     $sso = dsq_sso();
     if ($sso) {
@@ -128,7 +128,7 @@ var disqus_config = function () {
 
         // sync comments in the background so we don't block the page
         var script = document.createElement('script');
-        script.async = true;
+        script.defer = true;
         script.src = '?cf_action=sync_comments&post_id=<?php echo esc_attr( $post->ID ); ?>';
 
         var firstScript = document.getElementsByTagName('script')[0];
@@ -143,7 +143,7 @@ var disqus_config = function () {
 
 (function() {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript';
-    dsq.async = true;
+    dsq.defer = true;
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();
