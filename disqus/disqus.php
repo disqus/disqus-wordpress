@@ -1436,17 +1436,17 @@ function dsq_hmacsha1($data, $key) {
 }
 
 function dsq_identifier_for_post($post) {
-    return $post->ID . ' ' . $post->guid;
+    return apply_filters('dsq_identifier_for_post', $post->ID . ' ' . $post->guid, $post);
 }
 
 function dsq_title_for_post($post) {
     $title = get_the_title($post);
     $title = strip_tags($title, DISQUS_ALLOWED_HTML);
-    return $title;
+    return apply_filters('dsq_title_for_post', $title, $post);
 }
 
 function dsq_link_for_post($post) {
-    return get_permalink($post);
+    return apply_filters('dsq_link_for_post', get_permalink($post), $post);
 }
 
 function dsq_does_need_update() {
