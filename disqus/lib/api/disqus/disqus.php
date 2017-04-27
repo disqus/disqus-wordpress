@@ -115,10 +115,22 @@ class DisqusAPI {
 			$args = null;
 		}
 
-		if (!($response = dsq_urlopen($url, $args)) || !$response['code']) {
-			$this->last_error = 'Unable to connect to the Disqus API servers';
+		if ( null === $args ) {
+			$response_raw = wp_remote_get( $url );
+		} else {
+			$response_raw = wp_remote_post( $url, array( 'body' => $args ) );
+		}
+
+		if ( is_wp_error( $response_raw ) ) {
+			$this->last_error = $response_raw->get_error_message();
 			return false;
 		}
+
+		$response = array(
+			'code' => wp_remote_retrieve_response_code( $response_raw ),
+			'data' => wp_remote_retrieve_body( $response_raw ),
+			'headers' => wp_remote_retrieve_headers( $response_raw ),
+		);
 
 		if ($response['code'] != 200) {
 			if ($response['code'] == 500) {
