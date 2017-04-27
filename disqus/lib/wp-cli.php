@@ -21,27 +21,32 @@ function print_line() {
 
 define('DOING_AJAX', true);
 define('WP_USE_THEMES', false);
-if (isset($_ENV['WORDPRESS_PATH'])) {
-    define('ABSPATH', $_ENV['WORDPRESS_PATH']);
+
+if ( isset( $_ENV['WORDPRESS_PATH'] ) ) {
+    define( 'ABSPATH', $_ENV['WORDPRESS_PATH'] );
+} elseif ( getenv( 'WORDPRESS_PATH' ) ) {
+    define( 'ABSPATH', getenv( 'WORDPRESS_PATH' ) );
 } else {
-    if (substr($_SERVER['SCRIPT_FILENAME'], 0, 1) != '/') {
+    if ( substr( $_SERVER['SCRIPT_FILENAME'], 0, 1 ) != '/' ) {
         $script_path = $_SERVER['PWD'] . $_SERVER['SCRIPT_FILENAME'];
     } else {
         $script_path = $_SERVER['SCRIPT_FILENAME'];
     }
-    $tree = '';
-    $paths = array();
-    $chunks = explode('/', dirname($script_path));
-    foreach ($chunks as $chunk) {
-        if (!$chunk) continue;
-        $tree = $tree.'/'.$chunk;
-        array_push($paths, $tree);
+    $tree   = '';
+    $paths  = array();
+    $chunks = explode( '/', dirname( $script_path ) );
+    foreach ( $chunks as $chunk ) {
+        if ( ! $chunk ) {
+            continue;
+        }
+        $tree = $tree . '/' . $chunk;
+        array_push( $paths, $tree );
     }
-    $paths = array_reverse($paths);
+    $paths = array_reverse( $paths );
 
-    foreach ($paths as $path) {
-        if (is_file($path.'/wp-config.php')) {
-            define('ABSPATH', $path . '/');
+    foreach ( $paths as $path ) {
+        if ( is_file( $path . '/wp-config.php' ) ) {
+            define( 'ABSPATH', $path . '/' );
             break;
         }
     }
@@ -60,7 +65,14 @@ $_SERVER = array(
     "REQUEST_URI" => "/",
     "REQUEST_METHOD" => "GET"
 );
-require_once(ABSPATH . 'wp-config.php');
+
+if ( isset( $_ENV['WP_CONFIG_PATH'] ) ) {
+    require_once( $_ENV['WP_CONFIG_PATH'] . 'wp-config.php' );
+} elseif ( getenv( 'WP_CONFIG_PATH' ) ) {
+    require_once( getenv( 'WP_CONFIG_PATH' ) . 'wp-config.php' );
+} else {
+    require_once( ABSPATH . 'wp-config.php' );
+}
 
 // swap out the object cache due to memory constraints
 
