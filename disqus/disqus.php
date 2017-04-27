@@ -963,10 +963,16 @@ function dsq_comments_template($value) {
         return $value;
     }
 
-    // TODO: If a disqus-comments.php is found in the current template's
-    // path, use that instead of the default bundled comments.php
-    //return TEMPLATEPATH . '/disqus-comments.php';
     $EMBED = true;
+    
+    $custom_template = locate_template( apply_filters( 'dsq_custom_template', 'disqus-comments.php' ) );
+    if( !empty( $custom_template ) ) {
+        return $custom_template;
+    }
+    return dsq_get_default_comments_template_file();
+}
+
+function dsq_get_default_comments_template_file() {
     return dirname(__FILE__) . '/comments.php';
 }
 
