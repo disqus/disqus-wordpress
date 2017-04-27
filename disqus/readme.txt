@@ -3,7 +3,7 @@ Contributors: disqus, alexkingorg, crowdfavorite, zeeg, tail, thetylerhayes, rya
 Tags: comments, threaded, email, notification, spam, avatars, community, profile, widget, disqus
 Requires at least: 3.2
 Tested up to: 4.6.1
-Stable tag: 2.86
+Stable tag: 2.87
 
 Disqus is the web's most popular comment system. Use Disqus to increase engagement, retain readers, and grow your audience.
 
@@ -11,7 +11,7 @@ Disqus is the web's most popular comment system. Use Disqus to increase engageme
 
 [Disqus](https://disqus.com/) is the web’s most popular commenting system trusted by millions of publishers to increase reader engagement, grow audience and traffic, and monetize content. Disqus helps publishers of all sizes engage directly with their audiences to build loyalty, retain readers, and foster thriving communities. 
 
-The Disqus for WordPress plugin lets site owners and developers easily add Disqus to their sites, replacing the default WordPress comment system. Disqus installs in minutes and automatically imports your existing comments.
+The Disqus for WordPress plugin lets site owners and developers easily add Disqus to their sites, replacing the default WordPress comment system. Disqus installs in minutes and imports your existing comments so you don’t lose any.
 
 = Why Disqus? =
 
@@ -117,6 +117,10 @@ Go to [https://disqus.com/help/wordpress](https://disqus.com/help/wordpress)
 11. Moderate by Email Notifications
 
 == Changelog ==
+
+= 2.87 =
+
+* Version update for readme.txt and plugin directory assets
 
 = 2.86 =
 
