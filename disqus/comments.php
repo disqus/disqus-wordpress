@@ -2,6 +2,7 @@
 if (DISQUS_DEBUG) {
     echo "<p><strong>Disqus Debug</strong> thread_id: ".get_post_meta($post->ID, 'dsq_thread_id', true)."</p>";
 }
+
 ?>
 
 <div id="disqus_thread">
