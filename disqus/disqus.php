@@ -736,7 +736,7 @@ function dsq_sync_post($post_id) {
 function dsq_sync_forum($last_comment_id=false, $force=false) {
     global $dsq_api, $wpdb;
 
-    set_time_limit(DISQUS_SYNC_TIMEOUT);
+    set_time_limit(apply_filters('disqus_sync_timeout', DISQUS_SYNC_TIMEOUT));
 
     if ($force) {
         $sync_time = null;
