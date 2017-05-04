@@ -56,8 +56,9 @@ The Disqus for WordPress plugin lets site owners and developers easily add Disqu
 
 * Search our [Knowledge Base](https://help.disqus.com/) for solutions to common troubleshooting questions
 * Check out our support community, [Discuss Disqus](https://disqus.com/home/channel/discussdisqus/), to see if your question has been answered
-* Talk to our Support team at [disqus.com/support](disqus.com/support)
-* Visit our [Getting Started](https://help.disqus.com/customer/en/portal/articles/1264625-getting-started) page to learn the basics of Disqus
+* Talk to our Support team at [https://disqus.com/support](disqus.com/support)
+* Read our [Getting Started](https://help.disqus.com/customer/en/portal/articles/1264625-getting-started) page to learn the basics of Disqus
+* Visit [https://disqus.com/help/wordpress](disqus.com/help/wordpress) for troubleshooting tips.
 
 == Frequently Asked Questions ==
 
@@ -387,9 +388,3 @@ INSERT INTO `wp_options` (blog_id, option_name, option_value, autoload) VALUES (
 * Legacy mode is no longer available.
 * The plugin management interface can now be localized.
 * The plugin is now valid HTML5.
-
-== Support ==
-
-* Visit https://disqus.com/help/wordpress for help documentation.
-
-* Visit https://help.disqus.com for help from our support team.
