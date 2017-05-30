@@ -90,6 +90,7 @@ $dsq_response = '';
  * @global    string    $dsq_api
  * @since    1.0
  */
+global $dsq_api;
 $dsq_api = new DisqusWordPressAPI(get_option('disqus_forum_url'), get_option('disqus_api_key'));
 
 /**
